@@ -1,0 +1,17 @@
+CSC309 Project Proposal
+	“mEvent”, our working title, is an event-hosting and socialization application. The primary purpose is to let users host and attend events in order for them to socialize and try new things. These events could range from simple meet-and-greets, pick-up soccer games, trying out a new restaurant with new acquaintances, etc. The admins would also be able to host events, preferably on a larger scale. We would like this to be an app where a considerable number of events are limited to 4 or 5 attendees in order to facilitate a more intimate socializing atmosphere for those who find socialising to be a challenge. Essentially, the host is able to set a maximum and minimum number of attendees. Users would be given several options in terms of events to attend based on location, categories, ratings, etc. and be able to sign up for them, as long as there is still space available. The user will then leave comments and a rating for the event, which the host would conceivably use to determine whether to host such an event again. 
+
+	What differentiates this from the events function of Facebook is that we have a ratings based on actual events, not merely the rating on the host. For instance, a movie hosts two recurring events for the time being, one event being a horror movie night and the other a gathering of anime connoisseurs’ night. As time goes on, they both get rated by users. Other users can make informed decisions on which event to attend based on past ratings.  The host in turn can take these ratings into account to make amendments or even cancel them. 
+
+	The purpose of the admin would be to enforce proper behaviour and make amendments to various aspects of the application. For example, an admin would be able to delete inappropriate comments or events. They can also “verify” events for situations where misunderstandings may occur, similar to the Twitter “verify” function, for events that may warrant legitimacy and integrity. For example, if U of T decides to host a pick-up soccer event, having an actual referee at an official U of T field would warrant a verified status. Beyond this, we would obviously have the admin amend user profile information, such as passwords.
+	
+	These are the following interactions and data we hope to engage in our application:
+•	The user logs in, either through verification of users in our database, or through third-party verification.
+•	The user will be able to sort through events, which will be stored in data, based on its associated traits, which will part of the events schema, and register for them.
+o	The traits we are considering are location, genre, minimum and maximum user registration requirement, etc.
+o	Events that cannot be held due to for example not meeting the minimum registration cutoff would be notified to already registered users and events that are at capacity would be removed from the list of available events.
+•	The user is also able to host events by adding to the events database.
+•	The user maintains a profile with a picture, name, password, status (user or admin), attendance record, etc.
+•	After an event is over, he should provide feedback and a rating (out of 5), or else he would not be able to apply to events again.
+•	Users confirm each others’ attendance, and those who do not attend will have a list of non-attendances left on their record as a mild punitive measure.
+
