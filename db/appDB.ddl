@@ -8,3 +8,4 @@ CREATE TABLE User (
 	firstname varchar(25),
 	surname varchar(25)
 );
+
