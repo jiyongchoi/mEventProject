@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/', function(req, res) {
-	res.sendfile('index.html');
+	res.sendfile('public/index.html');
 });
 
 app.get('/user', dbQueries.getUser);
