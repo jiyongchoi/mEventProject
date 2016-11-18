@@ -5,7 +5,7 @@ import { match, RouterContext } from 'react-router';
 import routes from './routes';
 import path from 'path';
 import bodyParser from 'body-parser';
-import dbQueries from './dbQueries';
+import accessDB from './accessDB';
 
 // var express = require('express');
 //var dbQueries = require('./dbQueries');
@@ -39,7 +39,7 @@ app.get('/', function(req, res) {
 // 	res.sendfile('public/index.html');
 // });
 
- app.get('/user', dbQueries.getUser);
+ app.get('/user', accessDB.getUser);
 //app.post('/user', routes.postUser);
 //app.delete('/user', routes.deleteUser);
 
