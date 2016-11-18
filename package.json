@@ -1,13 +1,26 @@
 {
-  "name": "demo",
+  "name": "mevent",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
     "react-scripts": "0.7.0"
   },
   "dependencies": {
-    "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react": "*",
+    "react-dom": "*",
+    "react-router": "*",
+    "express": "*",
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-preset-es2015": "*",
+    "babel-preset-react": "*",
+    "ejs": "*",
+    "webpack": "*",
+    "babel-loader": "*",
+    "axios": "*",
+    "pg-promise": "*",
+    "body-parser": "*",
+    "path": "*"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -15,4 +28,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
+
 }
