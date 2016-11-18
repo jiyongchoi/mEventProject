@@ -16,7 +16,25 @@ function getUser(req, res, next) {
     .json({
           status: 'success',
           data: data,
-          message: 'Retrieved user'
+          message: 'Retrieved user.'
+    });
+  })
+  .catch(function (error) {
+    console.log('ERROR:', error)
+  });
+}; 
+
+function postUser(req, res, next) {
+	var username = req.params.query.username;
+	var password = req.params.query.password;
+	db.one('SELECT * FROM postUser(' + username + ', ' + password + ')')
+  .then(function (data) {
+    console.log('DATA:', data)
+    res.status(200)
+    .json({
+          status: 'success',
+          data: data,
+          message: 'Inserted user.'
     });
   })
   .catch(function (error) {
