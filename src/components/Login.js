@@ -15,22 +15,22 @@ export default class LoginForm extends React.Component{
 
 
 
- handleChangeUsername(event) {
-    this.setState({username: event.target.value});
-  }
+	handleChangeUsername(event) {
+	   this.setState({username: event.target.value});
+	}
 
-  handleChangePassword(event) {
-  	this.setState({password: event.target.value});
-  }
-	submit(event){
-	  
-	  // Submit form via AJAX
+	handleChangePassword(event) {
+	  this.setState({password: event.target.value});
+	}
+
+	submit(event) {
 		axios.get('/user?username='+this.state.username+'&password='+this.state.password)
 		      	.then(function (response) {
-		      		console.log(response.data)}).catch(function (error) {
-    				console.log(error);
-  					});
-  	event.preventDefault();
+		      		console.log(response.message)})
+		      	.catch(function (error) {
+    				console.log(error.message);
+  				});
+  		event.preventDefault();
 	}
 
 	render(){
