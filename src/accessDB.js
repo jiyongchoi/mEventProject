@@ -15,8 +15,9 @@ function getUser(req, res, next) {
 	// var username = req.params.query.username;
 	// var password = req.params.query.password;
   var username = req.query.username;
+  console.log(username);
   var password = req.query.password;
-	db.one('SELECT * FROM getUser(' + username + ', ' + password + ')')
+	db.one('SELECT * FROM getUser($1, $2);', [username, password])
   .then(function (data) {
     console.log('DATA:', data)
     res.status(200)
