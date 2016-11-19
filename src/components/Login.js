@@ -13,8 +13,6 @@ export default class LoginForm extends React.Component{
     	this.submit = this.submit.bind(this);
 	}
 
-
-
 	handleChangeUsername(event) {
 	   this.setState({username: event.target.value});
 	}
@@ -26,7 +24,7 @@ export default class LoginForm extends React.Component{
 	submit(event) {
 		axios.get('/user?username='+this.state.username+'&password='+this.state.password)
 		      	.then(function (response) {
-		      		console.log(response.message)})
+		      		console.log(response.data.data.surname)})
 		      	.catch(function (error) {
     				console.log(error.message);
   				});
