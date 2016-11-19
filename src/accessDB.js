@@ -17,11 +17,7 @@ function getUser(req, res, next) {
   var username = req.query.username;
   console.log(username);
   var password = req.query.password;
-<<<<<<< HEAD
-  db.one('SELECT * FROM getUser(' + username + ', ' + password + ')')
-=======
 	db.one('SELECT * FROM getUser($1, $2);', [username, password])
->>>>>>> bd11052906221cfc67294e45616cb84ce9302eee
   .then(function (data) {
     console.log('DATA:', data)
     res.status(200)
