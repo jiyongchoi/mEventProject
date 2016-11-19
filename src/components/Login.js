@@ -7,39 +7,33 @@ import axios from 'axios';
 export default class LoginForm extends React.Component{
 	constructor(props) {
 		super(props);
-		this.state = {
-			value: null
-		};
+		this.state = {username: '', password: ''};
+    	this.handleChangeUsername = this.handleChangeUsername.bind(this);
+    	this.handleChangePassword = this.handleChangePassword.bind(this);
+    	this.submit = this.submit.bind(this);
 	}
 
-submit(e){
 
 
-	  e.preventDefault();
+ handleChangeUsername(event) {
+    this.setState({username: event.target.value});
+  }
 
-
-	  // Submit form via jQuery/AJAX
-		axios.get('/user')
+  handleChangePassword(event) {
+  	this.setState({password: event.target.value});
+  }
+	submit(event){
+	  
+	  // Submit form via AJAX
+		axios.get('/user?username='+this.state.username+'&password='+this.state.password)
 		      	.then(function (response) {
-		      		console.log(response.data.data);
-		  });
-
+		      		console.log(response.data)}).catch(function (error) {
+    				console.log(error);
+  					});
+  	event.preventDefault();
 	}
-
-
 
 	render(){
-		// let data1 = '';
-		// axios.get('/user')
-		//       	.then(function (response) {
-		//       		console.log(response.data.data);
-		//       		data1 = response.data.data;
-		//       		console.log("data: " + data1);
-		//   });
-		// console.log(data1);
-
-		// console.log("asdfasdfasdfasd");
-		// console.log("asdfasdfsad");
 		return (
 			<div class="login" >
 				<h3>LOGGING IN!!!!!!!!!!!!!!!!!!!!</h3>
@@ -47,16 +41,15 @@ submit(e){
 		            <label>
 		                <span>Username: </span>
 		                <input type="text" id="usernamelogin" name="username" placeholder="e.g. jayfan1000" 
-		                pattern="[A-Za-z]+" required></input>
+		                pattern="[A-Za-z]+" required value={this.state.username} onChange={this.handleChangeUsername}></input>
 		            </label> <br></br>
 		            <label>
 		                <span>Password: </span>
 		                <input type="text" id="passwordlogin" name="password" placeholder="e.g. bluejayfan1000" 
-		                pattern="[A-Za-z]+" required></input>
+		                pattern="[A-Za-z]+" required value={this.state.password} onChange={this.handleChangePassword}></input>
 		            </label> <br></br>            
 		            <input class="submitbutton" id="statusButton" type="submit" value="Submit"></input>
 		        </form>
-		        <div>{"asdasdf"}</div>
 			</div>
 		);
 	}

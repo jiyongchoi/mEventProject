@@ -6,9 +6,16 @@ module.exports = {
   getUser: getUser
 };
 
+
 function getUser(req, res, next) {
-	var username = req.params.query.username;
-	var password = req.params.query.password;
+
+  // we can only use req.params or req.query
+  // let's use req.query for now
+  // source: http://expressjs.com/en/api.html
+	// var username = req.params.query.username;
+	// var password = req.params.query.password;
+  var username = req.query.username;
+  var password = req.query.password;
 	db.one('SELECT * FROM getUser(' + username + ', ' + password + ')')
   .then(function (data) {
     console.log('DATA:', data)
@@ -21,6 +28,10 @@ function getUser(req, res, next) {
   })
   .catch(function (error) {
     console.log('ERROR:', error)
+    res.status(400).json({
+      status: 'failure',
+      message: 'could not retrive user'
+    })
   });
 }; 
 
