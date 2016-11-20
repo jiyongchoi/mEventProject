@@ -24,7 +24,9 @@ export default class LoginForm extends React.Component{
 	submit(event) {
 		axios.get('/user?username='+this.state.username+'&password='+this.state.password)
 		      	.then(function (response) {
-		      		console.log(response.data.data.surname)})
+		      		console.log(response.data.data.surname);
+		      		//window.location = "/userpage";
+		      	})
 		      	.catch(function (error) {
     				console.log(error.message);
   				});

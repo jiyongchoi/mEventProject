@@ -39,7 +39,20 @@ app.get('/', function(req, res) {
 // 	res.sendfile('public/index.html');
 // });
 
- app.get('/user', accessDB.getUser);
+ app.get('/user', accessDB.getUser); // ajax
+ app.get('/userpage', function(req, res) {
+ 	match({routes, location: req.url},
+		function (err, renderProps) {
+			if (err) {
+				return res.status(500).send(err.message);
+			}
+			let markup;
+			if (renderProps) {
+				markup = renderToString(<RouterContext {...renderProps}/>);
+			}
+			return res.render('index', { markup });
+		});
+ });
 //app.post('/user', routes.postUser);
 //app.delete('/user', routes.deleteUser);
 
