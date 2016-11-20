@@ -2,6 +2,7 @@
 
 import React from 'react';
 import LoginForm from './Login';
+import SignupForm from './Signup';
 
 export default class IndexPage extends React.Component {
   render() {
@@ -9,6 +10,7 @@ export default class IndexPage extends React.Component {
       <div className="home">
         <div className="LoginSection">
           <LoginForm/>
+          <SignupForm/>
         </div>
       </div>
     );
