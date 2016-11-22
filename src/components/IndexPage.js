@@ -7,12 +7,14 @@ import SignupForm from './Signup';
 export default class IndexPage extends React.Component {
   render() {
     return (
-      <div className="home">
-        <div className="LoginSection">
-          <LoginForm/>
-          <SignupForm/>
-        </div>
+      <div className="row">
+        <div className="col-sm-6">
+        <LoginForm/>
       </div>
+      <div className="col-sm-6">
+        <SignupForm/>
+      </div>
+    </div>
     );
   }
 }

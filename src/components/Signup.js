@@ -46,22 +46,24 @@ export default class LoginForm extends React.Component{
 	render(){
 		return (
 			<div class="signup" >
-				<h3>Sign Up</h3>
-        		<form id="signupform" method="get" onSubmit={this.submit}>
-		            <div class="form-group">
-    					<label for="username">Username:</label>
-						<input type="text" className="form-control" id="usernamesignup" name="username"
-						pattern="[A-Za-z]+" required value={this.state.username} onChange={this.handleChangeUsername}/>
-					</div>
-					<div class="form-group">
-						<label for="pwd">Password:</label>
-						<input type="password" className="form-control" id="passwordsignup" name="password"
-						pattern="[A-Za-z]+" required value={this.state.password} onChange={this.handleChangePassword}/>
-					</div>         
-		            <input className="btn btn-default" id="statusButton" type="submit" value="Submit"></input>
-		        </form>
-			</div>
-
+				<div className="panel panel-default">
+      <div className="panel-heading">Sign Up</div>
+      <div className="panel-body">
+        <form id="signupform" method="get" onSubmit={this.submit}>
+          <div className="form-group">
+            <label for="username">Username:</label>
+            <input type="text" className="form-control" id="usernamesignup" name="username" placeholder="username"
+            pattern="[A-Za-z]+" required  onChange={this.handleChangeUsername}/>
+          </div>
+          <div className="form-group">
+            <label for="pwd">Password:</label>
+            <input type="password" className="form-control" id="passwordsignup" name="password"
+            pattern="[A-Za-z]+" required  onChange={this.handleChangePassword}/>
+          </div>         
+          <input className="btn btn-default" id="statusButton" type="submit" value="Sign Up"></input>
+        </form>
+      </div>
+    </div>
 		);
 	}
 }
