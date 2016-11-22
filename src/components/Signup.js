@@ -57,12 +57,7 @@ export default class LoginForm extends React.Component{
 						<label for="pwd">Password:</label>
 						<input type="password" className="form-control" id="passwordsignup" name="password"
 						pattern="[A-Za-z]+" required value={this.state.password} onChange={this.handleChangePassword}/>
-					</div>
-					/*<div class="form-group">
-						<label for="pwd">Confirm Password:</label>
-						<input type="password" class="form-control" id="pwd">
-					</div>*/
-					//<button type="submit" class="btn btn-default">Submit</button>         
+					</div>         
 		            <input className="btn btn-default" id="statusButton" type="submit" value="Submit"></input>
 		        </form>
 			</div>
