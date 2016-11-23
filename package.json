@@ -20,13 +20,13 @@
     "axios": "*",
     "pg-promise": "*",
     "body-parser": "*",
-    "path": "*"
+    "path": "*",
+    "express-session": "*"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "NODE_ENV=production node_modules/.bin/babel-node --presets 'react,es2015' src/server.js",
+    "build": "NODE_ENV=production node_modules/.bin/webpack -p",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
-
 }
