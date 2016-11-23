@@ -7,7 +7,7 @@ export default class Layout extends React.Component {
   render() {
     return (
       <div className="app-container">
-        <h1>mEvent</h1>
+		<TopNav/>
         <div className="app-content">{this.props.children}</div>
         <footer>
           <p>

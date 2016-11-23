@@ -8,6 +8,7 @@ import TopNav from './TopNav';
 export default class IndexPage extends React.Component {
   render() {
     return (
+    <div className="container-fluid">
       <div className="row">
         <div className="col-sm-6">
           <LoginForm/>
@@ -16,6 +17,7 @@ export default class IndexPage extends React.Component {
           <SignupForm/>
         </div>
       </div>
+    </div>
     );
   }
 }
