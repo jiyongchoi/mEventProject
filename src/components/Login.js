@@ -55,7 +55,7 @@ export default class LoginForm extends React.Component{
 						<input type="password" className="form-control" id="passwordsignup" name="password"
 						pattern="[A-Za-z]+" required  onChange={this.handleChangePassword}/>
 					</div>         
-					<input className="btn btn-default" id="statusButton" type="submit" value="Sign Up"></input>
+					<input className="btn btn-default" id="statusButton" type="submit" value="Login"></input>
 				</form>
 		        <div id="errormessage" ref="errormessage"></div>
 			</div>
