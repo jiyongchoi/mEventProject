@@ -12,16 +12,16 @@ export default class MainPage extends React.Component {
 			user: {
 				username:"Reid", 
 				rating: 5, 
-				attending: {
+				attending: [
 					{name:"event1"},
 					{name:"event2"}
-				}
-			}
-			events: {
+				]
+			},
+			events: [
 				{name: "event1"},
 				{name: "event2"},
 				{name: "event3"}
-			}
+			]
 		}
 	}
 // componentdidmount (ajax call to get all events)
@@ -31,13 +31,13 @@ export default class MainPage extends React.Component {
 		<div className="row">
 			<div className="col-sm-4">
 				<UserInfo
-					user = {this.state.user};
+					user = {this.state.user}
 				/>
 				<Logout/>
 			</div>
 			<div className="col-sm-8" >
 				<EventManager
-					events = {this.state.events};
+					events = {this.state.events}
 				/>
 			</div>
 		</div>
