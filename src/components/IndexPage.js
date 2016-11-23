@@ -8,10 +8,11 @@ import TopNav from './TopNav';
 export default class IndexPage extends React.Component {
   render() {
     return (
-      <div className="home">
-        <div className="LoginSection">
-          <TopNav/>
+      <div className="row">
+        <div className="col-sm-6">
           <LoginForm/>
+        </div>
+        <div className="col-sm-6">
           <SignupForm/>
         </div>
       </div>
