@@ -41,7 +41,7 @@ export default class LoginForm extends React.Component{
 
 	render(){
 		return (
-		<div className="panel panel-default">
+		<div className="panel panel-primary">
 			<div className="panel-heading">Login</div>
 			<div className="panel-body">
 				<form id="userloginform" method="get" onSubmit={this.submit}>
