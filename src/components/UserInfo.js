@@ -2,16 +2,24 @@ import React from 'react';
 
 export default class UserInfo extends React.Component{
 
+	constructor(props) {
+		super(props);
+		//Get this info from the database
+		const { user: {username, rating, attending} } = this.props;
+		
+
+	}
+
 	render(){
 		return (
-			<div className="container">
-			  //<h2>List Group With Linked Items</h2>
-			  <div className="list-group">
-			    <a href="#" className="list-group-item">UserName:</a>
-			    <a href="#" className="list-group-item">Rating:</a>
-			    <a href="#" className="list-group-item">Events:</a>
-			  </div>
+		<div className="panel panel-default">
+			<div className="panel-heading">{username}</div>
+			<div className="panel-body">
+			    <a href="#" className="list-group-item">{username}</a>
+			    <a href="#" className="list-group-item">{rating}</a>
+			    <a href="#" className="list-group-item">List of Events</a>
 			</div>
+		</div>
 		);
 	}
 

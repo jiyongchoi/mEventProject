@@ -4,15 +4,17 @@ import React from 'react';
 export default class Event extends React.Component{
 
 	render(){
+		const { event: { name } } = this.props;
+
 		<div className="container">
-			<h2>Event</h2>
 			<div className="panel panel-default">
+				<div className="panel-heading">{name}</div>
 				<div className="panel-body">
 					<div className="list-group">
-					    <a href="#" className="list-group-item">Event Name:</a>
-					    <a href="#" className="list-group-item">Location:</a>
-					    <a href="#" className="list-group-item">Time</a>
-						<a href="#" className="list-group-item">Invited</a>
+					    <h4 className="hostname">{this.props.host}</h4>
+		          		<h4 className="name">{this.props.name}</h4>
+		          		<h4 className="location">{this.props.location}</h4>
+		          		<h4 className="time">{this.props.time}</h4>
 				  	</div>
 				</div>
 			</div>
