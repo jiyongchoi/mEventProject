@@ -3,23 +3,25 @@ import React from 'react';
 export default class UserInfo extends React.Component{
 
 	constructor(props) {
-		super(props);
+		super();
 		//Get this info from the database
-		const { user: {username, rating, attending} } = this.props;
 		
 
 	}
 
 	render(){
+		//const { user: {username, rating} } = this.props;
+
+		
 		return (
-		<div className="panel panel-default">
-			<div className="panel-heading">{username}</div>
-			<div className="panel-body">
-			    <a href="#" className="list-group-item">{username}</a>
-			    <a href="#" className="list-group-item">{rating}</a>
-			    <a href="#" className="list-group-item">List of Events</a>
+			<div className="panel panel-default">
+				<div className="panel-heading">User</div>
+				<div className="panel-body">
+					<div>Username</div>
+					<div>Rating</div>
+					<div>List of Events</div>
+				</div>
 			</div>
-		</div>
 		);
 	}
 
