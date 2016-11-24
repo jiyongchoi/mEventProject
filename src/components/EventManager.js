@@ -4,7 +4,7 @@ import Event from './Event';
 export default class EventManager extends React.Component{
 
 	render(){
-		const { events } = this.props;
+		//const { events } = this.props;
 
 		return (
 		<div className="panel-group">

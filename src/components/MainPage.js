@@ -7,8 +7,10 @@ import EventManager from './EventManager.js';
 export default class MainPage extends React.Component {
 	constructor() {
 		super();
+		//this.state.user = {username:'Reid', rating: '5'};
+
 		//Get this data from the database
-		this.state ={
+		/*this.state ={
 			user: {
 				username:"Reid", 
 				rating: 5, 
@@ -22,25 +24,23 @@ export default class MainPage extends React.Component {
 				{name: "event2"},
 				{name: "event3"}
 			]
-		}
+		}*/
 	}
 // componentdidmount (ajax call to get all events)
 
 	render() {
+				
 	return (
+    <div className="container-fluid">
 		<div className="row">
 			<div className="col-sm-4">
-				<UserInfo
-					user = {this.state.user}
-				/>
-				<Logout/>
+				<UserInfo/>
 			</div>
 			<div className="col-sm-8" >
-				<EventManager
-					events = {this.state.events}
-				/>
+				<button type="button" className="btn btn-default">Events go here</button>
 			</div>
 		</div>
+	</div>
 	);
 	}
 }
