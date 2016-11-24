@@ -7,12 +7,8 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import accessDB from './accessDB';
 
-
-// var express = require('express');
-//var dbQueries = require('./dbQueries');
-// var bodyParser = require('body-parser');
-
-var session = require("express-session");
+var session = require("cookie-session");
+var uuid = require('node-uuid');
 var app = Express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -22,12 +18,11 @@ app.use( bodyParser.json() );
 app.use(bodyParser.urlencoded({     
     extended: true
 }));
-app.use(session({
-    secret: '2C44-4D44-WppQ38S',
-    resave: true,
-    saveUninitialized: true
-}));
 
+app.use(session({
+  name: 'session',
+  keys: [uuid.v1()],
+}))
 
 function checkAuth(req, res, next) {
   if (!req.session.username) {
@@ -50,12 +45,6 @@ app.get('/', function(req, res) {
 			return res.render('index', { markup });
 		});
 });
-
-// app.get('/', function(req, res) {
-// 	res.sendfile('public/index.html');
-// });
-
- // app.get('/user', accessDB.getUser); // ajax
 
  app.post('/userlogin', accessDB.verifyUser); // back-end DB route
 
@@ -104,7 +93,7 @@ app.get('/eventpage/:id',  checkAuth, function(req, res) {
  });
 
 app.get('/logout', checkAuth, function (req, res) {
-  delete req.session.username;
+  req.session = null;
   res.send({redirect:"/"});
 }); 
 
