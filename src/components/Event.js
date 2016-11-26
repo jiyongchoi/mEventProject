@@ -4,20 +4,19 @@ import React from 'react';
 export default class Event extends React.Component{
 
 	render(){
-		const { event: { name } } = this.props;
-
-		<div className="container">
+		//const { event : { name } } = this.props;
+		//alert(JSON.stringify(this.props));
+		//{"event":{"name":"event1"}}
 			<div className="panel panel-default">
-				<div className="panel-heading">{name}</div>
+				<div className="panel-heading">name</div>
 				<div className="panel-body">
 					<div className="list-group">
-					    <h4 className="hostname">{this.props.host}</h4>
-		          		<h4 className="name">{this.props.name}</h4>
-		          		<h4 className="location">{this.props.location}</h4>
-		          		<h4 className="time">{this.props.time}</h4>
+					    <h4 className="hostname">Host Here</h4>
+		          		<h4 className="name">Name Here</h4>
+		          		<h4 className="location">Location Here</h4>
+		          		<h4 className="time">Time Here</h4>
 				  	</div>
 				</div>
 			</div>
-		</div>
 	}
 }
