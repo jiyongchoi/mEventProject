@@ -9,6 +9,9 @@ CREATE TABLE UserInfo (
 	surname varchar(25)
 );
 
+CREATE DOMAIN genreType varchar(25)
+    check (value in ('sports', 'arts', 'science', 'social', 'other'));
+
 CREATE TABLE Event (
 	eventID INTEGER PRIMARY KEY,
 	location varchar(25) NOT NULL,
@@ -25,6 +28,3 @@ CREATE TABLE EventAttendees (
 	username varchar(25) REFERENCES UserInfo(username)
 );
 
-
-CREATE DOMAIN genreType varchar(25)
-    check (value in ('sports', 'arts', 'science', 'social', 'other'));
