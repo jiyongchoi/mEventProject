@@ -31,20 +31,6 @@ export default class LoginForm extends React.Component{
   				});
   		event.preventDefault();
   	}
-/*
-  		console.log($('#AddAppl').serialize());
-        $.ajax({
-            url: '/applicants' ,
-            type: 'POST',
-            data: $('#AddAppl').serialize(),
-            success: function(res) {
-                //Print Success or Error: duplicate student number
-                resultObj = JSON.parse(res);
-                let result = $('#AddApplResult');
-                result.text(resultObj.text);
-                alert(resultObj.text);
-            }
-        });*/
 
 	render(){
 		return (
