@@ -24,6 +24,12 @@ export default class MainPage extends React.Component {
 			          location: 'Toronto',
 			          host: 'Alex',
 			        },
+			        3: {
+			          eventID: 3,
+			          name: 'event3',
+			          location: 'Toronto',
+			          host: 'Jovan',
+			        },
 			      },
 		};
 	}

@@ -4,7 +4,7 @@ export default class UserInfo extends React.Component{
 	render(){
 		//const { user } = this.props;
 
-		var { user } = { username: "default", rating: "5 "};
+		var { user } = { username: "default", rating: "0"};
 
 		if(this.props != undefined){
 			var { user } = this.props;
