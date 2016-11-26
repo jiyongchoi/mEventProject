@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 export default class EventPreview extends React.Component {
 	render() {
 
-		var { eventPreview } = { eventId: 0, name: "default", location: "Bermuda Triangle", host: "Barrack Obama"};
+		var { eventPreview } = { eventID: 0, name: "default", location: "Bermuda", host: "Obama"};
 
 		if (this.props != undefined){
 			var { eventPreview } = this.props;
@@ -13,11 +13,13 @@ export default class EventPreview extends React.Component {
 		
 		return (
 			<div className="panel panel-default">
-				<div className="panel-heading">Event</div>
+				<div className="panel-heading">
+					<Link to={`/eventPage/${eventPreview.eventID}`}>{eventPreview.name}</Link>
+				</div>
 				<div className="panel-body">
-					<div>{eventPreview.name}</div>
-					<div>{eventPreview.location}</div>
-					<div>{eventPreview.host}</div>
+					<h4>Event Name: {eventPreview.name}</h4>
+					<h4>Location: {eventPreview.location}</h4>
+					<h4>Host: {eventPreview.host}</h4>
 				</div>
 			</div>
 		);
