@@ -23,6 +23,7 @@ AS 'INSERT INTO appData.UserInfo
 	SELECT 0;'
 LANGUAGE SQL;
 
+
 CREATE TYPE eventType AS (
 	eventID varchar(25),
 	location varchar(25),
@@ -68,3 +69,17 @@ AS 'INSERT INTO appData.Event
 	VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
 	SELECT 0;'
 LANGUAGE SQL;
+
+CREATE FUNCTION deleteEvent(eventID varchar(25))
+RETURNS int
+AS 'DELETE FROM appData.Event
+	WHERE eventID = $1;'
+LANGUAGE SQL;
+
+CREATE FUNCTION modifyLocationEvent(eventID varchar(25), custom_query varchar(300))
+RETURNS int 
+AS 'UPDATE appData.Event
+	SET ' + '$2
+	WHERE eventID = $1;'
+LANGUAGE SQL;
+
