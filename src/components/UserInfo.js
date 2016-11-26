@@ -1,25 +1,22 @@
 import React from 'react';
 
 export default class UserInfo extends React.Component{
-
-	constructor(props) {
-		super();
-		//Get this info from the database
-		
-
-	}
-
 	render(){
-		//const { user: {username, rating} } = this.props;
+		//const { user } = this.props;
 
+		var { user } = { username: "default", rating: "5 "};
+
+		if(this.props != undefined){
+			var { user } = this.props;
+		}
 		
 		return (
 			<div className="panel panel-default">
 				<div className="panel-heading">User</div>
 				<div className="panel-body">
-					<div>Username</div>
-					<div>Rating</div>
-					<div>List of Events</div>
+					<div>Username: {user.username}</div>
+					<div>Rating: {user.rating}</div>
+					<div>List of Events Go Here</div>
 				</div>
 			</div>
 		);
