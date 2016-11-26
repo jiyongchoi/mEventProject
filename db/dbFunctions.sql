@@ -28,12 +28,16 @@ CREATE TYPE eventType AS (
 	location varchar(25),
 	host varchar(25),
 	starttime TIMESTAMP,
-	genre varchar(25),
+	genre genreType,
 	rating INTEGER
 )
 
-CREATE FUNCTION getEvent ()
+CREATE FUNCTION getEvents ()
 RETURNS eventType
 AS 'SELECT *
-	FROM appData.Event eventType
-	WHERE '
+	FROM appData.Event e
+	WHERE e.starttime > CURTIME();'
+LANGUAGE SQL;
+
+
+
