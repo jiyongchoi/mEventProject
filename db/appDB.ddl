@@ -14,7 +14,8 @@ CREATE TABLE Event (
 	location varchar(25),
 	host varchar(25) REFERENCES UserInfo,
 	starttime TIMESTAMP,
-	genre varchar(25)
+	genre varchar(25),
+	rating INTEGER
 );
 
 CREATE TABLE EventAttendees (
