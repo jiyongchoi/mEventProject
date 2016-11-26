@@ -52,15 +52,8 @@ exports.verifyUser = function(req, res, next) {
       res.status(200).send({redirect: "/mainpage/" + data.username});
     }
     else {
-      res.status(200).send('Bad username/password');
+      throw 'Bad username/password';
     }
-    // console.log('DATA:', data)
-    // res.status(200)
-    // .json({
-    //       status: 'success',
-    //       data: data,
-    //       message: 'Retrieved user.'
-    // });
   })
   .catch(function (error) {
     console.log('ERROR:', error)
@@ -73,23 +66,13 @@ exports.verifyUser = function(req, res, next) {
 
 exports.postUser = function(req, res, next) {
     var post = req.body;
-    console.log(post);
     var username = post.username;
     var password = post.password;
-    var fname = post.fname;
-    var surname = post.surname;
-    console.log(fname);
-    // var username = req.params.query.username;
-    // var password = req.params.query.password;
-    db.one('SELECT * FROM postUser($1, $2, $3, $4);', [username, password, fname, surname])
+//    var fname = post.fname;
+//    var surname = post.surname;
+
+    db.one('SELECT * FROM postUser($1, $2, NULL, NULL);', [username, password])
     .then(function (data) {
-      // console.log('DATA:', data)
-      // res.status(200)
-      // .json({
-      //       status: 'success',
-      //       data: data,
-      //       message: 'Inserted user.'
-      // });
         console.log('DATA:', data);
         req.session.username = username;
         res.status(200).send({redirect: "/mainpage/"+username});
