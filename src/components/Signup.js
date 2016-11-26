@@ -21,7 +21,7 @@ export default class LoginForm extends React.Component{
 
   	submit(event){
   		// Submit form via AJAX
-		axios.post('/user?username='+this.state.username+'&password='+this.state.password)
+		axios.post('/user', {username: this.state.username, password: this.state.password})
 		      	.then(function (response) {
 		      		console.log(response.data)}).catch(function (error) {
     				console.log(error);
