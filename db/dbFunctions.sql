@@ -32,7 +32,7 @@ CREATE TYPE eventType AS (
 	rating INTEGER,
 	min_participants INTEGER,
 	max_participants INTEGER	
-)
+);
 
 CREATE FUNCTION getEvents ()
 RETURNS eventType
@@ -46,4 +46,25 @@ RETURNS  eventType
 AS 'SELECT *
 	FROM appData.Event e
 	WHERE e.genre = $1'
+LANGUAGE SQL;
+
+CREATE FUNCTION getEventsByLocation (location varchar(25))
+RETURNS eventType
+AS 'SELECT *
+	FROM appData.Event e
+	WHERE e.location = $1'
+LANGUAGE SQL;
+
+CREATE FUNCTION createEvent(eventID varchar(25),
+							location varchar(25),
+							host varchar(25),
+							starttime varchar(25),
+							genre varchar(25),
+							rating INTEGER,
+							min_participants INTEGER,
+							max_participants INTEGER)
+RETURNS int
+AS 'INSERT INTO appData.Event
+	VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+	SELECT 0;'
 LANGUAGE SQL;
