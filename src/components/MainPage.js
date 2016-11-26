@@ -29,12 +29,13 @@ export default class MainPage extends React.Component {
 // componentdidmount (ajax call to get all events)
 
 	render() {
-				
+	console.log(document.cookie);
 	return (
     <div className="container-fluid">
 		<div className="row">
 			<div className="col-sm-4">
 				<UserInfo/>
+				<Logout/>
 			</div>
 			<div className="col-sm-8" >
 				<button type="button" className="btn btn-default">Events go here</button>
