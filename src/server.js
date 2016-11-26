@@ -21,12 +21,12 @@ app.use(bodyParser.urlencoded({
 
 app.use(session({
   name: 'session',
-  keys: [uuid.v1()],
+  keys: [uuid.v1()]
 }))
 
 function checkAuth(req, res, next) {
   if (!req.session.username) {
-    res.send('You are not authorized to view this page');
+    return res.send('You are not authorized to view this page');
   } else {
     next();
   }
@@ -46,9 +46,18 @@ app.get('/', function(req, res) {
 		});
 });
 
- app.post('/userlogin', accessDB.verifyUser); // back-end DB route
+ app.post('/userlogin', accessDB.verifyUser); // back-end DB route via ajax
 
- app.post('/usersignup', accessDB.postUser); // back-end DB route
+ app.post('/usersignup', accessDB.postUser); // back-end DB route via ajax
+
+ app.get('/currentsession', function(req, res) {
+ 	if (!req.session.username) {
+ 		return res.send("No current session");
+ 	}
+ 	else {
+ 		return res.send(req.session.username);
+ 	}
+ })
 
  app.get('/userpage/:id', checkAuth, function(req, res) {
  	match({routes, location: req.url},
@@ -94,7 +103,7 @@ app.get('/eventpage/:id',  checkAuth, function(req, res) {
 
 app.get('/logout', checkAuth, function (req, res) {
   req.session = null;
-  res.send({redirect:"/"});
+  return res.send({redirect:"/"});
 }); 
 
 //app.post('/user', routes.postUser);
