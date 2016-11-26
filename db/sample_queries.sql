@@ -16,3 +16,6 @@ SELECT * from getUser("someguy", "redpassword"); -- should return empty table
 
 -- for "redevent" event
 SELECT * from createEvent(4000, "redlocation", "reduser", "2017-03-22 00:00:00", "social", NULL, 10, 22);
+SELECT * from getEvents(); -- should display event 4000
+SELECT * from deleteEvent(4000);
+SELECT * from getEvents(); -- should not display event 4000 anymore
