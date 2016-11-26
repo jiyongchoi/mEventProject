@@ -6,11 +6,10 @@ import Layout from './components/Layout';
 import IndexPage from './components/IndexPage';
 import UserPage from './components/UserPage';
 import MainPage from './components/MainPage';
-import authen from './components/authen';
 import axios from 'axios';
 
 let current_session = '';
-
+/*
 function alreadyAuthen(nextState, replace) {
 	axios.get("/current_session")
 		.then(function(response) {
@@ -23,11 +22,11 @@ function alreadyAuthen(nextState, replace) {
 	      state: { nextPathname: nextState.location.pathname }
 	    });
 	}
-}
+}*/
 
 const routes = (
   <Route path="/" component={Layout}>
-    <IndexRoute component={IndexPage} onEnter={alreadyAuth}/>
+    <IndexRoute component={IndexPage} />
     <Route path="mainpage/:id" component={MainPage}/>
   </Route>
 );
