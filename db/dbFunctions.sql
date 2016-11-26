@@ -22,3 +22,15 @@ AS 'INSERT INTO appData.UserInfo
 	VALUES ($1, $2, $3, $4);
 	SELECT 0;'
 LANGUAGE SQL;
+
+CREATE TYPE eventType AS (
+	eventID varchar(25),
+	location varchar(25),
+	host varchar(25),
+	starttime TIMESTAMP,
+	genre varchar(25)
+)
+
+CREATE FUNCTION getEvent ()
+RETURNS eventType
+AS 'SELECT'
