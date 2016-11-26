@@ -12,13 +12,19 @@ export default class MainPage extends React.Component {
 		this.state = {
 			user: { username : "Clayton", rating:"5"},
 			events: {
-					1 : {
-							name: "event1"
-						},
-					2 : {
-							name: "event2"
-						},
-					},
+			        1: {
+			          eventID: 1,
+			          name: 'event1',
+			          location: 'Toronto',
+			          host: 'Paul',
+			        },
+			        2: {
+			          eventID: 2,
+			          name: 'event2',
+			          location: 'Toronto',
+			          host: 'Alex',
+			        },
+			      },
 		};
 	}
 
@@ -31,10 +37,12 @@ export default class MainPage extends React.Component {
 					<UserInfo
 						user={this.state.user}
 					/>
+					<Logout/>
 				</div>
 				<div className="col-sm-8" >
-					<button type="button" className="btn btn-default">Events go here</button>
-					<Logout/>
+					<EventManager
+						events={this.state.events}
+					/>
 				</div>
 			</div>
 		</div>

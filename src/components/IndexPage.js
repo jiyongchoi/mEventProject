@@ -5,24 +5,9 @@ import LoginForm from './Login';
 import SignupForm from './Signup';
 import UserInfo from './UserInfo';
 import EventManager from './EventManager';
+import EventPreview from './EventPreview';
 
 export default class IndexPage extends React.Component {
-
-	constructor() {
-		super();
-
-		this.state = {
-			user: { username : "Clayton", rating:"5"},
-			events: {
-					1 : {
-							name: "event1"
-						},
-					2 : {
-							name: "event2"
-						},
-					},
-		};
-	}
 
 	render() {
 		return (
