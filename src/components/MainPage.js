@@ -23,7 +23,7 @@ export default class MainPage extends React.Component {
 	}
 
 	render() {
-			
+		console.log(document.cookie);
 		return (
 	    <div className="container-fluid">
 			<div className="row">

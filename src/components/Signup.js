@@ -23,24 +23,13 @@ export default class LoginForm extends React.Component{
   		// Submit form via AJAX
 		axios.post('/user', {username: this.state.username, password: this.state.password})
 		      	.then(function (response) {
-		      		console.log(response.data)}).catch(function (error) {
-    				console.log(error);
-  					});
+		      		if (typeof response.data.redirect == 'string') {
+						window.location = response.data.redirect;
+					}
+				}).catch(function (error) {
+    				console.log(error.message);
+  				});
   		event.preventDefault();
-/*
-  		console.log($('#AddAppl').serialize());
-        $.ajax({
-            url: '/applicants' ,
-            type: 'POST',
-            data: $('#AddAppl').serialize(),
-            success: function(res) {
-                //Print Success or Error: duplicate student number
-                resultObj = JSON.parse(res);
-                let result = $('#AddApplResult');
-                result.text(resultObj.text);
-                alert(resultObj.text);
-            }
-        });*/
   	}
 
 	render(){
