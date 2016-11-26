@@ -4,21 +4,27 @@ SET search_path TO appData, public;
 
 CREATE TABLE UserInfo (
 	username varchar(25) PRIMARY KEY,
-	password varchar(16),
+	password varchar(16) NOT NULL,
 	firstname varchar(25),
 	surname varchar(25)
 );
 
 CREATE TABLE Event (
 	eventID INTEGER PRIMARY KEY,
-	location varchar(25),
+	location varchar(25) NOT NULL,
 	host varchar(25) REFERENCES UserInfo,
-	starttime TIMESTAMP,
-	genre varchar(25),
-	rating INTEGER
+	starttime TIMESTAMP NOT NULL,
+	genre genreType NOT NULL,
+	rating INTEGER DEFAULT NULL,
+	min_participants INTEGER,
+	max_participants INTEGER
 );
 
 CREATE TABLE EventAttendees (
 	eventID INTEGER REFERENCES Event(eventID),
 	username varchar(25) REFERENCES UserInfo(username)
 );
+
+
+CREATE DOMAIN genreType varchar(25)
+    check (value in ('sports', 'arts', 'science', 'social', 'other'));
