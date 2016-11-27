@@ -22,7 +22,7 @@ exports.verifyUser = function(req, res, next) {
       res.status(200).send({redirect: "/mainpage/" + data.username});
     }
     else {
-      throw 'Bad username/password';
+      res.status(200).send("bad username/password");
     }
   })
   .catch(function (error) {
@@ -51,3 +51,13 @@ exports.postUser = function(req, res, next) {
       console.log('ERROR:', error)
     });
 }; 
+
+exports.getAllEvents = function(req, res, next) {
+    db.one('SELECT * FROM getEvents();')
+        .then(function (data) {
+          return res.status(200).send(data);
+        })
+        .catch(function(error) {
+          return res.status(200).send(data);
+        })
+}

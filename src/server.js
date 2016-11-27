@@ -50,6 +50,8 @@ app.get('/', function(req, res) {
 
  app.post('/usersignup', accessDB.postUser); // back-end DB route
 
+ app.get('/allevents', accessDB.getAllEvents);
+
  app.get('/userpage/:id', checkAuth, function(req, res) {
  	match({routes, location: req.url},
 		function (err, renderProps) {

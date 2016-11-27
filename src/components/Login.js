@@ -29,11 +29,14 @@ export default class LoginForm extends React.Component{
 		      		if (typeof response.data.redirect == 'string') {
 						window.location = response.data.redirect;
 					}
-		      	})
+					else {
+						this.refs.errormessage.innerText = "bad input";
+					}
+		      	}.bind(this))
 		      	.catch(function (error) {
+		      		this.refs.errormessage.innerText = "bad input";
     				console.log(error.message);
-  				});
-  		this.refs.errormessage.innerText = "bad input";
+  				}.bind(this));
   		event.preventDefault();
 	}
 
