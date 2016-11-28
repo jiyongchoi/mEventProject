@@ -1,7 +1,8 @@
 CREATE TYPE userType AS (username varchar(25),
 	password varchar(16),
 	firstname varchar(25),
-	surname varchar(25)
+	surname varchar(25),
+	accountType appData.accountDomain
 );
 
 CREATE FUNCTION getUser (username varchar(25), 
@@ -10,19 +11,27 @@ RETURNS userType
 AS 'SELECT * 
 	FROM appData.UserInfo u
 	WHERE u.username = $1 
-	AND u.password = $2'
+	AND u.password = $2;'
 LANGUAGE SQL;
 
 CREATE FUNCTION postUser (username varchar(25), 
 						  password varchar(16),
 						  firstname varchar(25),
-						  surname varchar(25))
+						  surname varchar(25),
+						  accountType appData.accountDomain)
 RETURNS int
 AS 'INSERT INTO appData.UserInfo
-	VALUES ($1, $2, $3, $4);
+	VALUES ($1, $2, $3, $4, $5);
 	SELECT 0;'
 LANGUAGE SQL;
 
+CREATE FUNCTION deleteUser (username varchar(25))
+RETURNS int
+AS 'DELETE 
+	FROM appData.UserInfo u
+	WHERE u.username = $1;
+	SELECT 0;'
+LANGUAGE SQL;
 
 CREATE TYPE eventType AS (
 	eventID varchar(25),
