@@ -46,25 +46,34 @@ app.get('/', function(req, res) {
 		});
 });
 
- app.post('/userlogin', accessDB.verifyUser); // back-end DB route
+app.get('/current_session', function(req, res) {
+	if (!req.session.username) {
+		return res.send("not active");
+	}
+	else {
+		return res.status(200).send(req.session.username);
+	}
+});
 
- app.post('/usersignup', accessDB.postUser); // back-end DB route
+app.post('/userlogin', accessDB.verifyUser); // back-end DB route
 
- app.get('/allevents', accessDB.getAllEvents);
+app.post('/usersignup', accessDB.postUser); // back-end DB route
 
- app.get('/userpage/:id', checkAuth, function(req, res) {
- 	match({routes, location: req.url},
-		function (err, renderProps) {
-			if (err) {
-				return res.status(500).send(err.message);
-			}
-			let markup;
-			if (renderProps) {
-				markup = renderToString(<RouterContext {...renderProps}/>);
-			}
-			return res.render('index', { markup });
-		});
- });
+app.get('/allevents', checkAuth, accessDB.getAllEvents);
+
+app.get('/userpage/:id', checkAuth, function(req, res) {
+	match({routes, location: req.url},
+	function (err, renderProps) {
+		if (err) {
+			return res.status(500).send(err.message);
+		}
+		let markup;
+		if (renderProps) {
+			markup = renderToString(<RouterContext {...renderProps}/>);
+		}
+		return res.render('index', { markup });
+	});
+});
 
 app.get('/mainpage/:id', checkAuth, function(req, res) {
  	match({routes, location: req.url},

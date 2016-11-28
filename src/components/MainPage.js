@@ -3,6 +3,7 @@ import Logout from './Logout.js';
 import UserInfo from './UserInfo.js';
 import EventManager from './EventManager.js';
 import axios from 'axios';
+import authen from './authen.js';
 
 
 export default class MainPage extends React.Component {
@@ -37,14 +38,15 @@ export default class MainPage extends React.Component {
 	}
 
 	componentDidMount() {
+		// console.log("asdfasdf");
 		axios.get('/allevents')
 			.then(function(response) {
-				console.log("DATA FROM RESPONSE:" + response.data);
 				this.setState({events: response.data})
 			}.bind(this))
 			.catch(function(error) {
 				console.log(error);
 			}.bind(this));
+		console.log("DATA_EVENTS: " + this.state.events);
 	}
 
 	render() {

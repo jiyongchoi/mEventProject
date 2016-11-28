@@ -55,9 +55,10 @@ exports.postUser = function(req, res, next) {
 exports.getAllEvents = function(req, res, next) {
     db.one('SELECT * FROM getEvents();')
         .then(function (data) {
-          return res.status(200).send(data);
+          console.log('EVENTDATA: ' + data);
+           res.status(200).send(data);
         })
         .catch(function(error) {
-          return res.status(200).send(data);
+           res.status(400).send(data);
         })
 }
