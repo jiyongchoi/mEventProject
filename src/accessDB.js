@@ -41,7 +41,7 @@ exports.postUser = function(req, res, next) {
 //    var fname = post.fname;
 //    var surname = post.surname;
 
-    db.one('SELECT * FROM postUser($1, $2, NULL, NULL);', [username, password])
+    db.one('SELECT * FROM postUser($1, $2, NULL, NULL, $3);', [username, password, 'client'])
     .then(function (data) {
         console.log('DATA:', data);
         req.session.username = username;
