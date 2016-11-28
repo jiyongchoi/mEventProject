@@ -2,11 +2,15 @@ DROP SCHEMA IF EXISTS appData cascade;
 CREATE SCHEMA appData;
 SET search_path TO appData, public;
 
+CREATE DOMAIN accountDomain varchar(10)
+    check (value in ('client', 'admin'));
+
 CREATE TABLE UserInfo (
 	username varchar(25) PRIMARY KEY,
 	password varchar(16) NOT NULL,
 	firstname varchar(25),
-	surname varchar(25)
+	surname varchar(25),
+	accountType accountDomain NOT NULL
 );
 
 CREATE DOMAIN genreType varchar(25)
