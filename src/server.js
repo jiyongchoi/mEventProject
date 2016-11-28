@@ -48,7 +48,9 @@ app.get('/', function(req, res) {
 
  app.post('/userlogin', accessDB.verifyUser); // back-end DB route
 
- app.post('/usersignup', accessDB.postUser); // back-end DB route
+ app.post('/user', accessDB.postUser);
+
+ app.delete('/user', accessDB.deleteUser);
 
  app.get('/allevents', accessDB.getAllEvents);
 
@@ -93,13 +95,6 @@ app.get('/eventpage/:id',  checkAuth, function(req, res) {
 			return res.render('index', { markup });
 		});
  });
-
-/*function nocache(req, res, next) {
-  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  res.header('Expires', '-1');
-  res.header('Pragma', 'no-cache');
-  next();
-}*/
 
 app.get('/logout', checkAuth, function (req, res) {
 	req.session.reset();

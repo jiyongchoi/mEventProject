@@ -14,6 +14,7 @@ export default class TopNav extends React.Component{
 					<ul className="nav navbar-nav">
 						<li><Link to='/'><span>Home</span></Link></li>
 						<li><a href="#">Login</a></li>
+						<li><Link to='/admin'><span>Admin</span></Link></li>
 					</ul>
 				</div>
           	</nav>
