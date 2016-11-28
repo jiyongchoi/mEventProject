@@ -10,8 +10,48 @@ import MainPage from './components/MainPage';
 import axios from 'axios';
 
 
+
+// function alreadyAuthen(nextState, replace, cb) {
+// 	// for already logged in state
+// 	let current_session = '';
+// 	axios.get("/current_session")
+// 		.then(function(response) {
+// 			current_session = response.data;	
+// 		})
+// 		.catch(function(error) {
+// 			console.log(error);
+// 		});
+// 	if (current_session.localeCompare("") != 0) {
+// 		replace({
+//       		pathname: '/mainpage' + current_session,
+//       		state: { nextPathname: nextState.location.pathname }
+//     	});
+// 	}
+
+// 	cb();
+
+// }
+
+// function loggedOut(nextState, replace, cb) {
+// 	let current_session = '';
+// 	axios.get("/current_session")
+// 		.then(function(response) {
+// 			current_session = response.data;	
+// 		})
+// 		.catch(function(error) {
+// 			console.log(error);
+// 		});
+// 	if (current_session.localeCompare("") == 0) {
+// 		replace({
+//       		pathname: '/',
+//       		state: { nextPathname: nextState.location.pathname }
+// 		})
+// 	}
+
+// 	cb();
+// }
+
 function alreadyAuthen(nextState, replace, cb) {
-	// for already logged in state
 	let current_session = '';
 	axios.get("/current_session")
 		.then(function(response) {
@@ -20,27 +60,27 @@ function alreadyAuthen(nextState, replace, cb) {
 		.catch(function(error) {
 			console.log(error);
 		});
-	if (current_session.localeCompare("") != 0) {
+	console.log("asdfasdf");
+	console.log("session: " + current_session);
+	console.log("token: " + localStorage.token);
+	if (localStorage.token) {
 		replace({
       		pathname: '/mainpage' + current_session,
       		state: { nextPathname: nextState.location.pathname }
     	});
 	}
-
 	cb();
-
 }
 
 function loggedOut(nextState, replace, cb) {
-	let current_session = '';
-	axios.get("/current_session")
-		.then(function(response) {
-			current_session = response.data;	
-		})
-		.catch(function(error) {
-			console.log(error);
-		});
-	if (current_session.localeCompare("") == 0) {
+	if (localStorage) {
+		console.log("asdfas");
+	}
+	else {
+		console.log("succhess");
+	}
+	console.log("token: " + localStorage.token);
+	if (!localStorage.token) {
 		replace({
       		pathname: '/',
       		state: { nextPathname: nextState.location.pathname }

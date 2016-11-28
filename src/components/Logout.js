@@ -12,6 +12,7 @@ export default class Logout extends React.Component {
 	lgout(event) {
 		axios.get("/logout")
 				.then(function(response) {
+					delete window.localStorage.token;
 					window.location = response.data.redirect;
 				})
 				.catch(function(error) {

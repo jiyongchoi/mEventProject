@@ -27,7 +27,7 @@ export default class LoginForm extends React.Component{
 		axios.post('/userlogin', {username: this.state.username, password: this.state.password})
 		      	.then(function(response) {
 		      		if (typeof response.data.redirect == 'string') {
-		      			localStorage.token = "asdf";
+		      			window.localStorage.token = "blah";
 						window.location = response.data.redirect;
 					}
 					else {
