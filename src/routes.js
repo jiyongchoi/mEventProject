@@ -8,6 +8,7 @@ import UserPage from './components/UserPage';
 import MainPage from './components/MainPage';
 import EventPage from './components/EventPage';
 import AddEventPage from './components/AddEventPage';
+import AdminPage from './components/AdminPage';
 import axios from 'axios';
 
 let current_session = '';
@@ -32,6 +33,7 @@ const routes = (
     <Route path="mainpage/:id" component={MainPage}/>
     <Route path="eventpage/:id" component={EventPage}/>
     <Route path="addeventpage" component={AddEventPage}/>
+    <Route path="admin" component={AdminPage}/>
   </Route>
 );
 
