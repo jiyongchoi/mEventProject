@@ -38,14 +38,28 @@ exports.postUser = function(req, res, next) {
     var post = req.body;
     var username = post.username;
     var password = post.password;
-//    var fname = post.fname;
-//    var surname = post.surname;
+    var fname = post.fname;
+    var surname = post.surname;
 
-    db.one('SELECT * FROM postUser($1, $2, NULL, NULL, $3);', [username, password, 'client'])
+    db.one('SELECT * FROM postUser($1, $2, $3, $4, $5);', [username, password, fname, surname, 'client'])
     .then(function (data) {
         console.log('DATA:', data);
         req.session.username = username;
         res.status(200).send({redirect: "/mainpage/"+username});
+    })
+    .catch(function (error) {
+      console.log('ERROR:', error)
+    });
+}; 
+
+exports.deleteUser = function(req, res, next) {
+    var post = req.body;
+    var username = post.username;
+
+    db.one('SELECT * FROM deleteUser($1);', [username])
+    .then(function (data) {
+        console.log('DATA:', data);
+        res.status(200).send('Success');
     })
     .catch(function (error) {
       console.log('ERROR:', error)
