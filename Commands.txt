@@ -1,0 +1,19 @@
+Accessing Heroku Postgres
+
+1.) Set psql 9.5 path variable in mEvent directory
+
+PATH=%PATH%;C:\Program Files\PostgreSQL\9.5\bin
+
+2.) Connect to Heroku Postgres
+heroku pg:psql DATABASE_URL --app mevent
+
+Running Website
+
+1.) Generate webpack
+
+NODE_ENV=production node_modules/.bin/webpack -p
+
+2.) Website Live
+
+NODE_ENV=production node_modules/.bin/babel-node --presets 'react,es2015' src/server.js
+
