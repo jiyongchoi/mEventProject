@@ -5,9 +5,11 @@ import axios from 'axios';
 export default class LoginForm extends React.Component{
 	constructor(props) {
 		super(props);
-		this.state = {username: '', password: ''};
+		this.state = {username: '', password: '', fname: '', surname: ''};
     	this.handleChangeUsername = this.handleChangeUsername.bind(this);
     	this.handleChangePassword = this.handleChangePassword.bind(this);
+    	this.handleChangeFname = this.handleChangeFname.bind(this);
+    	this.handleChangeSurname = this.handleChangeSurname.bind(this);
     	this.submit = this.submit.bind(this);
 	}
 
@@ -19,9 +21,17 @@ export default class LoginForm extends React.Component{
   		this.setState({password: event.target.value});
   	}
 
+  	handleChangeFname(event) {
+  		this.setState({fname: event.target.value});
+  	}
+
+  	handleChangeSurname(event) {
+  		this.setState({surname: event.target.value});
+  	}
+
   	submit(event){
   		// Submit form via AJAX
-		axios.post('/user', {username: this.state.username, password: this.state.password})
+		axios.post('/user', {username: this.state.username, password: this.state.password, fname: this.state.fname, surname: this.state.surname})
 		      	.then(function (response) {
 		      		if (typeof response.data.redirect == 'string') {
 						window.location = response.data.redirect;
@@ -44,11 +54,25 @@ export default class LoginForm extends React.Component{
 							<input type="text" className="form-control" id="usernamesignup" name="username" placeholder="username"
 							pattern="[A-Za-z]+" required  onChange={this.handleChangeUsername}/>
 						</div>
+						
 						<div className="form-group">
 							<label for="pwd">Password:</label>
 							<input type="password" className="form-control" id="passwordsignup" name="password"
 							pattern="[A-Za-z]+" required  onChange={this.handleChangePassword}/>
-						</div>         
+						</div>
+
+						<div className="form-group">
+							<label for="fname">First Name:</label>
+							<input type="text" className="form-control" id="fnamesignup" name="fname"
+							pattern="[A-Za-z]+" required onChange={this.handleChangeFname}/>
+						</div>
+
+						<div className="form-group">
+							<label for="surname">Last Name:</label>
+							<input type="text" className="form-control" id="surnamesignup" name="surname"
+							pattern="[A-Za-z]+" required onChange={this.handleChangeSurname}/>
+						</div>
+
 						<input className="btn btn-default" id="statusButton" type="submit" value="Sign Up"></input>
 					</form>
 				</div>
