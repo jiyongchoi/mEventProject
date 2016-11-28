@@ -101,5 +101,22 @@ app.get('/logout', checkAuth, function (req, res) {
 	res.send({redirect:"/"});
 }); 
 
+app.post('/user', accessDB.postUser);
+//app.delete('/user', routes.deleteUser);
+
+app.get('/addeventpage',  checkAuth, function(req, res) {
+ 	match({routes, location: req.url},
+		function (err, renderProps) {
+			if (err) {
+				return res.status(500).send(err.message);
+			}
+			let markup;
+			if (renderProps) {
+				markup = renderToString(<RouterContext {...renderProps}/>);
+			}
+			return res.render('index', { markup });
+		});
+ });
+
 app.listen(3000);
 console.log('Listening on port 3000...');

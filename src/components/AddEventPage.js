@@ -6,7 +6,10 @@ export default class AddEventPage extends React.Component {
 		super(props);
 		this.state = {location: '', starttime: '', genre:'', max_participants:'', min_participants:''};
     	this.handleChangeLocation = this.handleChangeLocation.bind(this);
-    	this.handleChangePassword = this.handleChangeLocation.bind(this);
+    	this.handleChangeStartTime = this.handleChangeStartTime.bind(this);
+    	this.handleChangeGenre = this.handleChangeGenre.bind(this);
+    	this.handleChangeMaxParticipants = this.handleChangeMaxParticipants.bind(this);
+    	this.handleChangeMinParticipants = this.handleChangeMinParticipants.bind(this);
     	this.submit = this.submit.bind(this);
 	}
 
@@ -32,7 +35,12 @@ export default class AddEventPage extends React.Component {
 
  	submit(event){
  		//Submit form
- 		alert(this.state);
+  		event.preventDefault();
+ 		if(this.state.max_participants > this.state.min_participants){
+ 			alert(JSON.stringify(this.state));
+ 		} else {
+ 			alert("Must have greater max participants than min participants");
+ 		}
  	}
 
 	render(){
@@ -49,9 +57,7 @@ export default class AddEventPage extends React.Component {
 							</div> 
 	                        <div class="form-group">
 								<label for="starttime">Time:</label>
-								<input type="datetime-local" class="form-control" id="addTime" name="starttime" required  onChange={this.handleChangeStartTime}>
-								<input type="text" class="form-control" id="addTime" name="starttime" placeholder="Time"
-								pattern="[A-Za-z]+" required  onChange={this.handleChangeStartTime}/>
+								<input type="datetime-local" class="form-control" id="addTime" name="starttime" required  onChange={this.handleChangeStartTime}/>
 							</div> 
 	                        <div class="form-group">
 								<label for="genre">Genre:</label>
