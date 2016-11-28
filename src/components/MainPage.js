@@ -10,8 +10,12 @@ export default class MainPage extends React.Component {
 	constructor() {
 		super();
 
+
 		this.state = {
-			user: { username : "Clayton", rating:"5"},
+			user: { username : "RcBobo", 
+					rating:"5", 
+					firstname:"Jovan", 
+					surname:"Maric"},
 			events: []
 			// events: {
 			//         1: {
@@ -45,6 +49,7 @@ export default class MainPage extends React.Component {
 			.catch(function(error) {
 				console.log(error);
 			}.bind(this));
+		
 	}
 
 	render() {
