@@ -107,7 +107,7 @@ app.get('/logout', checkAuth, function (req, res) {
 }); 
 
 app.post('/user', accessDB.postUser);
-//app.delete('/user', routes.deleteUser);
+app.delete('/user', accessDB.deleteUser);
 
 app.listen(3000);
 console.log('Listening on port 3000...');
