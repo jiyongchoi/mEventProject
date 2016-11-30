@@ -10,9 +10,9 @@ export default class AddEventPage extends React.Component {
 					genre:'', 
 					max_participants:'', 
 					min_participants:'',
-					host: '',
-					eventID: '',
-					rating: ''
+					host: 'Lukas',
+					eventID: '201',
+					rating: '0'
 				};
     	this.handleChangeLocation = this.handleChangeLocation.bind(this);
     	this.handleChangeStartTime = this.handleChangeStartTime.bind(this);
@@ -47,6 +47,14 @@ export default class AddEventPage extends React.Component {
   		event.preventDefault();
  		if(this.state.max_participants > this.state.min_participants){
  			alert(JSON.stringify(this.state));
+ 			axios.post('/addevent', this.state)
+		      	.then(function (response) {
+		      		if (typeof response.data.redirect == 'string') {
+						window.location = response.data.redirect;
+					}
+				}).catch(function (error) {
+    				console.log(error.message);
+  				});
  		} else {
  			alert("Must have greater max participants than min participants");
  		}

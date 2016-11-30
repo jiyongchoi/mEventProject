@@ -1,5 +1,4 @@
 import React from 'react';
-import Logout from './Logout.js';
 import UserInfo from './UserInfo.js';
 import EventManager from './EventManager.js';
 import Actions from './Actions';

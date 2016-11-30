@@ -118,5 +118,7 @@ app.get('/addeventpage',  checkAuth, function(req, res) {
 		});
  });
 
+ app.post('/addevent', accessDB.addEvent);
+
 app.listen(3000);
 console.log('Listening on port 3000...');
