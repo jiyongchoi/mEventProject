@@ -1,10 +1,19 @@
 import React from 'react';
+import axios from 'axios';
 
 
 export default class AddEventPage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {location: '', starttime: '', genre:'', max_participants:'', min_participants:''};
+		this.state = {location: '', 
+					starttime: '', 
+					genre:'', 
+					max_participants:'', 
+					min_participants:'',
+					host: '',
+					eventID: '',
+					rating: ''
+				};
     	this.handleChangeLocation = this.handleChangeLocation.bind(this);
     	this.handleChangeStartTime = this.handleChangeStartTime.bind(this);
     	this.handleChangeGenre = this.handleChangeGenre.bind(this);
@@ -45,36 +54,36 @@ export default class AddEventPage extends React.Component {
 
 	render(){
 		return( 
-			<div class="container">
-				<div class="panel panel-default">
-				    <div class="panel-heading">Add Event</div>
-				    <div class="panel-body">
+			<div className="container">
+				<div className="panel panel-default">
+				    <div className="panel-heading">Add Event</div>
+				    <div className="panel-body">
 						<form id="addEventForm" method="get" onSubmit={this.submit}>
-							<div class="form-group">
+							<div className="form-group">
 								<label for="location">Location:</label>
-								<input type="text" class="form-control" id="addLocation" name="location" placeholder="location"
+								<input type="text" className="form-control" id="addLocation" name="location" placeholder="location"
 								pattern="[A-Za-z]+" required  onChange={this.handleChangeLocation}/>
 							</div> 
-	                        <div class="form-group">
+	                        <div className="form-group">
 								<label for="starttime">Time:</label>
-								<input type="datetime-local" class="form-control" id="addTime" name="starttime" required  onChange={this.handleChangeStartTime}/>
+								<input type="datetime-local" className="form-control" id="addTime" name="starttime" required  onChange={this.handleChangeStartTime}/>
 							</div> 
-	                        <div class="form-group">
+	                        <div className="form-group">
 								<label for="genre">Genre:</label>
-								<input type="text" class="form-control" id="addGenre" name="genre" placeholder="genre"
+								<input type="text" className="form-control" id="addGenre" name="genre" placeholder="genre"
 								pattern="[A-Za-z]+" required  onChange={this.handleChangeGenre}/>
 							</div>
-	                         <div class="form-group">
+	                         <div className="form-group">
 								<label for="max_participants">Max Participants:</label>
-								<input type="text" class="form-control" id="addMaxParticipants" name="max_participants" placeholder="Max Participants"
+								<input type="text" className="form-control" id="addMaxParticipants" name="max_participants" placeholder="Max Participants"
 								pattern="[0-9]+" required  onChange={this.handleChangeMaxParticipants}/>
 							</div> 
-	                         <div class="form-group">
+	                         <div className="form-group">
 								<label for="min_participants">Min Participants:</label>
-								<input type="text" class="form-control" id="addMinParticipants" name="min_participants" placeholder="Min Participants"
+								<input type="text" className="form-control" id="addMinParticipants" name="min_participants" placeholder="Min Participants"
 								pattern="[0-9]+" required  onChange={this.handleChangeMinParticipants}/>
 							</div> 
-							<input class="btn btn-default" id="statusButton" type="submit" value="Add Event"></input>
+							<input className="btn btn-default" id="statusButton" type="submit" value="Add Event"></input>
 						</form>
 				    </div>
 			  	</div>

@@ -2,6 +2,7 @@ import React from 'react';
 import Logout from './Logout.js';
 import UserInfo from './UserInfo.js';
 import EventManager from './EventManager.js';
+import Actions from './Actions';
 import axios from 'axios';
 
 
@@ -60,7 +61,7 @@ export default class MainPage extends React.Component {
 					<UserInfo
 						user={this.state.user}
 					/>
-					<Logout/>
+					<Actions/>
 				</div>
 				<div className="col-sm-8" >
 					<EventManager
