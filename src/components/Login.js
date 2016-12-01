@@ -2,7 +2,7 @@
 
 import React from 'react';
 import axios from 'axios';
-
+// import localStorage from 'react-localstorage';
 
 export default class LoginForm extends React.Component{
 	constructor(props) {
@@ -27,7 +27,7 @@ export default class LoginForm extends React.Component{
 		axios.post('/userlogin', {username: this.state.username, password: this.state.password})
 		      	.then(function(response) {
 		      		if (typeof response.data.redirect == 'string') {
-		      			window.localStorage.token = "blah";
+		      			localStorage.setItem("token", JSON.stringify("asdf"));
 						window.location = response.data.redirect;
 					}
 					else {

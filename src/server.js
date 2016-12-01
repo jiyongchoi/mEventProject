@@ -47,6 +47,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/current_session', function(req, res) {
+	console.log(req.session.username);
 	if (!req.session.username) {
 		return res.send("not active");
 	}

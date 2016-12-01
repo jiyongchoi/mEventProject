@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+// import localStorage from 'react-localstorage';
 
 export default class Logout extends React.Component {
 
@@ -12,7 +13,7 @@ export default class Logout extends React.Component {
 	lgout(event) {
 		axios.get("/logout")
 				.then(function(response) {
-					delete window.localStorage.token;
+					localStorage.removeItem("token");
 					window.location = response.data.redirect;
 				})
 				.catch(function(error) {
