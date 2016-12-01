@@ -6,13 +6,11 @@ import Layout from './components/Layout';
 import IndexPage from './components/IndexPage';
 import UserPage from './components/UserPage';
 import MainPage from './components/MainPage';
-<<<<<<< HEAD
-// import authen from './components/authen';
-=======
+
 import EventPage from './components/EventPage';
 import AddEventPage from './components/AddEventPage';
 import AdminPage from './components/AdminPage';
->>>>>>> a77e615fb5889b6d101cb47b1e32b611cedd2f71
+
 import axios from 'axios';
 // import localStorage from 'react-localstorage';
 
@@ -106,16 +104,11 @@ function alreadyAuthen(nextState, replace, cb) {
 
 const routes = (
   <Route path="/" component={Layout}>
-<<<<<<< HEAD
-    <IndexRoute component={IndexPage} onEnter={alreadyAuthen}/>
-    <Route path="mainpage/:id" component={MainPage} onEnter={loggedOut}/>
-=======
     <IndexRoute component={IndexPage} />
     <Route path="mainpage/:id" component={MainPage}/>
     <Route path="eventpage/:id" component={EventPage}/>
     <Route path="addeventpage" component={AddEventPage}/>
     <Route path="admin" component={AdminPage}/>
->>>>>>> a77e615fb5889b6d101cb47b1e32b611cedd2f71
   </Route>
 );
 

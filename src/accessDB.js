@@ -100,10 +100,14 @@ exports.addEvent = function(req, res, next) {
     });
 }; 
 
+
+// error: getUserInfo has a typo error, must re-run
 exports.getUserInfo = function(req, res, next) {
-  var username = req.body.username
+  var username = req.body.username;
+  console.log(username);
   db.one('SELECT * FROM getUserInfo($1);', [username])
   .then(function (data) {
+    console.log("DATA: " + data);
     if (data.username != null) {
       req.session.username = data.username;
       console.log("getUserInfo "+data);

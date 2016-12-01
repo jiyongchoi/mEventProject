@@ -14,9 +14,11 @@ AS 'SELECT *
 	AND u.password = $2;'
 LANGUAGE SQL;
 
+
+-- had typo (stray comma)
 CREATE TYPE userInfoType AS (username varchar(25),
 	firstname varchar(25),
-	surname varchar(25),
+	surname varchar(25)
 );
 
 CREATE FUNCTION getUserInfo(username varchar(25))

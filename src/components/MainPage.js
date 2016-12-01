@@ -3,7 +3,7 @@ import UserInfo from './UserInfo.js';
 import EventManager from './EventManager.js';
 import Actions from './Actions';
 import axios from 'axios';
-import authen from './authen.js';
+
 
 
 export default class MainPage extends React.Component {
@@ -48,6 +48,8 @@ export default class MainPage extends React.Component {
 		//alert(this.session);
 		axios.post('/getuserinfo', {username: id})
 		      	.then(function(response) {
+		      		console.log("get");
+		      		this.setState({user: response.data});
 		      		//alert("Resopne: "+data);
 		      	}.bind(this))
 		      	.catch(function (error) {
@@ -55,24 +57,32 @@ export default class MainPage extends React.Component {
   				}.bind(this));
 	}
 
-	componentDidMount() {
-		// console.log("asdfasdf");
-		axios.get('/allevents')
-			.then(function(response) {
-				this.setState({events: response.data})
-			}.bind(this))
-			.catch(function(error) {
-				console.log(error);
-			}.bind(this));
-<<<<<<< HEAD
-		console.log("DATA_EVENTS: " + this.state.events);
-=======
-		
->>>>>>> a77e615fb5889b6d101cb47b1e32b611cedd2f71
-	}
+	// componentWillMount() {
+	// 	console.log("reached");
+	// 	axios.post('/getuserinfo', {username: id})
+	// 	    .then(function(response) {
+	// 	    	console.log(response);
+	// 	      	this.setState({user: response.data});
+	// 	      		//alert("Resopne: "+data);
+	// 	    	}.bind(this))
+	// 	    .catch(function (error) {
+ //    			console.log(error.message);
+ //  		}.bind(this));
+	// 	// console.log("asdfasdf");
+	// 	axios.get('/allevents')
+	// 		.then(function(response) {
+	// 			console.log(response);
+	// 			this.setState({events: response.data})
+	// 		}.bind(this))
+	// 		.catch(function(error) {
+	// 			console.log(error);
+	// 		}.bind(this));
+
+	// }
 
 	render() {
 		const id = this.props.params.id;
+		console.log(id);
 		this.getUser(id);
 		return (
 	    <div className="container-fluid">

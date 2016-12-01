@@ -56,13 +56,15 @@ app.get('/current_session', function(req, res) {
 	}
 });
 
-<<<<<<< HEAD
 app.post('/userlogin', accessDB.verifyUser); // back-end DB route
-=======
- app.post('/user', accessDB.postUser);
 
- app.delete('/user', accessDB.deleteUser);
->>>>>>> a77e615fb5889b6d101cb47b1e32b611cedd2f71
+app.post('/user', accessDB.postUser);
+
+app.delete('/user', accessDB.deleteUser);
+
+app.post('/addevent', accessDB.addEvent);
+
+app.post('/getuserinfo', accessDB.getUserInfo);
 
 app.post('/usersignup', accessDB.postUser); // back-end DB route
 
@@ -115,9 +117,6 @@ app.get('/logout', checkAuth, function (req, res) {
 	res.send({redirect:"/"});
 }); 
 
-app.post('/user', accessDB.postUser);
-//app.delete('/user', routes.deleteUser);
-
 app.get('/addeventpage',  checkAuth, function(req, res) {
  	match({routes, location: req.url},
 		function (err, renderProps) {
@@ -131,10 +130,6 @@ app.get('/addeventpage',  checkAuth, function(req, res) {
 			return res.render('index', { markup });
 		});
  });
-
- app.post('/addevent', accessDB.addEvent);
-
- app.post('/getuserinfo', accessDB.getUserInfo);
 
 app.listen(3000);
 console.log('Listening on port 3000...');
