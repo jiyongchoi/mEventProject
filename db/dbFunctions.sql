@@ -75,7 +75,7 @@ AS 'SELECT *
 	WHERE e.genre = $1'
 LANGUAGE SQL;
 
-CREATE FUNCTION getEventsByLocation (location varchar(25))
+CREATE FUNCTION getEventsByLocation (location varchar(1000))
 RETURNS eventType
 AS 'SELECT *
 	FROM appData.Event e
@@ -83,7 +83,7 @@ AS 'SELECT *
 LANGUAGE SQL;
 
 CREATE FUNCTION createEvent(eventID Integer,
-							location varchar(25),
+							location varchar(1000),
 							host varchar(25),
 							starttime TIMESTAMP,
 							genre appData.genreType,
