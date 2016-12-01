@@ -72,7 +72,7 @@ app.get('/user', accessDB.getUserInfo);
 app.post('/usersignup', accessDB.postUser); // DELETE THIS?
 
 
-app.get('/events/:id', checkAuth, accesDB.getEventsOfUser); 
+app.get('/events/:id', checkAuth, accessDB.getEventsOfUser); 
 
 app.post('/addevent', accessDB.addEvent);
 app.get('/events', checkAuth, accessDB.getEvents); // make req.query.type in the getAllEvents function differentiate between "all", "location", or 
