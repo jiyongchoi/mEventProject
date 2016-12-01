@@ -18,7 +18,7 @@ CREATE DOMAIN genreType varchar(25)
 
 CREATE TABLE Event (
 	eventID INTEGER PRIMARY KEY,
-	location varchar(25) NOT NULL,
+	location varchar(1000) NOT NULL,
 	host varchar(25) REFERENCES UserInfo,
 	starttime TIMESTAMP NOT NULL,
 	genre genreType NOT NULL,

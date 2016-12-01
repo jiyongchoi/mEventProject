@@ -67,12 +67,13 @@ exports.deleteUser = function(req, res, next) {
 }; 
 
 exports.getAllEvents = function(req, res, next) {
-    db.one('SELECT * FROM getEvents();')
+    db.any('SELECT * FROM getEvents();')
         .then(function (data) {
-          return res.status(200).send(data);
+          console.log('EVENTDATA: ' + data);
+           res.status(200).send(data);
         })
         .catch(function(error) {
-          return res.status(200).send(data);
+           res.status(400).send(data);
         })
 }
 
@@ -99,13 +100,16 @@ exports.addEvent = function(req, res, next) {
     });
 }; 
 
+
+// error: getUserInfo has a typo error, must re-run
 exports.getUserInfo = function(req, res, next) {
-  var username = req.body.username
+  var username = req.body.username;
+  console.log(username);
   db.one('SELECT * FROM getUserInfo($1);', [username])
   .then(function (data) {
+    console.log("DATA: " + data);
     if (data.username != null) {
       req.session.username = data.username;
-      console.log("getUserInfo "+data);
       //res.send("User verified");
       res.status(200).send(data);
     }

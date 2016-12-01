@@ -14,9 +14,11 @@ AS 'SELECT *
 	AND u.password = $2;'
 LANGUAGE SQL;
 
+
+-- had typo (stray comma)
 CREATE TYPE userInfoType AS (username varchar(25),
 	firstname varchar(25),
-	surname varchar(25),
+	surname varchar(25)
 );
 
 CREATE FUNCTION getUserInfo(username varchar(25))
@@ -45,12 +47,15 @@ AS 'DELETE
 	SELECT 0;'
 LANGUAGE SQL;
 
+CREATE DOMAIN genreType varchar(25)
+    check (value in ('sports', 'arts', 'science', 'social', 'other'));
+
 CREATE TYPE eventType AS (
-	eventID varchar(25),
+	eventID INTEGER,
 	location varchar(25),
 	host varchar(25),
 	starttime TIMESTAMP,
-	genre genreType,
+	genre appData.genreType,
 	rating INTEGER,
 	min_participants INTEGER,
 	max_participants INTEGER	
@@ -60,7 +65,7 @@ CREATE FUNCTION getEvents ()
 RETURNS eventType
 AS 'SELECT *
 	FROM appData.Event e
-	WHERE e.starttime > CURTIME()'
+	WHERE e.starttime > clock_timestamp()'
 LANGUAGE SQL;
 
 CREATE FUNCTION getEventsByGenre (genre varchar(25))
@@ -70,37 +75,30 @@ AS 'SELECT *
 	WHERE e.genre = $1'
 LANGUAGE SQL;
 
-CREATE FUNCTION getEventsByLocation (location varchar(25))
+CREATE FUNCTION getEventsByLocation (location varchar(1000))
 RETURNS eventType
 AS 'SELECT *
 	FROM appData.Event e
 	WHERE e.location = $1'
 LANGUAGE SQL;
 
-CREATE FUNCTION createEvent(eventID varchar(25),
-							location varchar(25),
+CREATE FUNCTION createEvent(eventID Integer,
+							location varchar(1000),
 							host varchar(25),
-							starttime varchar(25),
-							genre varchar(25),
+							starttime TIMESTAMP,
+							genre appData.genreType,
 							rating INTEGER,
 							min_participants INTEGER,
 							max_participants INTEGER)
 RETURNS int
 AS 'INSERT INTO appData.Event
-	VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+	VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
 	SELECT 0;'
 LANGUAGE SQL;
 
-CREATE FUNCTION deleteEvent(eventID varchar(25))
+CREATE FUNCTION deleteEvent(eventID INTEGER)
 RETURNS int
 AS 'DELETE FROM appData.Event
-	WHERE eventID = $1;'
+	WHERE eventID = $1;
+	SELECT 0;'
 LANGUAGE SQL;
-
-CREATE FUNCTION modifyLocationEvent(eventID varchar(25), custom_query varchar(300))
-RETURNS int 
-AS 'UPDATE appData.Event
-	SET ' + '$2
-	WHERE eventID = $1;'
-LANGUAGE SQL;
-

@@ -12,7 +12,6 @@ export default class UserInfo extends React.Component{
 		if(this.props != undefined){
 			var { user } = this.props;
 		}
-		
 		return (
 			<div className="panel panel-default">
 				<div className="panel-heading">User</div>
