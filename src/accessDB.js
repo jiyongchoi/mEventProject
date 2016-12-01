@@ -110,7 +110,6 @@ exports.getUserInfo = function(req, res, next) {
     console.log("DATA: " + data);
     if (data.username != null) {
       req.session.username = data.username;
-      console.log("getUserInfo "+data);
       //res.send("User verified");
       res.status(200).send(data);
     }
