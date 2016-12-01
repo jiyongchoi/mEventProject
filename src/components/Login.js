@@ -2,7 +2,7 @@
 
 import React from 'react';
 import axios from 'axios';
-
+import {browserHistory} from 'react-router';
 
 export default class LoginForm extends React.Component{
 	constructor(props) {
@@ -27,7 +27,9 @@ export default class LoginForm extends React.Component{
 		axios.post('/userlogin', {username: this.state.username, password: this.state.password})
 		      	.then(function(response) {
 		      		if (typeof response.data.redirect == 'string') {
-						window.location = response.data.redirect;
+		      			//alert(response.data.redirect);
+		      			browserHistory.push(response.data.redirect);
+						//window.location = response.data.redirect;
 					}
 					else {
 						this.refs.errormessage.innerText = "bad input";

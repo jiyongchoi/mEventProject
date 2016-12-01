@@ -14,6 +14,18 @@ AS 'SELECT *
 	AND u.password = $2;'
 LANGUAGE SQL;
 
+CREATE TYPE userInfoType AS (username varchar(25),
+	firstname varchar(25),
+	surname varchar(25),
+);
+
+CREATE FUNCTION getUserInfo(username varchar(25))
+RETURNS userInfoType
+AS 'SELECT username, firstname, surname 
+	FROM appData.UserInfo u
+	WHERE u.username = $1;'
+LANGUAGE SQL;
+
 CREATE FUNCTION postUser (username varchar(25), 
 						  password varchar(16),
 						  firstname varchar(25),

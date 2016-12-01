@@ -120,5 +120,7 @@ app.get('/addeventpage',  checkAuth, function(req, res) {
 
  app.post('/addevent', accessDB.addEvent);
 
+ app.post('/getuserinfo', accessDB.getUserInfo);
+
 app.listen(3000);
 console.log('Listening on port 3000...');

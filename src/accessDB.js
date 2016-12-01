@@ -36,7 +36,6 @@ exports.verifyUser = function(req, res, next) {
 
 exports.postUser = function(req, res, next) {
     var post = req.body;
-    console.log('POST: ', post);
     var username = post.username;
     var password = post.password;
     var fname = post.fname;
@@ -99,3 +98,26 @@ exports.addEvent = function(req, res, next) {
       console.log('ERROR:', error)
     });
 }; 
+
+exports.getUserInfo = function(req, res, next) {
+  var username = req.body.username
+  db.one('SELECT * FROM getUserInfo($1);', [username])
+  .then(function (data) {
+    if (data.username != null) {
+      req.session.username = data.username;
+      console.log("getUserInfo "+data);
+      //res.send("User verified");
+      res.status(200).send(data);
+    }
+    else {
+      res.status(200).send("bad username");
+    }
+  })
+  .catch(function (error) {
+    console.log('ERROR:', error)
+    res.status(400).json({
+      status: 'failure',
+      message: 'could not retrive user'
+    })
+  });
+};
