@@ -14,6 +14,8 @@ AS 'SELECT *
 	AND u.password = $2;'
 LANGUAGE SQL;
 
+
+-- had typo (stray comma)
 CREATE TYPE userInfoType AS (username varchar(25),
 	firstname varchar(25),
 	surname varchar(25)
@@ -73,7 +75,7 @@ AS 'SELECT *
 	WHERE e.genre = $1'
 LANGUAGE SQL;
 
-CREATE FUNCTION getEventsByLocation (location varchar(25))
+CREATE FUNCTION getEventsByLocation (location varchar(1000))
 RETURNS eventType
 AS 'SELECT *
 	FROM appData.Event e
@@ -81,7 +83,7 @@ AS 'SELECT *
 LANGUAGE SQL;
 
 CREATE FUNCTION createEvent(eventID Integer,
-							location varchar(25),
+							location varchar(1000),
 							host varchar(25),
 							starttime TIMESTAMP,
 							genre appData.genreType,

@@ -5,6 +5,7 @@ import Actions from './Actions';
 import axios from 'axios';
 
 
+
 export default class MainPage extends React.Component {
 // componentdidmount (ajax call to get all events)
 	constructor() {
@@ -47,6 +48,8 @@ export default class MainPage extends React.Component {
 		//alert(this.session);
 		axios.post('/getuserinfo', {username: id})
 		      	.then(function(response) {
+		      		console.log("get");
+		      		this.setState({user: response.data});
 		      		//alert("Resopne: "+data);
 		      	}.bind(this))
 		      	.catch(function (error) {
@@ -54,20 +57,32 @@ export default class MainPage extends React.Component {
   				}.bind(this));
 	}
 
-	componentDidMount() {
-		axios.get('/allevents')
-			.then(function(response) {
-				console.log("DATA FROM RESPONSE:" + response.data);
-				this.setState({events: response.data})
-			}.bind(this))
-			.catch(function(error) {
-				console.log(error);
-			}.bind(this));
-		
-	}
+	// componentWillMount() {
+	// 	console.log("reached");
+	// 	axios.post('/getuserinfo', {username: id})
+	// 	    .then(function(response) {
+	// 	    	console.log(response);
+	// 	      	this.setState({user: response.data});
+	// 	      		//alert("Resopne: "+data);
+	// 	    	}.bind(this))
+	// 	    .catch(function (error) {
+ //    			console.log(error.message);
+ //  		}.bind(this));
+	// 	// console.log("asdfasdf");
+	// 	axios.get('/allevents')
+	// 		.then(function(response) {
+	// 			console.log(response);
+	// 			this.setState({events: response.data})
+	// 		}.bind(this))
+	// 		.catch(function(error) {
+	// 			console.log(error);
+	// 		}.bind(this));
+
+	// }
 
 	render() {
 		const id = this.props.params.id;
+		console.log(id);
 		this.getUser(id);
 		return (
 	    <div className="container-fluid">
