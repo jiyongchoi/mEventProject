@@ -1,5 +1,4 @@
 import React from 'react';
-import Logout from './Logout.js';
 import UserInfo from './UserInfo.js';
 import EventManager from './EventManager.js';
 import Actions from './Actions';
@@ -10,7 +9,6 @@ export default class MainPage extends React.Component {
 // componentdidmount (ajax call to get all events)
 	constructor() {
 		super();
-
 
 		this.state = {
 			user: { username : "RcBobo", 
@@ -39,6 +37,21 @@ export default class MainPage extends React.Component {
 			//         },
 			//       },
 		};
+
+		this.getUser = this.getUser.bind(this);
+
+	}
+
+	getUser(id){
+		//alert("GetUser "+id);
+		//alert(this.session);
+		axios.post('/getuserinfo', {username: id})
+		      	.then(function(response) {
+		      		//alert("Resopne: "+data);
+		      	}.bind(this))
+		      	.catch(function (error) {
+    				console.log(error.message);
+  				}.bind(this));
 	}
 
 	componentDidMount() {
@@ -54,6 +67,8 @@ export default class MainPage extends React.Component {
 	}
 
 	render() {
+		const id = this.props.params.id;
+		this.getUser(id);
 		return (
 	    <div className="container-fluid">
 			<div className="row">
