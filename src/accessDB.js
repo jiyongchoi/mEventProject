@@ -67,7 +67,7 @@ exports.deleteUser = function(req, res, next) {
 }; 
 
 exports.getAllEvents = function(req, res, next) {
-    db.one('SELECT * FROM getEvents();')
+    db.any('SELECT * FROM getEvents();')
         .then(function (data) {
           console.log('EVENTDATA: ' + data);
            res.status(200).send(data);
