@@ -56,7 +56,13 @@ app.get('/current_session', function(req, res) {
 	}
 });
 
+<<<<<<< HEAD
 app.post('/userlogin', accessDB.verifyUser); // back-end DB route
+=======
+ app.post('/user', accessDB.postUser);
+
+ app.delete('/user', accessDB.deleteUser);
+>>>>>>> a77e615fb5889b6d101cb47b1e32b611cedd2f71
 
 app.post('/usersignup', accessDB.postUser); // back-end DB route
 
@@ -104,13 +110,6 @@ app.get('/eventpage/:id',  checkAuth, function(req, res) {
 		});
  });
 
-/*function nocache(req, res, next) {
-  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-  res.header('Expires', '-1');
-  res.header('Pragma', 'no-cache');
-  next();
-}*/
-
 app.get('/logout', checkAuth, function (req, res) {
 	req.session.reset();
 	res.send({redirect:"/"});
@@ -118,6 +117,24 @@ app.get('/logout', checkAuth, function (req, res) {
 
 app.post('/user', accessDB.postUser);
 //app.delete('/user', routes.deleteUser);
+
+app.get('/addeventpage',  checkAuth, function(req, res) {
+ 	match({routes, location: req.url},
+		function (err, renderProps) {
+			if (err) {
+				return res.status(500).send(err.message);
+			}
+			let markup;
+			if (renderProps) {
+				markup = renderToString(<RouterContext {...renderProps}/>);
+			}
+			return res.render('index', { markup });
+		});
+ });
+
+ app.post('/addevent', accessDB.addEvent);
+
+ app.post('/getuserinfo', accessDB.getUserInfo);
 
 app.listen(3000);
 console.log('Listening on port 3000...');

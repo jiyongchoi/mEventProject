@@ -2,7 +2,11 @@
 
 import React from 'react';
 import axios from 'axios';
+<<<<<<< HEAD
 // import localStorage from 'react-localstorage';
+=======
+import {browserHistory} from 'react-router';
+>>>>>>> a77e615fb5889b6d101cb47b1e32b611cedd2f71
 
 export default class LoginForm extends React.Component{
 	constructor(props) {
@@ -27,8 +31,14 @@ export default class LoginForm extends React.Component{
 		axios.post('/userlogin', {username: this.state.username, password: this.state.password})
 		      	.then(function(response) {
 		      		if (typeof response.data.redirect == 'string') {
+<<<<<<< HEAD
 		      			localStorage.setItem("token", JSON.stringify("asdf"));
 						window.location = response.data.redirect;
+=======
+		      			//alert(response.data.redirect);
+		      			browserHistory.push(response.data.redirect);
+						//window.location = response.data.redirect;
+>>>>>>> a77e615fb5889b6d101cb47b1e32b611cedd2f71
 					}
 					else {
 						this.refs.errormessage.innerText = "bad input";

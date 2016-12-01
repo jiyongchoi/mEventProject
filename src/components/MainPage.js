@@ -1,7 +1,7 @@
 import React from 'react';
-import Logout from './Logout.js';
 import UserInfo from './UserInfo.js';
 import EventManager from './EventManager.js';
+import Actions from './Actions';
 import axios from 'axios';
 import authen from './authen.js';
 
@@ -12,7 +12,10 @@ export default class MainPage extends React.Component {
 		super();
 
 		this.state = {
-			user: { username : "Clayton", rating:"5"},
+			user: { username : "RcBobo", 
+					rating:"5", 
+					firstname:"Jovan", 
+					surname:"Maric"},
 			events: []
 			// events: {
 			//         1: {
@@ -35,6 +38,21 @@ export default class MainPage extends React.Component {
 			//         },
 			//       },
 		};
+
+		this.getUser = this.getUser.bind(this);
+
+	}
+
+	getUser(id){
+		//alert("GetUser "+id);
+		//alert(this.session);
+		axios.post('/getuserinfo', {username: id})
+		      	.then(function(response) {
+		      		//alert("Resopne: "+data);
+		      	}.bind(this))
+		      	.catch(function (error) {
+    				console.log(error.message);
+  				}.bind(this));
 	}
 
 	componentDidMount() {
@@ -46,10 +64,16 @@ export default class MainPage extends React.Component {
 			.catch(function(error) {
 				console.log(error);
 			}.bind(this));
+<<<<<<< HEAD
 		console.log("DATA_EVENTS: " + this.state.events);
+=======
+		
+>>>>>>> a77e615fb5889b6d101cb47b1e32b611cedd2f71
 	}
 
 	render() {
+		const id = this.props.params.id;
+		this.getUser(id);
 		return (
 	    <div className="container-fluid">
 			<div className="row">
@@ -57,7 +81,7 @@ export default class MainPage extends React.Component {
 					<UserInfo
 						user={this.state.user}
 					/>
-					<Logout/>
+					<Actions/>
 				</div>
 				<div className="col-sm-8" >
 					<EventManager

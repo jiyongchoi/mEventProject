@@ -38,14 +38,28 @@ exports.postUser = function(req, res, next) {
     var post = req.body;
     var username = post.username;
     var password = post.password;
-//    var fname = post.fname;
-//    var surname = post.surname;
+    var fname = post.fname;
+    var surname = post.surname;
 
-    db.one('SELECT * FROM postUser($1, $2, NULL, NULL, $3);', [username, password, 'client'])
+    db.one('SELECT * FROM postUser($1, $2, $3, $4, $5);', [username, password, fname, surname, 'client'])
     .then(function (data) {
         console.log('DATA:', data);
         req.session.username = username;
         res.status(200).send({redirect: "/mainpage/"+username});
+    })
+    .catch(function (error) {
+      console.log('ERROR:', error)
+    });
+}; 
+
+exports.deleteUser = function(req, res, next) {
+    var post = req.body;
+    var username = post.username;
+
+    db.one('SELECT * FROM deleteUser($1);', [username])
+    .then(function (data) {
+        console.log('DATA:', data);
+        res.status(200).send('Success');
     })
     .catch(function (error) {
       console.log('ERROR:', error)
@@ -62,3 +76,49 @@ exports.getAllEvents = function(req, res, next) {
            res.status(400).send(data);
         })
 }
+
+exports.addEvent = function(req, res, next) {
+    var post = req.body;
+    console.log('POST: ', post);
+    var location = post.location;
+    var starttime = post.starttime;
+    var genre = post.genre;
+    var max_participants = parseInt(post.max_participants);
+    var min_participants = parseInt(post.min_participants);
+    var host = post.host;
+    var eventID = post.eventID;
+    var rating = parseInt(post.rating);
+
+    db.one('SELECT * FROM createEvent($1, $2, $3, $4, $5, $6, $7, $8);', [eventID, location, host, starttime, genre, rating, max_participants, min_participants])
+    .then(function (data) {
+        console.log('DATA:', data);
+        req.session.username = username;
+        res.status(200).send({redirect: "/eventpage/"+eventID});
+    })
+    .catch(function (error) {
+      console.log('ERROR:', error)
+    });
+}; 
+
+exports.getUserInfo = function(req, res, next) {
+  var username = req.body.username
+  db.one('SELECT * FROM getUserInfo($1);', [username])
+  .then(function (data) {
+    if (data.username != null) {
+      req.session.username = data.username;
+      console.log("getUserInfo "+data);
+      //res.send("User verified");
+      res.status(200).send(data);
+    }
+    else {
+      res.status(200).send("bad username");
+    }
+  })
+  .catch(function (error) {
+    console.log('ERROR:', error)
+    res.status(400).json({
+      status: 'failure',
+      message: 'could not retrive user'
+    })
+  });
+};
