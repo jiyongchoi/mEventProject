@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {browserHistory} from 'react-router';
 
 
 export default class LoginForm extends React.Component{
@@ -34,7 +35,8 @@ export default class LoginForm extends React.Component{
 		axios.post('/user', {username: this.state.username, password: this.state.password, fname: this.state.fname, surname: this.state.surname})
 		      	.then(function (response) {
 		      		if (typeof response.data.redirect == 'string') {
-						window.location = response.data.redirect;
+						//window.location = response.data.redirect;
+						browserHistory.push(response.data.redirect);
 					}
 				}).catch(function (error) {
     				console.log(error.message);
