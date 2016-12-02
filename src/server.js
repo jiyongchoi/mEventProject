@@ -26,7 +26,7 @@ app.use(session({
 
 function checkAuth(req, res, next) {
   if (!req.session.username) {
-    res.send({redirect:"/"});
+    res.redirect("/");
   } else {
     next();
   }
