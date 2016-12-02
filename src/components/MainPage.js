@@ -3,7 +3,8 @@ import UserInfo from './UserInfo.js';
 import EventManager from './EventManager.js';
 import Actions from './Actions';
 import axios from 'axios';
-
+import MainTopNav from './MainTopNav';
+import LoginTopNav from './LoginTopNav';
 
 
 export default class MainPage extends React.Component {
@@ -24,15 +25,18 @@ export default class MainPage extends React.Component {
 		var username={userID: id};
 		return (
 	    <div className="container-fluid">
-			<div className="row">
-				<div className="col-sm-4">
-					<UserInfo
-						username={username}
-					/>
-					<Actions/>
-				</div>
-				<div className="col-sm-8" >
-					<EventManager/>
+	    	<div className="container">
+		    	<MainTopNav/>
+				<div className="row">
+					<div className="col-sm-4">
+						<UserInfo
+							username={username}
+						/>
+						<Actions/>
+					</div>
+					<div className="col-sm-8" >
+						<EventManager/>
+					</div>
 				</div>
 			</div>
 		</div>
