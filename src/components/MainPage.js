@@ -37,10 +37,13 @@ export default class MainPage extends React.Component {
 			//           host: 'Jovan',
 			//         },
 			//       },
+			preselectoption: 'all',
+			selectoption: 'all'
 		};
 
 		this.getUser = this.getUser.bind(this);
-
+		this.getEvents = this.getEvents.bind(this);
+		this.selectChange = this.selectChange.bind(this);
 	}
 
 	getUser(id) {
@@ -56,7 +59,9 @@ export default class MainPage extends React.Component {
   				}.bind(this));
 	}
 
-	getEvents() {
+	getEvents(type) {
+		var route = type;
+		console.log(type);
 		axios.get('/events?type=all')
 			.then(function(response) {
 				this.setState({events: response.data});
@@ -64,14 +69,21 @@ export default class MainPage extends React.Component {
 			.catch(function(error){
 				console.log(error.message);
 			}.bind(this)); 
-		
+	}
 
+	selectChange(event) {
+		var nextSelector = document.createElement("select");
+
+		this.setState({selectoption: event.target.value});
+		if (this.state.selectoption.localeCompare("location") == 0) {
+			this.refs.nextselector.appendChild()
+		}
 	}
 
 	render() {
 		const id = this.props.params.id;
 		this.getUser(id);
-		this.getEvents();
+		this.getEvents(this.selectoption);
 		return (
 	    <div className="container-fluid">
 			<div className="row">
@@ -82,14 +94,14 @@ export default class MainPage extends React.Component {
 					<Actions/>
 				</div>
 				<div className="col-sm-8" >
-					<select>
-					  <option value="volvo">Volvo</option>
-					  <option value="saab">Saab</option>
-					  <option value="opel">Opel</option>
-					  <option value="audi">Audi</option>
+					<select value={this.state.preselectoption} onChange={this.selectChange}>
+					  	<option value="all">All</option>
+					  	<option value="location">Location</option>
+					  	<option value="genre">Genre</option>
 					</select>
+					<div ref="nextselector"></div>
 					<EventManager
-						events={this.state.events}
+						showoption={this.state.selectoption}
 					/>
 				</div>
 			</div>

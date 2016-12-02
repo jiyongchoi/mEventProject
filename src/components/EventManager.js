@@ -4,7 +4,7 @@ import EventPreview from './EventPreview';
 export default class EventManager extends React.Component{
 	render(){
 
-		const {events} = this.props;
+		const {showoption} = this.props;
 
 		return (
 		<div className="panel-group">

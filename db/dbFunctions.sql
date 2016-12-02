@@ -15,7 +15,6 @@ AS 'SELECT *
 LANGUAGE SQL;
 
 
--- had typo (stray comma)
 CREATE TYPE userInfoType AS (username varchar(25),
 	firstname varchar(25),
 	surname varchar(25)
