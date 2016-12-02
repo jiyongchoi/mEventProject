@@ -12,7 +12,7 @@ var db = pgp('postgres://vsxebhuzjkklry:-zfG7Ek8uDVo1Rh7VEcyYSy0AR@ec2-23-23-224
 
 exports.verifyAdmin = function (req, res, next) {
   var potential_admin = req.params.id;
-  db.one('SELECT * from getUserInfo($1);', [potential_admin])
+  db.one('SELECT * from appData.getUserInfo($1);', [potential_admin])
     .then(function(data) {
       if (data.accountType.localeCompare("admin") == 0) {
           //is admin, proceed
@@ -33,7 +33,7 @@ exports.verifyUser = function(req, res, next) {
   var post = req.body;
   var username = post.username
   var password = post.password;
-  db.one('SELECT * FROM getUser($1, $2);', [username, password])
+  db.one('SELECT * FROM appData.getUser($1, $2);', [username, password])
   .then(function (data) {
     if (data.username != null) {
       req.session.username = data.username;
@@ -56,7 +56,7 @@ exports.verifyUser = function(req, res, next) {
 
 exports.getUserInfo = function(req, res, next) {
   var username = req.body.username;
-  db.one('SELECT * FROM getUserInfo($1);', [username])
+  db.one('SELECT * FROM appData.getUserInfo($1);', [username])
   .then(function (data) {
     if (data.username != null) {
       req.session.username = data.username;
@@ -82,7 +82,7 @@ exports.postUser = function(req, res, next) {
     var fname = post.fname;
     var surname = post.surname;
 
-    db.one('SELECT * FROM postUser($1, $2, $3, $4, $5);', [username, password, fname, surname, 'client'])
+    db.one('SELECT * FROM appData.postUser($1, $2, $3, $4, $5);', [username, password, fname, surname, 'client'])
     .then(function (data) {
         req.session.username = username;
         res.status(200).send({redirect: "/mainpage/"+username});
@@ -96,7 +96,7 @@ exports.deleteUser = function(req, res, next) {
     var post = req.body;
     var username = post.username;
 
-    db.one('SELECT * FROM deleteUser($1);', [username])
+    db.one('SELECT * FROM appData.deleteUser($1);', [username])
     .then(function (data) {
         res.status(200).send('Success');
     })
@@ -109,7 +109,7 @@ exports.deleteUser = function(req, res, next) {
 * FUNCTIONS FOR EVENTS
 */
 exports.getAllEvents = function(req, res, next) {
-    db.any('SELECT * FROM getEvents();')
+    db.any('SELECT * FROM appData.getEvents();')
         .then(function (data) {
           console.log('EVENTDATA: ' + data);
            res.status(200).send(data);
@@ -122,7 +122,7 @@ exports.getAllEvents = function(req, res, next) {
 exports.getEvents = function (req, res, next) {
     var type = req.query.type;
     if (type.localeCompare("all") == 0) {
-        db.any('SELECT * FROM getEvents();')
+        db.any('SELECT * FROM appData.getEvents();')
         .then(function (data) {
            console.log("FROM SERVER:"+data);
            res.status(200).send(data);
@@ -134,7 +134,7 @@ exports.getEvents = function (req, res, next) {
     else if (type.localeCompare("genre") == 0) {
         var genre = req.query.genre;
         if (typeof genre != "undefined") {
-          db.any('SELECT * FROM getEventsByGenre($1);', [genre])
+          db.any('SELECT * FROM appData.getEventsByGenre($1);', [genre])
           .then(function (data) {
              res.status(200).send(data);
           })
@@ -150,7 +150,7 @@ exports.getEvents = function (req, res, next) {
     else if (type.localeCompare("location") == 0) {
         var location = req.query.location;
         if (typeof location != "undefined") { 
-            db.any('SELECT * FROM getEventsByLocation($1);', [location])
+            db.any('SELECT * FROM appData.getEventsByLocation($1);', [location])
               .then(function (data) {
                  res.status(200).send(data);
               })
@@ -165,7 +165,7 @@ exports.getEvents = function (req, res, next) {
 
     else if (type.localeCompare("max") == 0) {
         console.log("Getting max eventid");
-        db.one('SELECT * FROM getMaxEventID();')
+        db.one('SELECT * FROM appData.getMaxEventID();')
           .then(function (data) {
              console.log("MAX EVENT ID: "+data);
              res.status(200).send(data);
@@ -200,7 +200,7 @@ exports.addEvent = function(req, res, next) {
     var eventid = post.eventid;
     var rating = parseInt(post.rating);
 
-    db.one('SELECT * FROM createEvent($1, $2, NULL, $3, $4, $5, $6, $7, $8, $9, $10, $11);', 
+    db.one('SELECT * FROM appData.createEvent($1, $2, NULL, $3, $4, $5, $6, $7, $8, $9, $10, $11);', 
       [eventid, title, description, isCertified, location, host, starttime, genre, rating, max_participants, min_participants])
     .then(function (data) {
         console.log('FROM SERVER:', data);
@@ -215,7 +215,7 @@ exports.addEvent = function(req, res, next) {
 exports.getEventsOfUser = function(req, res, next) {
   //TODO
   var user = req.params.id;
-  db.any('SELECT * FROM getEventsAll($1)', [user])
+  db.any('SELECT * FROM appData.getEventsAll($1)', [user])
     .then(function (data) {
       res.status(200).send(data);
     })
@@ -227,7 +227,7 @@ exports.getEventsOfUser = function(req, res, next) {
 exports.deleteEvent = function(req, res, next) {
   //TODO
   var deleventid = req.params.id;
-  db.one('SELECT * FROM deleteEvent($1);', [deleventid])
+  db.one('SELECT * FROM appData.deleteEvent($1);', [deleventid])
     .then(function(data) {
       res.status(200).send("successfully deleted");
     })
