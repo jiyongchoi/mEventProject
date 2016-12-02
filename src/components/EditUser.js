@@ -9,7 +9,7 @@ export default class EditUser extends React.Component{
 				<div className="form-group">
 					<label for="username">Username:</label>
 					<input type="text" className="form-control" id="editUsername" name="username" placeholder="Enter the username of the user you wish to edit"
-					pattern="[A-Za-z}+" required/>
+					pattern="[A-Za-z]+" required/>
 				</div>
 
 				<div className="form-group">

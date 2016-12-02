@@ -14,7 +14,7 @@ export default class DeleteUser extends React.Component{
 				<div className="panel-body">
 					<label for="username">Username:</label>
 					<input type="text" className="form-control" id="editUsername" name="username" placeholder="Enter the username of the user you wish to delete"
-					pattern="[A-Za-z}+" required/>
+					pattern="[A-Za-z]+" required/>
 					<input className="btn btn-default" id="deleteButton" type="submit" value="Delete User"></input>
 				</div>
 			</div>
