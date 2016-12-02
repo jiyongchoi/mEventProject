@@ -17,7 +17,8 @@ LANGUAGE SQL;
 
 CREATE TYPE userInfoType AS (username varchar(25),
 	firstname varchar(25),
-	surname varchar(25)
+	surname varchar(25),
+	accountType appData.accountDomain
 );
 
 CREATE FUNCTION getUserInfo(username varchar(25))
@@ -47,26 +48,31 @@ AS 'DELETE
 	SELECT 0;'
 LANGUAGE SQL;
 
-CREATE DOMAIN genreType varchar(25)
-    check (value in ('sports', 'arts', 'science', 'social', 'other'));
-
 CREATE TYPE eventType AS (
-	eventid INTEGER,
+	eventID INTEGER,
+	title varchar(100),
+	picture bytea,
+	description varchar(1000),
+	isCertified boolean,
 	location varchar(1000),
 	host varchar(25),
 	starttime TIMESTAMP,
-	genre appData.genreType,
+	genre genreType,
 	rating INTEGER,
 	min_participants INTEGER,
 	max_participants INTEGER	
 );
 
 CREATE TYPE userEventType AS (
-	eventid INTEGER,
+	eventID INTEGER,
+	title varchar(100),
+	picture bytea,
+	description varchar(1000),
+	isCertified boolean,
 	location varchar(1000),
 	host varchar(25),
 	starttime TIMESTAMP,
-	genre appData.genreType,
+	genre genreType,
 	rating INTEGER,
 	min_participants INTEGER,
 	max_participants INTEGER,
@@ -80,13 +86,24 @@ AS 'SELECT *
 	WHERE e.starttime > clock_timestamp()'
 LANGUAGE SQL;
 
--- get all events username attended and plan to attend, past and future
--- doesn't work yet
 CREATE FUNCTION getEventsAll(username varchar(25))
 RETURNS userEventType
-AS 'SELECT event.eventid
-	FROM appData.Event event, appData.EventAttendees eventattendees
-	WHERE event.eventid = eventattendees.eventid'
+AS 'SELECT 
+		event.eventID,
+		title,
+		picture,
+		description,
+		isCertified,
+		location,
+		host,
+		starttime,
+		genre,
+		rating,
+		min_participants,
+		max_participants,
+		username
+	FROM appData.Event event JOIN appData.EventAttendees eventattendees
+	ON event.eventid = eventattendees.eventid'
 LANGUAGE SQL;
 
 CREATE FUNCTION getEventsByGenre (genre varchar(25))
@@ -103,17 +120,22 @@ AS 'SELECT *
 	WHERE e.location = $1'
 LANGUAGE SQL;
 
-CREATE FUNCTION createEvent(eventid Integer,
-							location varchar(1000),
-							host varchar(25),
-							starttime TIMESTAMP,
-							genre appData.genreType,
-							rating INTEGER,
-							min_participants INTEGER,
-							max_participants INTEGER)
+CREATE FUNCTION createEvent(
+	eventID INTEGER,
+	title varchar(100),
+	picture bytea,
+	description varchar(1000),
+	isCertified boolean,
+	location varchar(1000),
+	host varchar(25),
+	starttime TIMESTAMP,
+	genre genreType,
+	rating INTEGER,
+	min_participants INTEGER,
+	max_participants INTEGER)
 RETURNS int
 AS 'INSERT INTO appData.Event
-	VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
+	VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);
 	SELECT 0;'
 LANGUAGE SQL;
 
