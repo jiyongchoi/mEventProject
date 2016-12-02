@@ -5,21 +5,6 @@ import { Link } from 'react-router';
 
 
 export default class Actions extends React.Component {
-	constructor(props) {
-		super(props);
-		//const id = this.props.params.id;
-		this.addEvent = this.addEvent.bind(this);
-	}
-
-	addEvent(event) {
-		axios.get("/addeventpage")
-				.then(function(response) {
-					window.location = response.data.redirect;
-				})
-				.catch(function(error) {
-					console.log(error);
-				});
-	}
 
 	render(){
 		return (
