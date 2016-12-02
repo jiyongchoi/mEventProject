@@ -185,6 +185,10 @@ exports.getEvents = function (req, res, next) {
 exports.addEvent = function(req, res, next) {
     var post = req.body;
     console.log('POST: ', post);
+    var title = post.title;
+    //var picture = post.picture;
+    var description = post.description;
+    var isCertified = post.isCertified;
     var location = post.location;
     var starttime = post.starttime;
     var genre = post.genre;
@@ -195,7 +199,8 @@ exports.addEvent = function(req, res, next) {
     var eventid = post.eventid;
     var rating = parseInt(post.rating);
 
-    db.one('SELECT * FROM createEvent($1, $2, $3, $4, $5, $6, $7, $8);', [eventid, location, host, starttime, genre, rating, max_participants, min_participants])
+    db.one('SELECT * FROM createEvent($1, $2, NULL, $3, $4, $5, $6, $7, $8, $9, $10, $11);', 
+      [eventid, title, description, isCertified, location, host, starttime, genre, rating, max_participants, min_participants])
     .then(function (data) {
         console.log('FROM SERVER:', data);
         res.status(200).send({redirect: "/eventpage/"+eventid});

@@ -17,7 +17,11 @@ CREATE DOMAIN genreType varchar(25)
     check (value in ('sports', 'arts', 'science', 'social', 'other'));
 
 CREATE TABLE Event (
-	eventid INTEGER PRIMARY KEY,
+	eventID INTEGER PRIMARY KEY,
+	title varchar(100) NOT NULL,
+	picture bytea,
+	description varchar(1000),
+	isCertified boolean NOT NULL,
 	location varchar(1000) NOT NULL,
 	host varchar(25) REFERENCES UserInfo,
 	starttime TIMESTAMP NOT NULL,
