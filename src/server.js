@@ -26,7 +26,7 @@ app.use(session({
 
 function checkAuth(req, res, next) {
   if (!req.session.username) {
-    res.send('You are not authorized to view this page');
+    res.send({redirect:"/"});
   } else {
     next();
   }
