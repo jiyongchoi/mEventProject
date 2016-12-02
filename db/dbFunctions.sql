@@ -1,3 +1,5 @@
+SET search_path TO appData, public;
+
 CREATE TYPE userType AS (username varchar(25),
 	password varchar(16),
 	firstname varchar(25),
