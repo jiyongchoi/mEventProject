@@ -113,24 +113,36 @@ exports.getEvents = function (req, res, next) {
     }
     else if (type.localeCompare("genre") == 0) {
         var genre = req.query.genre;
-        db.any('SELECT * FROM getEventsByGenre($1);', [genre])
-        .then(function (data) {
-           res.status(200).send(data);
-        })
-        .catch(function(error) {
-           res.status(400).send(data);
-        })
+        if (typeof genre != "undefined") {
+          db.any('SELECT * FROM getEventsByGenre($1);', [genre])
+          .then(function (data) {
+             res.status(200).send(data);
+          })
+          .catch(function(error) {
+             res.status(400).send(data);
+          })
+        }
+        else {
+          res.status(400).send("Please Enter Genre");
+        }
+        
     }
     else if (type.localeCompare("location") == 0) {
         var location = req.query.location;
-        db.any('SELECT * FROM getEventsByLocation($1);', [location])
-        .then(function (data) {
-           res.status(200).send(data);
-        })
-        .catch(function(error) {
-           res.status(400).send(data);
-        })
+        if (typeof location != "undefined") { 
+            db.any('SELECT * FROM getEventsByLocation($1);', [location])
+              .then(function (data) {
+                 res.status(200).send(data);
+              })
+              .catch(function(error) {
+                 res.status(400).send(data);
+              })
+        }
+        else {
+          res.status(400).send("Please Enter Location");
+        }
     }
+
     else if (type.localeCompare("max") == 0) {
         console.log("Getting max eventid");
         db.one('SELECT * FROM getMaxEventID();')
@@ -142,6 +154,12 @@ exports.getEvents = function (req, res, next) {
              console.log("ERROR: "+error);
              res.status(400).send(data);
           })
+    }
+
+    // for EventPage
+    else if (type.localeCompare("eventid") == 0) {
+        var eventid = req.query.eventid;
+        db.one('SELECT * FROM ', [])
     }
 }
 
@@ -168,10 +186,17 @@ exports.addEvent = function(req, res, next) {
     });
 }; 
 
+// get all the events, past and future
 exports.getEventsOfUser = function(req, res, next) {
   //TODO
   var user = req.params.id;
-  res.status.send(user);
+  db.any('SELECT * FROM getEventsAll($1)', [user])
+    .then(function (data) {
+      res.status(200).send(data);
+    })
+    .catch(function (error)) {
+      res.status(400).send(error);
+    }
 }
 
 exports.deleteEvent = function(req, res, next) {

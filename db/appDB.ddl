@@ -17,7 +17,7 @@ CREATE DOMAIN genreType varchar(25)
     check (value in ('sports', 'arts', 'science', 'social', 'other'));
 
 CREATE TABLE Event (
-	eventID INTEGER PRIMARY KEY,
+	eventid INTEGER PRIMARY KEY,
 	location varchar(1000) NOT NULL,
 	host varchar(25) REFERENCES UserInfo,
 	starttime TIMESTAMP NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE Event (
 );
 
 CREATE TABLE EventAttendees (
-	eventID INTEGER REFERENCES Event(eventID),
+	eventid INTEGER REFERENCES Event(eventID),
 	username varchar(25) REFERENCES UserInfo(username)
 );
 

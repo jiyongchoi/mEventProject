@@ -1,7 +1,8 @@
 import React from 'react';
+import 
 
-export default class MainPage extends React.Component {
-	//AJAX CALL
+export default class EventPage extends React.Component {
+	//AJAX CALL call get('/events?type=rating')
 	render(){
 		const id = this.props.params.id;
 		//Search for this id eventId from database
