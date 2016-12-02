@@ -23,10 +23,11 @@ exports.verifyAdmin = function (req, res, next) {
           return res.redirect("/mainpage/" + potential_admin);
       }
     })
-    .catch(error) {
+    .catch(function(error) {
       res.status.send("error verifying admin status");
-    }
-}
+      }
+    );
+};
 
 exports.verifyUser = function(req, res, next) {
   var post = req.body;
@@ -218,9 +219,9 @@ exports.getEventsOfUser = function(req, res, next) {
     .then(function (data) {
       res.status(200).send(data);
     })
-    .catch(function (error)) {
+    .catch(function (error) {
       res.status(400).send(error);
-    }
+    });
 }
 
 exports.deleteEvent = function(req, res, next) {
