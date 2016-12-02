@@ -112,7 +112,7 @@ app.get('/mainpage/:id', checkAuth, function(req, res) {
 		});
  });
 
-app.get('/eventpage/:id',  checkAuth, function(req, res) {
+app.get('/eventpage/:id/:eventid',  checkAuth, function(req, res) {
  	match({routes, location: req.url},
 		function (err, renderProps) {
 			if (err) {
@@ -144,6 +144,20 @@ app.get('/addeventpage',  checkAuth, function(req, res) {
 			return res.render('index', { markup });
 		});
  });
+
+app.get('/admin/:id', accessDB.verifyAdmin, function(req, res) {
+	match({routes, location: req.url},
+		function (err, renderProps) {
+			if (err) {
+				return res.status(500).send(err.message);
+			}
+			let markup;
+			if (renderProps) {
+				markup = renderToString(<RouterContext {...renderProps}/>);
+			}
+			return res.render('index', { markup });
+		});
+})
 
 app.listen(process.env.PORT || 3000);
 console.log('Listening on port 3000...');

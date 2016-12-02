@@ -22,10 +22,11 @@ CREATE TYPE userInfoType AS (username varchar(25),
 
 CREATE FUNCTION getUserInfo(username varchar(25))
 RETURNS userInfoType
-AS 'SELECT username, firstname, surname 
+AS 'SELECT username, firstname, surname, accountType 
 	FROM appData.UserInfo u
 	WHERE u.username = $1;'
 LANGUAGE SQL;
+
 
 CREATE FUNCTION postUser (username varchar(25), 
 						  password varchar(16),
