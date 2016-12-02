@@ -1,5 +1,5 @@
 import React from 'react';
-import UserEventManager from './UserEventManager';
+import EventPreview from './EventPreview';
 
 export default class UserEventManager extends React.Component {
 
@@ -14,7 +14,7 @@ export default class UserEventManager extends React.Component {
   }
 
   getEvents() {
-    axios.get('/events/' + {this.props.params.id})
+    axios.get('/events/' + this.props.params.id)
       .then(function(response) {
         console.log("GET EVENTLIST: "+JSON.stringify(response.data));
         this.setState({events: response.data});
@@ -33,9 +33,10 @@ export default class UserEventManager extends React.Component {
   // }
 
 	render() {
-		return (
-			{
-        this.state.events.map((eventPreview, i) => {
+    return (
+    <div className="panel-group">
+      {
+            this.state.events.map((eventPreview, i) => {
               return (
                 <EventPreview
                   eventPreview={eventPreview}
@@ -44,6 +45,7 @@ export default class UserEventManager extends React.Component {
               );
             })
           }
-		);
+        </div>
+    );
 	}
 }
