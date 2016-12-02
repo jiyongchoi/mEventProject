@@ -32,11 +32,6 @@ export default class MainPage extends React.Component {
 					<Actions/>
 				</div>
 				<div className="col-sm-8" >
-					<select value={this.state.preselectoption} onChange={this.selectChange}>
-					  	<option value="all">All</option>
-					  	<option value="location">Location</option>
-					  	<option value="genre">Genre</option>
-					</select>
 					<EventManager/>
 				</div>
 			</div>
