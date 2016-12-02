@@ -1,5 +1,6 @@
 import React from 'react';
 import EventPreview from './EventPreview';
+import axios from "axios";
 
 export default class UserEventManager extends React.Component {
 

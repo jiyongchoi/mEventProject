@@ -1,10 +1,22 @@
 import React from 'react';
-import 
+import axios from 'axios';
 
 export default class EventPage extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {event:{}};
+		this.getEvent = this.getEvents.bind(this);
+		//Call function to get user for given username
+		this.getEvent();
+	}
+
+	getEvent() {
+		super(props);
+		
+	}
 	//AJAX CALL call get('/events?type=rating')
 	render(){
-		const id = this.props.params.id;
+		const eventid = this.props.params.id;
 		//Search for this id eventId from database
 
 		return (
