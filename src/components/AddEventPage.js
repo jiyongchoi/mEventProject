@@ -8,8 +8,8 @@ export default class AddEventPage extends React.Component {
 		this.state = {location: '', 
 					starttime: '', 
 					genre:'', 
-					max_participants:'', 
-					min_participants:'',
+					max_participants:'2', 
+					min_participants:'1',
 					host: 'Lukas',
 					eventID: '201',
 					rating: '0'
@@ -82,15 +82,19 @@ export default class AddEventPage extends React.Component {
 								pattern="[A-Za-z]+" required  onChange={this.handleChangeGenre}/>
 							</div>
 	                         <div className="form-group">
-								<label for="max_participants">Max Participants:</label>
-								<input type="text" className="form-control" id="addMaxParticipants" name="max_participants" placeholder="Max Participants"
-								pattern="[0-9]+" required  onChange={this.handleChangeMaxParticipants}/>
-							</div> 
-	                         <div className="form-group">
-								<label for="min_participants">Min Participants:</label>
-								<input type="text" className="form-control" id="addMinParticipants" name="min_participants" placeholder="Min Participants"
-								pattern="[0-9]+" required  onChange={this.handleChangeMinParticipants}/>
-							</div> 
+	                         	<div className="row">
+									<div className="col-sm-4">
+										<label for="min_participants">Min Participants:</label>
+										<input type="number" name="min_participants" min="1" placeholder="1"
+										className="form-control" onChange={this.handleChangeMinParticipants}/>
+									</div>
+									<div className="col-sm-4">
+										<label for="max_participants">Max Participants:</label>
+										<input type="number" name="max_participants" min={this.state.min_participants} placeholder="2"
+										className="form-control" onChange={this.handleChangeMaxParticipants}/>
+									</div>
+								</div>
+							</div>  
 							<input className="btn btn-default" id="statusButton" type="submit" value="Add Event"></input>
 						</form>
 				    </div>

@@ -41,23 +41,14 @@ export default class MainPage extends React.Component {
 			selectoption: 'all'
 		};
 
+<<<<<<< HEAD
 		this.getUser = this.getUser.bind(this);
 		this.getEvents = this.getEvents.bind(this);
 		this.selectChange = this.selectChange.bind(this);
+=======
+>>>>>>> fc43b6a8eabd174bfe1e6a9f2513d179341ca59e
 	}
 
-	getUser(id) {
-		//alert("GetUser "+id);
-		//alert(this.session);
-		axios.post('/getuserinfo', {username: id})
-		      	.then(function(response) {
-		      		this.setState({user: response.data});
-		      		//alert("Resopne: "+data);
-		      	}.bind(this))
-		      	.catch(function (error) {
-    				console.log(error.message);
-  				}.bind(this));
-	}
 
 	getEvents(type) {
 		var route = type;
@@ -69,6 +60,7 @@ export default class MainPage extends React.Component {
 			.catch(function(error){
 				console.log(error.message);
 			}.bind(this)); 
+<<<<<<< HEAD
 	}
 
 	selectChange(event) {
@@ -78,18 +70,26 @@ export default class MainPage extends React.Component {
 		if (this.state.selectoption.localeCompare("location") == 0) {
 			this.refs.nextselector.appendChild()
 		}
+=======
+>>>>>>> fc43b6a8eabd174bfe1e6a9f2513d179341ca59e
 	}
 
 	render() {
+		//Gets URL paramater as username to load userinfo 
 		const id = this.props.params.id;
+<<<<<<< HEAD
 		this.getUser(id);
 		this.getEvents(this.selectoption);
+=======
+		var username={userID: id};
+		this.getEvents();
+>>>>>>> fc43b6a8eabd174bfe1e6a9f2513d179341ca59e
 		return (
 	    <div className="container-fluid">
 			<div className="row">
 				<div className="col-sm-4">
 					<UserInfo
-						user={this.state.user}
+						username={username}
 					/>
 					<Actions/>
 				</div>
