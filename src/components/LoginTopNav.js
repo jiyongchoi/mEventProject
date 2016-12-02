@@ -12,8 +12,9 @@ export default class TopNav extends React.Component{
 		            <a className="navbar-brand">mEvent</a>
 		          </div>
 		          <ul className="nav navbar-nav">
-		            <li className="active"><a>Home</a></li>
-		            <li><a >Login</a></li>
+		            <li>
+		            <Link activeClassName="active" to={`/`}>Login</Link>
+		            </li>
 		          </ul>
 		        </div>
 		     </nav>

@@ -4,8 +4,6 @@ import EventManager from './EventManager.js';
 import Actions from './Actions';
 import axios from 'axios';
 import MainTopNav from './MainTopNav';
-import LoginTopNav from './LoginTopNav';
-
 
 export default class MainPage extends React.Component {
 // componentdidmount (ajax call to get all events)
@@ -25,8 +23,9 @@ export default class MainPage extends React.Component {
 		var username={userID: id};
 		return (
 	    <div className="container-fluid">
-	    	<div className="container">
-		    	<MainTopNav/>
+		    	<MainTopNav
+		    		username={username}
+		    	/>
 				<div className="row">
 					<div className="col-sm-4">
 						<UserInfo
@@ -38,7 +37,6 @@ export default class MainPage extends React.Component {
 						<EventManager/>
 					</div>
 				</div>
-			</div>
 		</div>
 		);
 	}

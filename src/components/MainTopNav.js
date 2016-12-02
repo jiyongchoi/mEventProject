@@ -2,9 +2,16 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+import Logout from './Logout';
 
 export default class TopNav extends React.Component{
 	render(){
+		var { username } = {userID: '' };
+
+		if (this.props != undefined){
+			var { username } = this.props;
+		}
+
 		return(
 			<nav className="navbar navbar-inverse navbar-static-top">
 		        <div className="container-fluid">
@@ -12,10 +19,18 @@ export default class TopNav extends React.Component{
 		            <a className="navbar-brand">mEvent</a>
 		          </div>
 		          <ul className="nav navbar-nav">
-		            <li className="active"><a>Home</a></li>
-		            <li><a >Main</a></li>
-		            <li><a >Add Event</a></li>
-		            <li><a >Logout</a></li>
+		            <li>
+		            	<Link activeClassName="active" to={`/mainpage/${username.userID}`}>Home</Link>
+		            </li>
+		            <li>
+		            	<Link activeClassName="active" to={`/addeventpage`}>Add Event</Link>
+		            </li>
+		            <li>
+		            	<Link activeClassName="active" to={`/admin/${username.userID}`}>Admin</Link>
+		            </li>
+		            <li>
+		            	<Logout/>
+		            </li>
 		          </ul>
 		        </div>
 		     </nav>
