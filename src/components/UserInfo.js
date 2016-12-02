@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router';
+
 
 export default class UserInfo extends React.Component{
 	constructor(props) {
@@ -33,7 +35,9 @@ export default class UserInfo extends React.Component{
 	render(){
 		return (
 			<div className="panel panel-default">
-				<div className="panel-heading">User</div>
+				<div className="panel-heading">
+				<Link to={`/userpage/${this.state.username}`}>User {this.state.user.username}</Link>
+				</div>
 				<div className="panel-body">
 					<div>Welcome {this.state.user.firstname} {this.state.user.surname}! </div>
 					<div>Username: {this.state.user.username}</div>
