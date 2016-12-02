@@ -26,7 +26,7 @@ app.use(session({
 
 function checkAuth(req, res, next) {
   if (!req.session.username) {
-    res.send({redirect:"/"});
+    return res.redirect("/");
   } else {
     next();
   }
@@ -145,7 +145,7 @@ app.get('/addeventpage',  checkAuth, function(req, res) {
 		});
  });
 
-app.get('/admin/:id', checkAuth, function(req, res) {
+app.get('/admin/:id', accessDB.verifyAdmin, function(req, res) {
 	match({routes, location: req.url},
 		function (err, renderProps) {
 			if (err) {

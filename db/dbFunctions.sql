@@ -27,6 +27,13 @@ AS 'SELECT username, firstname, surname
 	WHERE u.username = $1;'
 LANGUAGE SQL;
 
+CREATE FUNCTION getUserInfoAdmin(username varchar(25))
+RETURNS userType
+AS 'SELECT accountType
+	FROM appData.UserInfo u
+	WHERE u.username = $1;'
+LANGUAGE SQL;
+
 CREATE FUNCTION postUser (username varchar(25), 
 						  password varchar(16),
 						  firstname varchar(25),

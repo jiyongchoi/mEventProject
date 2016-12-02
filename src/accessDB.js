@@ -9,6 +9,25 @@ var db = pgp('postgres://vsxebhuzjkklry:-zfG7Ek8uDVo1Rh7VEcyYSy0AR@ec2-23-23-224
 /*
 * User and password validation, POST function
 */
+
+exports.verifyAdmin = function (req, res, next) {
+  var potential_admin = req.params.id;
+  db.one('SELECT * from getUserInfoAdmin($1);', [potential_admin])
+    .then(function(data) {
+      if (data.accountType.localeCompare("admin") {
+          //is admin, proceed
+          next();
+      })
+      else {
+          // redirect to the mainpage
+          return res.redirect("/mainpage/" + potential_admin);
+      }
+    })
+    .catch(error) {
+      res.status.send("error verifying admin status");
+    }
+}
+
 exports.verifyUser = function(req, res, next) {
   var post = req.body;
   var username = post.username
