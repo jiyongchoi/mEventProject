@@ -30,17 +30,38 @@ export default class EventManager extends React.Component{
 		//const {events} = this.props;
 		//alert("Events: "+JSON.stringify(this.state.events));
 		return (
-		<div className="panel-group">
-			{
-	          this.state.events.map((eventPreview, i) => {
-	            return (
-	              <EventPreview
-	                eventPreview={eventPreview}
-	                key={`event-${i}`}
-	              />
-	            );
-	          })
-	        }
+		<div className="container">
+			<div className="row">
+				<div className="col-sm-10">Events</div>
+				<div className="col-sm-2">
+					<select value={this.state.preselectoption} onChange={this.selectChange}>
+					  	<option value="all">All</option>
+					  	<option value="location">Location</option>
+					  	<option value="genre">Genre</option>
+					</select>
+					<div className="dropdown">
+					    <button className="btn btn-primary pull-right dropdown-toggle" type="button" data-toggle="dropdown">Sort By
+					    <span className="caret"></span></button>
+					    <ul className="dropdown-menu-right">
+							<li><a href="#">Genre</a></li>
+							<li><a href="#">Location</a></li>
+							<li><a href="#">Other</a></li>
+					    </ul>
+					</div>
+				</div>
+			</div>
+			<div className="panel-group">
+				{
+		          this.state.events.map((eventPreview, i) => {
+		            return (
+			            <EventPreview
+			              eventPreview={eventPreview}
+			              key={`event-${i}`}
+			            />
+		            );
+		          })
+		        }
+        	</div>
         </div>
 		);
 	}
