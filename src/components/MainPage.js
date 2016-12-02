@@ -39,36 +39,10 @@ export default class MainPage extends React.Component {
 			//       },
 		};
 
-		this.getUser = this.getUser.bind(this);
-
 	}
 
-	getUser(id){
-		//alert("GetUser "+id);
-		//alert(this.session);
-		axios.post('/getuserinfo', {username: id})
-		      	.then(function(response) {
-		      		console.log("get");
-		      		this.setState({user: response.data});
-		      		//alert("Resopne: "+data);
-		      	}.bind(this))
-		      	.catch(function (error) {
-    				console.log(error.message);
-  				}.bind(this));
-	}
 
 	componentDidMount() {
-		console.log("reached");
-		axios.post('/getuserinfo', {username: id})
-		    .then(function(response) {
-		    	console.log(response);
-		      	this.setState({user: response.data});
-		      		//alert("Resopne: "+data);
-		    	}.bind(this))
-		    .catch(function (error) {
-    			console.log(error.message);
-  		}.bind(this));
-		// console.log("asdfasdf");
 		axios.get('/allevents')
 			.then(function(response) {
 				console.log(response);
@@ -81,15 +55,15 @@ export default class MainPage extends React.Component {
 	}
 
 	render() {
-		// const id = this.props.params.id;
-		// console.log(id);
-		// this.getUser(id);
+		//Gets URL paramater as username to load userinfo 
+		const id = this.props.params.id;
+		var username={userID: id};
 		return (
 	    <div className="container-fluid">
 			<div className="row">
 				<div className="col-sm-4">
 					<UserInfo
-						user={this.state.user}
+						username={username}
 					/>
 					<Actions/>
 				</div>
