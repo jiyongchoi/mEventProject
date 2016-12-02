@@ -130,6 +130,7 @@ exports.getEvents = function (req, res, next) {
            res.status(400).send(data);
         })
     }
+    
 }
 
 exports.addEvent = function(req, res, next) {

@@ -80,6 +80,7 @@ app.get('/events', checkAuth, accessDB.getEvents); // make req.query.type in the
 app.post('/events', accessDB.addEvent);
 app.delete('/events', accessDB.deleteEvent);
 
+
 /*
 * These are RESTful calls for the front-end pages
 */
