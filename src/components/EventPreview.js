@@ -11,7 +11,7 @@ export default class EventPreview extends React.Component {
 								max_participants:'', 
 								min_participants:'',
 								host: '',
-								eventID: '',
+								eventid: '',
 								rating: ''
 							};
 
@@ -22,7 +22,7 @@ export default class EventPreview extends React.Component {
 		return (
 			<div className="panel panel-default">
 				<div className="panel-heading">
-					<Link to={`/eventPage/${eventPreview.eventID}`}>Event {eventPreview.eventID}</Link>
+					<Link to={`/eventPage/${eventPreview.eventid}`}>Event {eventPreview.eventid}</Link>
 				</div>
 				<div className="panel-body">
 					<h4>Event Name: To be added</h4>
