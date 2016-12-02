@@ -39,22 +39,8 @@ export default class MainPage extends React.Component {
 			//       },
 		};
 
-		this.getUser = this.getUser.bind(this);
-
 	}
 
-	getUser(id) {
-		//alert("GetUser "+id);
-		//alert(this.session);
-		axios.post('/getuserinfo', {username: id})
-		      	.then(function(response) {
-		      		this.setState({user: response.data});
-		      		//alert("Resopne: "+data);
-		      	}.bind(this))
-		      	.catch(function (error) {
-    				console.log(error.message);
-  				}.bind(this));
-	}
 
 	getEvents() {
 		axios.get('/events?type=all')
@@ -64,20 +50,19 @@ export default class MainPage extends React.Component {
 			.catch(function(error){
 				console.log(error.message);
 			}.bind(this)); 
-		
-
 	}
 
 	render() {
+		//Gets URL paramater as username to load userinfo 
 		const id = this.props.params.id;
-		this.getUser(id);
+		var username={userID: id};
 		this.getEvents();
 		return (
 	    <div className="container-fluid">
 			<div className="row">
 				<div className="col-sm-4">
 					<UserInfo
-						user={this.state.user}
+						username={username}
 					/>
 					<Actions/>
 				</div>
