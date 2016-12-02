@@ -49,7 +49,7 @@ AS 'DELETE
 LANGUAGE SQL;
 
 CREATE TYPE eventType AS (
-	eventID INTEGER,
+	eventid INTEGER,
 	title varchar(100),
 	picture bytea,
 	description varchar(1000),
@@ -57,14 +57,14 @@ CREATE TYPE eventType AS (
 	location varchar(1000),
 	host varchar(25),
 	starttime TIMESTAMP,
-	genre genreType,
+	genre appData.genreType,
 	rating INTEGER,
 	min_participants INTEGER,
 	max_participants INTEGER	
 );
 
 CREATE TYPE userEventType AS (
-	eventID INTEGER,
+	eventid INTEGER,
 	title varchar(100),
 	picture bytea,
 	description varchar(1000),
@@ -72,7 +72,7 @@ CREATE TYPE userEventType AS (
 	location varchar(1000),
 	host varchar(25),
 	starttime TIMESTAMP,
-	genre genreType,
+	genre appData.genreType,
 	rating INTEGER,
 	min_participants INTEGER,
 	max_participants INTEGER,
@@ -89,7 +89,7 @@ LANGUAGE SQL;
 CREATE FUNCTION getEventsAll(username varchar(25))
 RETURNS userEventType
 AS 'SELECT 
-		event.eventID,
+		event.eventid,
 		title,
 		picture,
 		description,
@@ -121,7 +121,7 @@ AS 'SELECT *
 LANGUAGE SQL;
 
 CREATE FUNCTION createEvent(
-	eventID INTEGER,
+	eventid INTEGER,
 	title varchar(100),
 	picture bytea,
 	description varchar(1000),
