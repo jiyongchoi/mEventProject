@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default class MainPage extends React.Component {
+	//AJAX CALL
 	render(){
 		const id = this.props.params.id;
 		//Search for this id eventId from database

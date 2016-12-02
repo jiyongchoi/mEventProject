@@ -24,6 +24,7 @@ export default class EventManager extends React.Component{
 	}
 
 
+
 	render(){
 
 		//const {events} = this.props;
