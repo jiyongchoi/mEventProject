@@ -14,7 +14,7 @@ exports.verifyAdmin = function (req, res, next) {
   var potential_admin = req.params.id;
   db.one('SELECT * from getUserInfo($1);', [potential_admin])
     .then(function(data) {
-      if (data.accountType.localeCompare("admin") = 0) {
+      if (data.accountType.localeCompare("admin") == 0) {
           //is admin, proceed
           next();
       }
