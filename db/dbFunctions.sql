@@ -103,7 +103,7 @@ AS 'DELETE FROM appData.Event
 LANGUAGE SQL;
 
 CREATE FUNCTION getMaxEventID ()
-RETURNS eventID
+RETURNS int
 AS 'SELECT max(eventID)+1
 	FROM appData.Event;'
 LANGUAGE SQL;
