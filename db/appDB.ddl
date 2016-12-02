@@ -32,7 +32,7 @@ CREATE TABLE Event (
 );
 
 CREATE TABLE EventAttendees (
-	eventid INTEGER REFERENCES Event(eventID),
+	eventid INTEGER REFERENCES Event(eventid),
 	username varchar(25) REFERENCES UserInfo(username)
 );
 
