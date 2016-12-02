@@ -82,8 +82,12 @@ export default class MainPage extends React.Component {
 		this.getEvents(this.selectoption);
 =======
 		var username={userID: id};
+<<<<<<< HEAD
 		this.getEvents();
 >>>>>>> fc43b6a8eabd174bfe1e6a9f2513d179341ca59e
+=======
+		//this.getEvents();
+>>>>>>> 699a72e9de64e7f2a1467e9d7ce8eacadcb50e33
 		return (
 	    <div className="container-fluid">
 			<div className="row">
@@ -99,10 +103,14 @@ export default class MainPage extends React.Component {
 					  	<option value="location">Location</option>
 					  	<option value="genre">Genre</option>
 					</select>
+<<<<<<< HEAD
 					<div ref="nextselector"></div>
 					<EventManager
 						showoption={this.state.selectoption}
 					/>
+=======
+					<EventManager/>
+>>>>>>> 699a72e9de64e7f2a1467e9d7ce8eacadcb50e33
 				</div>
 			</div>
 		</div>
