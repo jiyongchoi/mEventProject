@@ -50,8 +50,8 @@ CREATE DOMAIN genreType varchar(25)
     check (value in ('sports', 'arts', 'science', 'social', 'other'));
 
 CREATE TYPE eventType AS (
-	eventID INTEGER,
-	location varchar(25),
+	eventid INTEGER,
+	location varchar(1000),
 	host varchar(25),
 	starttime TIMESTAMP,
 	genre appData.genreType,
@@ -60,11 +60,32 @@ CREATE TYPE eventType AS (
 	max_participants INTEGER	
 );
 
+CREATE TYPE userEventType AS (
+	eventid INTEGER,
+	location varchar(1000),
+	host varchar(25),
+	starttime TIMESTAMP,
+	genre appData.genreType,
+	rating INTEGER,
+	min_participants INTEGER,
+	max_participants INTEGER,
+	username varchar(25)
+);
+
 CREATE FUNCTION getEvents ()
 RETURNS eventType
 AS 'SELECT *
 	FROM appData.Event e
 	WHERE e.starttime > clock_timestamp()'
+LANGUAGE SQL;
+
+-- get all events username attended and plan to attend, past and future
+-- doesn't work yet
+CREATE FUNCTION getEventsAll(username varchar(25))
+RETURNS userEventType
+AS 'SELECT event.eventid
+	FROM appData.Event event, appData.EventAttendees eventattendees
+	WHERE event.eventid = eventattendees.eventid'
 LANGUAGE SQL;
 
 CREATE FUNCTION getEventsByGenre (genre varchar(25))
@@ -81,7 +102,7 @@ AS 'SELECT *
 	WHERE e.location = $1'
 LANGUAGE SQL;
 
-CREATE FUNCTION createEvent(eventID Integer,
+CREATE FUNCTION createEvent(eventid Integer,
 							location varchar(1000),
 							host varchar(25),
 							starttime TIMESTAMP,
@@ -95,15 +116,15 @@ AS 'INSERT INTO appData.Event
 	SELECT 0;'
 LANGUAGE SQL;
 
-CREATE FUNCTION deleteEvent(eventID INTEGER)
+CREATE FUNCTION deleteEvent(eventid INTEGER)
 RETURNS int
 AS 'DELETE FROM appData.Event
-	WHERE eventID = $1;
+	WHERE eventid = $1;
 	SELECT 0;'
 LANGUAGE SQL;
 
 CREATE FUNCTION getMaxEventID ()
 RETURNS int
-AS 'SELECT max(eventID)+1
+AS 'SELECT max(eventid)+1
 	FROM appData.Event;'
 LANGUAGE SQL;
