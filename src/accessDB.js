@@ -12,12 +12,12 @@ var db = pgp('postgres://vsxebhuzjkklry:-zfG7Ek8uDVo1Rh7VEcyYSy0AR@ec2-23-23-224
 
 exports.verifyAdmin = function (req, res, next) {
   var potential_admin = req.params.id;
-  db.one('SELECT * from getUserInfoAdmin($1);', [potential_admin])
+  db.one('SELECT * from getUserInfo($1);', [potential_admin])
     .then(function(data) {
-      if (data.accountType.localeCompare("admin") {
+      if (data.accountType.localeCompare("admin") = 0) {
           //is admin, proceed
           next();
-      })
+      }
       else {
           // redirect to the mainpage
           return res.redirect("/mainpage/" + potential_admin);
