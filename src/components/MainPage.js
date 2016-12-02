@@ -43,12 +43,11 @@ export default class MainPage extends React.Component {
 
 	}
 
-	getUser(id){
+	getUser(id) {
 		//alert("GetUser "+id);
 		//alert(this.session);
 		axios.post('/getuserinfo', {username: id})
 		      	.then(function(response) {
-		      		console.log("get");
 		      		this.setState({user: response.data});
 		      		//alert("Resopne: "+data);
 		      	}.bind(this))
@@ -57,33 +56,22 @@ export default class MainPage extends React.Component {
   				}.bind(this));
 	}
 
-	componentDidMount() {
-		console.log("reached");
-		axios.post('/getuserinfo', {username: id})
-		    .then(function(response) {
-		    	console.log(response);
-		      	this.setState({user: response.data});
-		      		//alert("Resopne: "+data);
-		    	}.bind(this))
-		    .catch(function (error) {
-    			console.log(error.message);
-  		}.bind(this));
-		// console.log("asdfasdf");
-		axios.get('/allevents')
+	getEvents() {
+		axios.get('/events?type=all')
 			.then(function(response) {
-				console.log(response);
-				this.setState({events: response.data})
+				this.setState({events: response.data});
 			}.bind(this))
-			.catch(function(error) {
-				console.log(error);
-			}.bind(this));
+			.catch(function(error){
+				console.log(error.message);
+			}.bind(this)); 
+		
 
 	}
 
 	render() {
-		// const id = this.props.params.id;
-		// console.log(id);
-		// this.getUser(id);
+		const id = this.props.params.id;
+		this.getUser(id);
+		this.getEvents();
 		return (
 	    <div className="container-fluid">
 			<div className="row">

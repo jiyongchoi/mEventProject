@@ -56,20 +56,33 @@ app.get('/current_session', function(req, res) {
 	}
 });
 
-app.post('/userlogin', accessDB.verifyUser); // back-end DB route
+/*
+* These are RESTful calls for the front end to make ajax calls to 
+*/
+//this section is for users
+app.post('/userlogin', accessDB.verifyUser); // back-end DB route, for login.js
 
-app.post('/user', accessDB.postUser);
+app.post('/user', accessDB.postUser); // for signup.js
 
-app.delete('/user', accessDB.deleteUser);
-
-app.post('/addevent', accessDB.addEvent);
+app.delete('/user', accessDB.deleteUser); 
 
 app.post('/getuserinfo', accessDB.getUserInfo);
 
-app.post('/usersignup', accessDB.postUser); // back-end DB route
+app.get('/user', accessDB.getUserInfo);
 
-app.get('/allevents', checkAuth, accessDB.getAllEvents);
+app.post('/usersignup', accessDB.postUser); // DELETE THIS?
 
+//this section is for events
+app.get('/events/:id', checkAuth, accessDB.getEventsOfUser); 
+app.post('/addevent', accessDB.addEvent);
+app.get('/events', checkAuth, accessDB.getEvents); // make req.query.type in the getAllEvents function differentiate between "all", "location", or 
+														// by "genre" so we do for example /events?type="all"
+app.post('/events', accessDB.addEvent);
+app.delete('/events', accessDB.deleteEvent);
+
+/*
+* These are RESTful calls for the front-end pages
+*/
 app.get('/userpage/:id', checkAuth, function(req, res) {
 	match({routes, location: req.url},
 	function (err, renderProps) {
