@@ -130,6 +130,16 @@ exports.getEvents = function (req, res, next) {
            res.status(400).send(data);
         })
     }
+    else if (type.localeCompare("max") == 0) {
+        console.log("Getting max EventID");
+        db.one('SELECT * FROM getMaxEventID;')
+        .then(function (data) {
+           res.status(200).send(data);
+        })
+        .catch(function(error) {
+           res.status(400).send(data);
+        })
+    }
 }
 
 exports.addEvent = function(req, res, next) {

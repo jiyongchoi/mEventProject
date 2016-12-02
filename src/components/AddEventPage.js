@@ -8,8 +8,8 @@ export default class AddEventPage extends React.Component {
 		this.state = {location: '', 
 					starttime: '', 
 					genre:'', 
-					max_participants:'2', 
-					min_participants:'1',
+					max_participants:'', 
+					min_participants:'',
 					host: 'test',
 					eventID: '202',
 					rating: '0'
@@ -45,6 +45,15 @@ export default class AddEventPage extends React.Component {
  	submit(event){
  		//Submit form
   		event.preventDefault();
+  		axios.get('/events?type=max')
+  			.then(function (response) {
+	      		if (typeof response.data.redirect == 'string') {
+	      			alert("Max eventID: "+JSON.stringify(response.data));
+	      			this.setState({eventID: response.data});
+				}
+			}).catch(function (error) {
+				console.log(error.message);
+			});
 		alert(JSON.stringify(this.state));
 		axios.post('/addevent', this.state)
 	      	.then(function (response) {
