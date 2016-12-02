@@ -24,11 +24,8 @@ export default class EventManager extends React.Component{
 	}
 
 
-<<<<<<< HEAD
-		const {showoption} = this.props;
-=======
+
 	render(){
->>>>>>> 699a72e9de64e7f2a1467e9d7ce8eacadcb50e33
 
 		//const {events} = this.props;
 		//alert("Events: "+JSON.stringify(this.state.events));

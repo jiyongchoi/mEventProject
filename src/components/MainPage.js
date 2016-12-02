@@ -37,57 +37,13 @@ export default class MainPage extends React.Component {
 			//           host: 'Jovan',
 			//         },
 			//       },
-			preselectoption: 'all',
-			selectoption: 'all'
 		};
-
-<<<<<<< HEAD
-		this.getUser = this.getUser.bind(this);
-		this.getEvents = this.getEvents.bind(this);
-		this.selectChange = this.selectChange.bind(this);
-=======
->>>>>>> fc43b6a8eabd174bfe1e6a9f2513d179341ca59e
-	}
-
-
-	getEvents(type) {
-		var route = type;
-		console.log(type);
-		axios.get('/events?type=all')
-			.then(function(response) {
-				this.setState({events: response.data});
-			}.bind(this))
-			.catch(function(error){
-				console.log(error.message);
-			}.bind(this)); 
-<<<<<<< HEAD
-	}
-
-	selectChange(event) {
-		var nextSelector = document.createElement("select");
-
-		this.setState({selectoption: event.target.value});
-		if (this.state.selectoption.localeCompare("location") == 0) {
-			this.refs.nextselector.appendChild()
-		}
-=======
->>>>>>> fc43b6a8eabd174bfe1e6a9f2513d179341ca59e
 	}
 
 	render() {
 		//Gets URL paramater as username to load userinfo 
 		const id = this.props.params.id;
-<<<<<<< HEAD
-		this.getUser(id);
-		this.getEvents(this.selectoption);
-=======
 		var username={userID: id};
-<<<<<<< HEAD
-		this.getEvents();
->>>>>>> fc43b6a8eabd174bfe1e6a9f2513d179341ca59e
-=======
-		//this.getEvents();
->>>>>>> 699a72e9de64e7f2a1467e9d7ce8eacadcb50e33
 		return (
 	    <div className="container-fluid">
 			<div className="row">
