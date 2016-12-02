@@ -20,7 +20,7 @@ const routes = (
     <Route path="userpage/:id" component={UserPage}/>
     <Route path="eventpage/:id/:eventid" component={EventPage}/>
     <Route path="addeventpage" component={AddEventPage}/>
-    <Route path="admin" component={AdminPage}/>
+    <Route path="admin/:id" component={AdminPage}/>
   </Route>
 );
 
