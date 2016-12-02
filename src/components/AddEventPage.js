@@ -11,7 +11,7 @@ export default class AddEventPage extends React.Component {
 					max_participants:'', 
 					min_participants:'',
 					host: 'test',
-					eventID: '202',
+					eventid: '203',
 					rating: '0'
 				};
     	this.handleChangeLocation = this.handleChangeLocation.bind(this);
@@ -48,8 +48,8 @@ export default class AddEventPage extends React.Component {
   		axios.get('/events?type=max')
   			.then(function (response) {
 	      		if (typeof response.data.redirect == 'string') {
-	      			alert("Max eventID: "+JSON.stringify(response.data));
-	      			this.setState({eventID: response.data});
+	      			alert("Max eventid: "+JSON.stringify(response.data));
+	      			this.setState({eventid: response.data});
 				}
 			}).catch(function (error) {
 				console.log(error.message);

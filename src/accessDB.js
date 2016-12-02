@@ -104,6 +104,7 @@ exports.getEvents = function (req, res, next) {
     if (type.localeCompare("all") == 0) {
         db.any('SELECT * FROM getEvents();')
         .then(function (data) {
+           console.log("FROM SERVER:"+data);
            res.status(200).send(data);
         })
         .catch(function(error) {
@@ -131,14 +132,16 @@ exports.getEvents = function (req, res, next) {
         })
     }
     else if (type.localeCompare("max") == 0) {
-        console.log("Getting max EventID");
-        db.one('SELECT * FROM getMaxEventID;')
-        .then(function (data) {
-           res.status(200).send(data);
-        })
-        .catch(function(error) {
-           res.status(400).send(data);
-        })
+        console.log("Getting max eventid");
+        db.one('SELECT * FROM getMaxEventID();')
+          .then(function (data) {
+             console.log("MAX EVENT ID: "+data);
+             res.status(200).send(data);
+          })
+          .catch(function(error) {
+             console.log("ERROR: "+error);
+             res.status(400).send(data);
+          })
     }
 }
 
@@ -150,15 +153,15 @@ exports.addEvent = function(req, res, next) {
     var genre = post.genre;
     var max_participants = parseInt(post.max_participants);
     var min_participants = parseInt(post.min_participants);
-    var host = post.host;
-    var eventID = post.eventID;
+    //Person logged in will be the host
+    var host = req.session.username;
+    var eventid = post.eventid;
     var rating = parseInt(post.rating);
 
-    db.one('SELECT * FROM createEvent($1, $2, $3, $4, $5, $6, $7, $8);', [eventID, location, host, starttime, genre, rating, max_participants, min_participants])
+    db.one('SELECT * FROM createEvent($1, $2, $3, $4, $5, $6, $7, $8);', [eventid, location, host, starttime, genre, rating, max_participants, min_participants])
     .then(function (data) {
-        console.log('DATA:', data);
-        req.session.username = username;
-        res.status(200).send({redirect: "/eventpage/"+eventID});
+        console.log('FROM SERVER:', data);
+        res.status(200).send({redirect: "/eventpage/"+eventid});
     })
     .catch(function (error) {
       console.log('ERROR:', error)

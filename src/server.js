@@ -26,7 +26,7 @@ app.use(session({
 
 function checkAuth(req, res, next) {
   if (!req.session.username) {
-    res.send('You are not authorized to view this page');
+    res.send({redirect:"/"});
   } else {
     next();
   }
@@ -144,5 +144,5 @@ app.get('/addeventpage',  checkAuth, function(req, res) {
 		});
  });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 console.log('Listening on port 3000...');
