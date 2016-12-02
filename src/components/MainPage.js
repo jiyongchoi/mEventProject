@@ -56,7 +56,7 @@ export default class MainPage extends React.Component {
 		//Gets URL paramater as username to load userinfo 
 		const id = this.props.params.id;
 		var username={userID: id};
-		this.getEvents();
+		//this.getEvents();
 		return (
 	    <div className="container-fluid">
 			<div className="row">
@@ -73,9 +73,7 @@ export default class MainPage extends React.Component {
 					  <option value="opel">Opel</option>
 					  <option value="audi">Audi</option>
 					</select>
-					<EventManager
-						events={this.state.events}
-					/>
+					<EventManager/>
 				</div>
 			</div>
 		</div>
