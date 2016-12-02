@@ -42,22 +42,21 @@ export default class MainPage extends React.Component {
 	}
 
 
-	componentDidMount() {
-		axios.get('/allevents')
+	getEvents() {
+		axios.get('/events?type=all')
 			.then(function(response) {
-				console.log(response);
-				this.setState({events: response.data})
+				this.setState({events: response.data});
 			}.bind(this))
-			.catch(function(error) {
-				console.log(error);
-			}.bind(this));
-
+			.catch(function(error){
+				console.log(error.message);
+			}.bind(this)); 
 	}
 
 	render() {
 		//Gets URL paramater as username to load userinfo 
 		const id = this.props.params.id;
 		var username={userID: id};
+		this.getEvents();
 		return (
 	    <div className="container-fluid">
 			<div className="row">

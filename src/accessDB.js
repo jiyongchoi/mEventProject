@@ -2,9 +2,9 @@ var pgp = require('pg-promise')(/*options*/)
 pgp.pg.defaults.ssl = true;
 var db = pgp('postgres://vsxebhuzjkklry:-zfG7Ek8uDVo1Rh7VEcyYSy0AR@ec2-23-23-224-174.compute-1.amazonaws.com:5432/d6utk5i40rffqd');
 
-// module.exports = {
-//   getUser: getUser
-// };
+/*
+* FUNCTIONS FOR USERS
+*/
 
 /*
 * User and password validation, POST function
@@ -17,12 +17,33 @@ exports.verifyUser = function(req, res, next) {
   .then(function (data) {
     if (data.username != null) {
       req.session.username = data.username;
-      console.log(data);
       //res.send("User verified");
       res.status(200).send({redirect: "/mainpage/" + data.username});
     }
     else {
       res.status(200).send("bad username/password");
+    }
+  })
+  .catch(function (error) {
+    console.log('ERROR:', error)
+    res.status(400).json({
+      status: 'failure',
+      message: 'could not retrive user'
+    })
+  });
+};
+
+
+exports.getUserInfo = function(req, res, next) {
+  var username = req.body.username;
+  db.one('SELECT * FROM getUserInfo($1);', [username])
+  .then(function (data) {
+    if (data.username != null) {
+      req.session.username = data.username;
+      res.status(200).send(data);
+    }
+    else {
+      res.status(200).send("bad username");
     }
   })
   .catch(function (error) {
@@ -43,7 +64,6 @@ exports.postUser = function(req, res, next) {
 
     db.one('SELECT * FROM postUser($1, $2, $3, $4, $5);', [username, password, fname, surname, 'client'])
     .then(function (data) {
-        console.log('DATA:', data);
         req.session.username = username;
         res.status(200).send({redirect: "/mainpage/"+username});
     })
@@ -58,7 +78,6 @@ exports.deleteUser = function(req, res, next) {
 
     db.one('SELECT * FROM deleteUser($1);', [username])
     .then(function (data) {
-        console.log('DATA:', data);
         res.status(200).send('Success');
     })
     .catch(function (error) {
@@ -66,6 +85,9 @@ exports.deleteUser = function(req, res, next) {
     });
 }; 
 
+/*
+* FUNCTIONS FOR EVENTS
+*/
 exports.getAllEvents = function(req, res, next) {
     db.any('SELECT * FROM getEvents();')
         .then(function (data) {
@@ -75,6 +97,39 @@ exports.getAllEvents = function(req, res, next) {
         .catch(function(error) {
            res.status(400).send(data);
         })
+}
+
+exports.getEvents = function (req, res, next) {
+    var type = req.query.type;
+    if (type.localeCompare("all") == 0) {
+        db.any('SELECT * FROM getEvents();')
+        .then(function (data) {
+           res.status(200).send(data);
+        })
+        .catch(function(error) {
+           res.status(400).send(data);
+        })
+    }
+    else if (type.localeCompare("genre") == 0) {
+        var genre = req.query.genre;
+        db.any('SELECT * FROM getEventsByGenre($1);', [genre])
+        .then(function (data) {
+           res.status(200).send(data);
+        })
+        .catch(function(error) {
+           res.status(400).send(data);
+        })
+    }
+    else if (type.localeCompare("location") == 0) {
+        var location = req.query.location;
+        db.any('SELECT * FROM getEventsByLocation($1);', [location])
+        .then(function (data) {
+           res.status(200).send(data);
+        })
+        .catch(function(error) {
+           res.status(400).send(data);
+        })
+    }
 }
 
 exports.addEvent = function(req, res, next) {
@@ -100,28 +155,20 @@ exports.addEvent = function(req, res, next) {
     });
 }; 
 
+exports.getEventsOfUser = function(req, res, next) {
+  //TODO
+  var user = req.params.id;
+  res.status.send(user);
+}
 
-// error: getUserInfo has a typo error, must re-run
-exports.getUserInfo = function(req, res, next) {
-  var username = req.body.username;
-  console.log(username);
-  db.one('SELECT * FROM getUserInfo($1);', [username])
-  .then(function (data) {
-    console.log("DATA: " + data);
-    if (data.username != null) {
-      req.session.username = data.username;
-      //res.send("User verified");
-      res.status(200).send(data);
-    }
-    else {
-      res.status(200).send("bad username");
-    }
-  })
-  .catch(function (error) {
-    console.log('ERROR:', error)
-    res.status(400).json({
-      status: 'failure',
-      message: 'could not retrive user'
+exports.deleteEvent = function(req, res, next) {
+  //TODO
+  var deleventid = req.params.id;
+  db.one('SELECT * FROM deleteEvent($1);', [deleventid])
+    .then(function(data) {
+      res.status(200).send("successfully deleted");
     })
-  });
-};
+    .catch(function(error) {
+      res.status(400).send("error");
+    });
+}
