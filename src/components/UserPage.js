@@ -3,6 +3,7 @@ import Logout from './Logout.js';
 import Actions from './Actions';
 import UserInfo from './UserInfo';
 import UserEventManager from './UserEventManager';
+import MainTopNav from './MainTopNav';
 
 export default class UserPage extends React.Component {
 
@@ -10,11 +11,15 @@ export default class UserPage extends React.Component {
     const id = this.props.params.id;
     var username={userID: id};
     return (
-      <div>
-        <div>
-        	<UserInfo username={username}/>
-        	<UserEventManager id={username}/>
-        	<Actions/>
+      <div className="container-fluid">
+        <MainTopNav username={username} />
+        <div className="row">
+          <div className="col-sm-4">
+          	<UserInfo username={username}/>
+          </div>
+          <div className="col-sm-8" >
+        	 <UserEventManager username={username}/>
+          </div>
         </div>
       </div>
     );
