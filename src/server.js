@@ -64,21 +64,23 @@ app.post('/userlogin', accessDB.verifyUser); // back-end DB route, for login.js
 
 app.post('/user', accessDB.postUser); // for signup.js
 
-app.delete('/user', accessDB.deleteUser); 
+app.delete('/user', checkAuth, accessDB.deleteUser); 
 
-app.post('/getuserinfo', accessDB.getUserInfo);
+app.post('/getuserinfo', checkAuth, accessDB.getUserInfo);
 
-app.get('/user', accessDB.getUserInfo);
+app.get('/user', checkAuth, accessDB.getUserInfo);
 
 
 
 //this section is for events
 app.get('/events/:id', checkAuth, accessDB.getEventsOfUser); 
-app.post('/addevent', accessDB.addEvent);
+app.post('/addevent', checkAuth, accessDB.addEvent);
 app.get('/events', checkAuth, accessDB.getEvents); // make req.query.type in the getAllEvents function differentiate between "all", "location", or 
 														// by "genre" so we do for example /events?type="all"
-app.post('/events', accessDB.addEvent);
-app.delete('/events', accessDB.deleteEvent);
+app.post('/events', checkAuth, accessDB.addEvent);
+app.delete('/events', checkAuth, accessDB.deleteEvent);
+
+app.post('/reviews', checkAuth, accessDB.addReview);
 
 
 /*
