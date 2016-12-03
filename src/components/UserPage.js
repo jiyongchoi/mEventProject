@@ -11,13 +11,7 @@ export default class UserPage extends React.Component {
     const id = this.props.params.id;
     var username={userID: id};
     return (
-<<<<<<< HEAD
-      <div>
-        <div>
-        	<UserInfo username={username}/>
-        	<UserEventManager username={username}/>
-        	<Actions/>
-=======
+
       <div className="container-fluid">
         <MainTopNav username={username} />
         <div className="row">
@@ -27,7 +21,6 @@ export default class UserPage extends React.Component {
           <div className="col-sm-8" >
         	 <UserEventManager username={username}/>
           </div>
->>>>>>> f5db0cda54144278b27200cffdba07bb5515717f
         </div>
       </div>
     );
