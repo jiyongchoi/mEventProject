@@ -36,7 +36,10 @@ export default class UserEventManager extends React.Component {
       axios.get('/events?type=hosted&username='+this.props.username.userID)
             .then(function(response) {
                 this.setState({hostevents: response.data})
-            })
+            }.bind(this))
+            .catch(function(error){
+              console.log(error.message);
+            }.bind(this));
   }
 
   /*

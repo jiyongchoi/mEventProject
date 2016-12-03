@@ -105,21 +105,28 @@ AS 'SELECT
 		max_participants,
 		username
 	FROM appData.Event event JOIN appData.EventAttendees eventattendees
-	ON event.eventid = eventattendees.eventid'
+	ON event.eventid = eventattendees.eventid;'
 LANGUAGE SQL;
 
 CREATE FUNCTION getEventsByGenre (genre varchar(25))
 RETURNS SETOF eventType
 AS 'SELECT *
 	FROM appData.Event e
-	WHERE e.genre = $1'
+	WHERE e.genre = $1;'
 LANGUAGE SQL;
 
 CREATE FUNCTION getEventsByLocation (location varchar(1000))
 RETURNS SETOF eventType
 AS 'SELECT *
 	FROM appData.Event e
-	WHERE e.location = $1'
+	WHERE e.location = $1;'
+LANGUAGE SQL;
+
+CREATE FUNCTION getEventsByHost(username varchar(25)) 
+RETURNS SETOF eventType
+AS 'SELECT *
+	FROM appData.Event e
+	WHERE e.host = $1;'
 LANGUAGE SQL;
 
 CREATE FUNCTION createEvent(
