@@ -36,7 +36,7 @@ export default class UserInfo extends React.Component{
 		return (
 			<div className="panel panel-default">
 				<div className="panel-heading">
-				<Link to={`/userpage/${this.state.username}`}>User {this.state.user.username}</Link>
+				<Link to={`/userpage/${this.state.user.username}`}>User {this.state.user.username}</Link>
 				</div>
 				<div className="panel-body">
 					<div>Welcome {this.state.user.firstname} {this.state.user.surname}! </div>
