@@ -9,6 +9,7 @@ export default class EventPage extends React.Component {
 		this.hasAttended();
 		this.getEventInfo = this.getEventInfo.bind(this);
 		this.getEventInfo();
+		//this.getAttendees will be next
 	}
 
 	hasAttended() {
