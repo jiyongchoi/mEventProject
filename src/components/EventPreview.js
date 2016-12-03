@@ -12,27 +12,31 @@ export default class EventPreview extends React.Component {
 								min_participants:'',
 								host: '',
 								eventid: '',
-								rating: ''
+								rating: '',
+								title:''
 							};
+		var username = '';
 
 		if (this.props != undefined){
-			var { eventPreview } = this.props;
+			var { eventPreview, username } = this.props;
+			
+
 		}
 		
 		return (
 			<div className="panel panel-default">
 				<div className="panel-heading">
-					<Link to={`/eventPage/${eventPreview.eventid}`}>Event {eventPreview.eventid}</Link>
+					<Link to={`/eventPage/${username}/${eventPreview.eventid}`}>Event {eventPreview.eventid}</Link>
 				</div>
 				<div className="panel-body">
-					<h4>Event Name: To be added</h4>
-					<h4>Host: {eventPreview.host}</h4>
-					<h4>Location: {eventPreview.location}</h4>
-					<h4>Time: {eventPreview.starttime}</h4>
-					<h4>Genre: {eventPreview.genre}</h4>
-					<h4>Max: {eventPreview.max_participants}</h4>
-					<h4>Min: {eventPreview.max_participants}</h4>
-					<h4>Rating: {eventPreview.rating}</h4>
+					<h4>Event Name: {eventPreview.title}</h4>
+					<p>Host: {eventPreview.host}</p>
+					<p>Location: {eventPreview.location}</p>
+					<p>Time: {eventPreview.starttime}</p>
+					<p>Genre: {eventPreview.genre}</p>
+					<p>Max: {eventPreview.max_participants}</p>
+					<p>Min: {eventPreview.max_participants}</p>
+					<p>Rating: {eventPreview.rating}</p>
 				</div>
 			</div>
 		);

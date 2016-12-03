@@ -177,10 +177,10 @@ exports.getEvents = function (req, res, next) {
     }
 
     // for EventPage
-    else if (type.localeCompare("eventid") == 0) {
-        var eventid = req.query.eventid;
-        db.one('SELECT * FROM ', [])
-    }
+    // else if (type.localeCompare("eventid") == 0) {
+    //     var eventid = req.query.eventid;
+    //     db.one('SELECT * FROM ', [])
+    // }
 }
 
 exports.addEvent = function(req, res, next) {

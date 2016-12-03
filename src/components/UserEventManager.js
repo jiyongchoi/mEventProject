@@ -8,31 +8,41 @@ export default class UserEventManager extends React.Component {
     super(props);
 
     this.state = {
-      	events: []
+      	events: [],
+        hostevents: []
     };
     this.getEvents = this.getEvents.bind(this);
     this.getEvents();
+    this.getHostedEvents = this.getHostedEvents.bind(this);
+    this.getHostedEvents();
   }
 
+  /*
+  * Makes the ajax call to the server to retrieve all events that 
+  * the user has participated in, and will participate in.
+  */
   getEvents() {
-    axios.get('/events/' + this.props.params.id)
-      .then(function(response) {
-        console.log("GET EVENTLIST: "+JSON.stringify(response.data));
-        this.setState({events: response.data});
-      }.bind(this))
-      .catch(function(error){
-        console.log(error.message);
-      }.bind(this)); 
+      axios.get('/events/' + this.props.username.userID)
+        .then(function(response) {
+          console.log("GET EVENTLIST: "+JSON.stringify(response.data));
+          this.setState({events: response.data});
+        }.bind(this))
+        .catch(function(error){
+          console.log(error.message);
+        }.bind(this)); 
   }
 
-  // componentDidMount() {
-  //   axios.get('/events/' + {this.props.params.id})
-  //     	.then(function(response) {
-  //     		console.log(response.data);
-  //     		this.setState({events: response.data})
-  //     	});
-  // }
+  getHostedEvents() {
+      axios.get('/events?type=hosted&username='+this.props.username.userID)
+            .then(function(response) {
+                this.setState({hostevents: response.data})
+            })
+  }
 
+  /*
+  * Feeds the events retrieved from the ajax call to the eventpreview for it 
+  * to display previews of the events
+  */
 	render() {
     return (
     <div className="panel-group">
@@ -41,6 +51,7 @@ export default class UserEventManager extends React.Component {
               return (
                 <EventPreview
                   eventPreview={eventPreview}
+                  username={this.props.params.id}
                   key={`event-${i}`}
                 />
               );
