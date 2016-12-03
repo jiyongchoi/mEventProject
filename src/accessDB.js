@@ -92,14 +92,14 @@ exports.postUser = function(req, res, next) {
     });
 }; 
 
-exports.editUser = function(req, res, next) {
+/*exports.editUser = function(req, res, next) {
     var post = req.body;
     var username = post.username;
     var password = post.password;
     var fname = post.fname;
     var surname = post.surname;
     var accountType = post.accountType;
-    var queryParam = 'UPDATE appData.UserInfo SET ';
+    var queryParam = 'UPDATE appData.UserInfo SET username = ';
 
     if(!(username.localeCompare('') = 0)) {
       queryParam += 'username = ' + username;
@@ -118,7 +118,7 @@ exports.editUser = function(req, res, next) {
     }
     queryParam += ' WHERE username = ' + username + ';';
 
-};
+};*/
 
 exports.deleteUser = function(req, res, next) {
     var post = req.body;
