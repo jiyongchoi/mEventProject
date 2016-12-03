@@ -82,14 +82,14 @@ CREATE TYPE userEventType AS (
 );
 
 CREATE FUNCTION getEvents ()
-RETURNS eventType
+RETURNS SETOF eventType
 AS 'SELECT *
 	FROM appData.Event e
-	WHERE e.starttime > clock_timestamp()'
+	WHERE e.starttime > clock_timestamp();'
 LANGUAGE SQL;
 
 CREATE FUNCTION getEventsAll(username varchar(25))
-RETURNS userEventType
+RETURNS SETOF userEventType
 AS 'SELECT 
 		event.eventid,
 		title,
@@ -109,14 +109,14 @@ AS 'SELECT
 LANGUAGE SQL;
 
 CREATE FUNCTION getEventsByGenre (genre varchar(25))
-RETURNS  eventType
+RETURNS SETOF eventType
 AS 'SELECT *
 	FROM appData.Event e
 	WHERE e.genre = $1'
 LANGUAGE SQL;
 
 CREATE FUNCTION getEventsByLocation (location varchar(1000))
-RETURNS eventType
+RETURNS SETOF eventType
 AS 'SELECT *
 	FROM appData.Event e
 	WHERE e.location = $1'
