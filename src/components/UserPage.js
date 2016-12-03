@@ -11,6 +11,7 @@ export default class UserPage extends React.Component {
     const id = this.props.params.id;
     var username={userID: id};
     return (
+
       <div className="container-fluid">
         <MainTopNav username={username} />
         <div className="row">
