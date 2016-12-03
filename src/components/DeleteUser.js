@@ -1,9 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-var alertText = "Are you sure you want to delete this user?"
-
-export default class DeleteUser extends React.Component{
+export default class DeleteUser extends React.Component {
 	
 
 	render(){
