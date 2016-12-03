@@ -6,8 +6,32 @@ import {browserHistory} from 'react-router';
 
 export default class TopNav extends React.Component{
 	constructor(props) {
-		super(props);	
+		super(props);
+		//Set blank user
+		this.state = {
+			user: { username : "", 
+					firstname:"", 
+					surname:"",
+					accounttype: ""}
+		};
 		this.lgout = this.lgout.bind(this);
+		this.getUserInfo = this.getUserInfo.bind(this);
+		//Get Info on logged in user from the server
+		this.getUserInfo(this.props.username.userID);
+		
+	}
+
+	//Makes Call to the server to get the users information
+	getUserInfo(id){
+		axios.post('/getuserinfo', {username: id})
+		      	.then(function(response) {
+		      		console.log("GET USERINFO:"+JSON.stringify(response.data));
+		      		//Sets user to the info gotten from the server
+		      		this.setState({user: response.data});
+		      	}.bind(this))
+		      	.catch(function (error) {
+    				console.log(error.message);
+  				}.bind(this));
 	}
 
 	//Logs out user
@@ -24,12 +48,11 @@ export default class TopNav extends React.Component{
 	}
 
 	render(){
-		var { username } = {userID: '' };
-
-		if (this.props != undefined){
-			//get the username for the logged in user
-			var { username } = this.props;
-		}
+		//Show a Link to admin page if user admin
+		let adminlink = <div></div>;
+		if(this.state.user.accounttype.localeCompare("admin") == 0){
+			adminlink = <Link activeClassName="active" to={`/admin/${this.state.user.username}`}>Admin</Link>;
+		};
 
 		return(
 			<nav className="navbar navbar-inverse navbar-static-top">
@@ -39,17 +62,17 @@ export default class TopNav extends React.Component{
 					</div>
 					<ul className="nav navbar-nav">
 						<li>
-							<Link activeClassName="active" to={`/mainpage/${username.userID}`}>Home</Link>
+							<Link activeClassName="active" to={`/mainpage/${this.state.user.username}`}>Home</Link>
 						</li>
 						<li>
-							<Link activeClassName="active" to={`/addeventpage/${username.userID}`}>Add Event</Link>
+							<Link activeClassName="active" to={`/addeventpage/${this.state.user.username}`}>Add Event</Link>
 						</li>
 						<li>
-							<Link activeClassName="active" to={`/admin/${username.userID}`}>Admin</Link>
+							{adminlink}
 						</li>
 		          	</ul>
 		          	<ul className="nav navbar-nav navbar-right">
-						<li><a>You are logged in as {username.userID}</a></li>
+						<li><a>You are logged in as {this.state.user.username}</a></li>
 						<li>
 							<a onClick={this.lgout}><span className="glyphicon glyphicon-log-out"></span>Logout</a>
 						</li>
