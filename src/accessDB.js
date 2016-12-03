@@ -152,7 +152,7 @@ exports.getEvents = function (req, res, next) {
     if (type.localeCompare("all") == 0) {
         db.any('SELECT * FROM appData.getEvents();')
         .then(function (data) {
-           console.log("FROM SERVER:"+data);
+           console.log("EVENT LIST FROM SERVER:"+JSON.stringify(data));
            res.status(200).send(data);
         })
         .catch(function(error) {
@@ -192,16 +192,15 @@ exports.getEvents = function (req, res, next) {
     }
 
     else if (type.localeCompare("max") == 0) {
-        console.log("Getting max eventid");
         db.one('SELECT * FROM appData.getMaxEventID();')
           .then(function (data) {
-             console.log("MAX EVENT ID: "+data);
+             console.log("MAX EVENT ID: "+ JSON.stringify(data));
              res.status(200).send(data);
           })
           .catch(function(error) {
              console.log("ERROR: "+error);
              res.status(400).send(data);
-          })
+          });
     }
 
     // for EventPage
@@ -231,8 +230,8 @@ exports.addEvent = function(req, res, next) {
     db.one('SELECT * FROM appData.createEvent($1, $2, NULL, $3, $4, $5, $6, $7, $8, $9, $10, $11);', 
       [eventid, title, description, isCertified, location, host, starttime, genre, rating, max_participants, min_participants])
     .then(function (data) {
-        console.log('FROM SERVER:', data);
-        res.status(200).send({redirect: "/eventpage/"+eventid});
+        console.log('ADD EVENT RESULT:', JSON.stringify(data));
+        res.status(200).send({redirect: "/eventpage/"+host+"/"+eventid});
     })
     .catch(function (error) {
       console.log('ERROR:', error)
