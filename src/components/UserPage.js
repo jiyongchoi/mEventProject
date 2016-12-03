@@ -13,7 +13,7 @@ export default class UserPage extends React.Component {
       <div>
         <div>
         	<UserInfo username={username}/>
-        	<UserEventManager id={username}/>
+        	<UserEventManager username={username}/>
         	<Actions/>
         </div>
       </div>

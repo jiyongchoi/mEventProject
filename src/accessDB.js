@@ -203,6 +203,27 @@ exports.getEvents = function (req, res, next) {
           });
     }
 
+    else if(type.localeCompare("hosted") == 0) {
+        var username = req.query.username;
+        if (typeof username != "undefined") {
+            db.any('SELECT * FROM appData.getEventsByHost($1);' [username])
+                .then(function(data) {
+                  res.status(200).send(data);
+                })
+                .catch(function(error) {
+                  res.status(400).send("error found in backend");
+                })
+        }
+        else {
+            res.status(400).send("username undefined");
+        }
+        
+    }
+    // no type on url
+    else {
+        res.status(400).send("please specify type of events-retrieving procedure");
+    }
+
     // for EventPage
     // else if (type.localeCompare("eventid") == 0) {
     //     var eventid = req.query.eventid;
