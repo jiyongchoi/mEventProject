@@ -23,7 +23,7 @@ export default class TopNav extends React.Component{
 		            	<Link activeClassName="active" to={`/mainpage/${username.userID}`}>Home</Link>
 		            </li>
 		            <li>
-		            	<Link activeClassName="active" to={`/addeventpage`}>Add Event</Link>
+		            	<Link activeClassName="active" to={`/addeventpage/${username.userID}`}>Add Event</Link>
 		            </li>
 		            <li>
 		            	<Link activeClassName="active" to={`/admin/${username.userID}`}>Admin</Link>

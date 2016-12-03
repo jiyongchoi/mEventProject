@@ -131,7 +131,7 @@ app.get('/logout', checkAuth, function (req, res) {
 	res.send({redirect:"/"});
 }); 
 
-app.get('/addeventpage',  checkAuth, function(req, res) {
+app.get('/addeventpage/:id',  checkAuth, function(req, res) {
  	match({routes, location: req.url},
 		function (err, renderProps) {
 			if (err) {

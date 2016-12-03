@@ -19,7 +19,7 @@ const routes = (
     <Route path="mainpage/:id" component={MainPage}/>
     <Route path="userpage/:id" component={UserPage}/>
     <Route path="eventpage/:id/:eventid" component={EventPage}/>
-    <Route path="addeventpage" component={AddEventPage}/>
+    <Route path="addeventpage/:id" component={AddEventPage}/>
     <Route path="admin/:id" component={AdminPage}/>
   </Route>
 );
