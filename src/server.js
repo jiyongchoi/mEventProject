@@ -70,7 +70,7 @@ app.post('/getuserinfo', accessDB.getUserInfo);
 
 app.get('/user', accessDB.getUserInfo);
 
-app.post('/usersignup', accessDB.postUser); // DELETE THIS?
+
 
 //this section is for events
 app.get('/events/:id', checkAuth, accessDB.getEventsOfUser); 
