@@ -2,6 +2,8 @@ import React from 'react';
 import Collapsible from 'react-collapsible';
 import EditUser from "./EditUser";
 import DeleteUser from "./DeleteUser";
+import EditEvent from "./EditEvent";
+import ClearDatabase from "./ClearDatabase";
 export default class AdminPage extends React.Component {
 	render() {
 		console.log(document.cookie);
@@ -27,23 +29,16 @@ export default class AdminPage extends React.Component {
 			<div className="panel panel-default">
 				<div className="panel-heading">
 					<Collapsible trigger="Edit Event">
-						Edit Event
+						<EditEvent/>
 					</Collapsible>
 				</div>
 			</div>
 
-			<div className="panel panel-default">
-				<div className="panel-heading">
-					<Collapsible trigger="Certify Event">
-						Certify Event
-					</Collapsible>
-				</div>
-			</div>
 			
 			<div className="panel panel-default">
 				<div className="panel-heading">
 					<Collapsible trigger="Clear Database">
-						Clear Database
+						<ClearDatabase/>
 					</Collapsible>
 				</div>
 			</div>
