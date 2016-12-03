@@ -9,14 +9,20 @@ export default class EventManager extends React.Component{
 		this.state = { events: [] };
 		this.getEvents = this.getEvents.bind(this);
 		//Call function to get user for given username
-		this.getEvents();
+		this.getEvents('all');
 		this.sortByName = this.sortByName.bind(this);
 		this.sortByGenre = this.sortByGenre.bind(this);
 		this.sortByEventID = this.sortByEventID.bind(this);
+		this.searchSports = this.searchSports.bind(this);
+		this.searchArts = this.searchArts.bind(this);
+		this.searchScience = this.searchScience.bind(this);
+		this.searchSocial = this.searchSocial.bind(this);
+		this.searchOther = this.searchOther.bind(this);
+		this.searchAll = this.searchAll.bind(this);
 	}
-
-	getEvents() {
-		axios.get('/events?type=all')
+	//genre&genre=sports
+	getEvents(type) {
+		axios.get('/events?type=' + type)
 			.then(function(response) {
 				console.log("GET EVENTLIST: "+JSON.stringify(response.data));
 				this.setState({events: response.data});
@@ -67,6 +73,30 @@ export default class EventManager extends React.Component{
 		this.setState({events: sorted});
 	}
 
+	searchSports(){
+		this.getEvents('genre&genre=sports');
+	}
+
+	searchArts(){
+		this.getEvents('genre&genre=arts');
+	}
+
+	searchScience(){
+		this.getEvents('genre&genre=science');
+	}
+
+	searchSocial(){
+		this.getEvents('genre&genre=social');
+	}
+
+	searchOther(){
+		this.getEvents('genre&genre=other');
+	}
+
+	searchAll(){
+		this.getEvents('all');
+	}
+
 	componentDidMount () {
 		//alert("componentDidMount");
 	}
@@ -86,7 +116,19 @@ export default class EventManager extends React.Component{
 						<li><a onClick={this.sortByGenre}>Genre</a></li>
 						<li><a onClick={this.sortByName}>Name</a></li>
 				    </ul>
-				</div>				
+				</div>	
+				<div className="dropdown">
+				    <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Search For
+				    <span className="caret"></span></button>
+				    <ul className="dropdown-menu">	
+						<li><a onClick={this.searchAll}>All</a></li>				
+						<li><a onClick={this.searchSports}>Sports</a></li>
+						<li><a onClick={this.searchArts}>Arts</a></li>
+						<li><a onClick={this.searchScience}>Science</a></li>
+						<li><a onClick={this.searchSocial}>Social</a></li>
+						<li><a onClick={this.searchOther}>Other</a></li>
+				    </ul>
+				</div>			
 			</div>
 			<div className="row">
 				<div className="panel-group">
