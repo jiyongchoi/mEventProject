@@ -1,17 +1,21 @@
 import React from 'react';
 import axios from 'axios';
-
+import MainTopNav from './MainTopNav';
 
 export default class AddEventPage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {location: '', 
+		this.state = {
+					eventid: 1,
+					title: '',
+					description: '',
+					isCertified: false,
+					location: '', 
 					starttime: '', 
 					genre:'', 
 					max_participants:'', 
 					min_participants:'',
-					host: 'test',
-					eventid: '203',
+					host: '',
 					rating: '0'
 				};
     	this.handleChangeLocation = this.handleChangeLocation.bind(this);
@@ -19,7 +23,22 @@ export default class AddEventPage extends React.Component {
     	this.handleChangeGenre = this.handleChangeGenre.bind(this);
     	this.handleChangeMaxParticipants = this.handleChangeMaxParticipants.bind(this);
     	this.handleChangeMinParticipants = this.handleChangeMinParticipants.bind(this);
+    	this.handleChangeTitle = this.handleChangeTitle.bind(this);
+    	this.handleChangeDescription = this.handleChangeDescription.bind(this);
     	this.submit = this.submit.bind(this);
+    	
+	}
+
+	componentDidMount() {
+		axios.get('/events?type=max')
+  			.then(
+  				res => {
+  					const eventid = res.data.getmaxeventid;
+			        this.setState({ eventid });
+			    }
+			).catch(function (error) {
+				console.log(error.message);
+			});
 	}
 
 	handleChangeLocation(event) {
@@ -42,18 +61,19 @@ export default class AddEventPage extends React.Component {
  		this.setState({min_participants: event.target.value});
  	}
 
+ 	handleChangeTitle(event){
+ 		this.setState({title: event.target.value});
+ 	}
+
+ 	handleChangeDescription(event){
+ 		this.setState({description: event.target.value});
+ 	}
+
  	submit(event){
  		//Submit form
   		event.preventDefault();
-  		axios.get('/events?type=max')
-  			.then(function (response) {
-	      		if (typeof response.data.redirect == 'string') {
-	      			alert("Max eventid: "+JSON.stringify(response.data));
-	      			this.setState({eventid: response.data});
-				}
-			}).catch(function (error) {
-				console.log(error.message);
-			});
+  		//Get the max eventid from the database
+  		
 		alert(JSON.stringify(this.state));
 		axios.post('/addevent', this.state)
 	      	.then(function (response) {
@@ -61,21 +81,39 @@ export default class AddEventPage extends React.Component {
 					window.location = response.data.redirect;
 				}
 			}).catch(function (error) {
+				alert(this.state);
 				console.log(error.message);
 			});
  	}
 
 	render(){
+		const id = this.props.params.id;
+		var username={userID: id};
+
 		return( 
 			<div className="container">
+				<MainTopNav
+					username={username}
+				/>
 				<div className="panel panel-default">
 				    <div className="panel-heading">Add Event</div>
 				    <div className="panel-body">
 						<form id="addEventForm" method="get" onSubmit={this.submit}>
 							<div className="form-group">
+								<label for="title">Title:</label>
+								<input type="text" className="form-control" id="addtitle" name="title" placeholder="Title"
+								 required  onChange={this.handleChangeTitle}/>
+							</div> 
+							<div className="form-group">
+								<label for="description">Description:</label>
+						    	<textarea className="form-control" rows="3" id="addDescription"
+						    	 name="description" placeholder="Description"
+						    	 required  onChange={this.handleChangeDescription}/>
+							</div> 
+							<div className="form-group">
 								<label for="location">Location:</label>
 								<input type="text" className="form-control" id="addLocation" name="location" placeholder="location"
-								pattern="[A-Za-z]+" required  onChange={this.handleChangeLocation}/>
+								required  onChange={this.handleChangeLocation}/>
 							</div> 
 	                        <div className="form-group">
 								<label for="starttime">Time:</label>
