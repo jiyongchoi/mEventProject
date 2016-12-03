@@ -92,6 +92,34 @@ exports.postUser = function(req, res, next) {
     });
 }; 
 
+/*exports.editUser = function(req, res, next) {
+    var post = req.body;
+    var username = post.username;
+    var password = post.password;
+    var fname = post.fname;
+    var surname = post.surname;
+    var accountType = post.accountType;
+    var queryParam = 'UPDATE appData.UserInfo SET username = ';
+
+    if(!(username.localeCompare('') = 0)) {
+      queryParam += 'username = ' + username;
+    }
+    if(!(password.localeCompare('') = 0)) {
+      queryParam += 'password = ' + password;
+    }
+    if(!(fname.localeCompare('') = 0)) {
+      queryParam += 'fname = ' + fname;
+    }
+    if(!(surname.localeCompare('') = 0)) {
+      queryParam += 'surname = ' + surname;
+    }
+    if(!(accountType.localeCompare('') = 0)) {
+      queryParam += 'accountType = ' + accountType;
+    }
+    queryParam += ' WHERE username = ' + username + ';';
+
+};*/
+
 exports.deleteUser = function(req, res, next) {
     var post = req.body;
     var username = post.username;

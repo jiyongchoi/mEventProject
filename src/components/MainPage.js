@@ -3,8 +3,7 @@ import UserInfo from './UserInfo.js';
 import EventManager from './EventManager.js';
 import Actions from './Actions';
 import axios from 'axios';
-
-
+import MainTopNav from './MainTopNav';
 
 export default class MainPage extends React.Component {
 // componentdidmount (ajax call to get all events)
@@ -24,22 +23,20 @@ export default class MainPage extends React.Component {
 		var username={userID: id};
 		return (
 	    <div className="container-fluid">
-			<div className="row">
-				<div className="col-sm-4">
-					<UserInfo
-						username={username}
-					/>
-					<Actions/>
+		    	<MainTopNav
+		    		username={username}
+		    	/>
+				<div className="row">
+					<div className="col-sm-4">
+						<UserInfo
+							username={username}
+						/>
+						<Actions/>
+					</div>
+					<div className="col-sm-8" >
+						<EventManager/>
+					</div>
 				</div>
-				<div className="col-sm-8" >
-					<select value={this.state.preselectoption} onChange={this.selectChange}>
-					  	<option value="all">All</option>
-					  	<option value="location">Location</option>
-					  	<option value="genre">Genre</option>
-					</select>
-					<EventManager/>
-				</div>
-			</div>
 		</div>
 		);
 	}

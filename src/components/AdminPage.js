@@ -1,5 +1,4 @@
 import React from 'react';
-import TopNav from './TopNav';
 import Collapsible from 'react-collapsible';
 import EditUser from "./EditUser";
 import DeleteUser from "./DeleteUser";
