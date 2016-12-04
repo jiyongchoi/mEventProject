@@ -31,7 +31,7 @@ export default class MainPage extends React.Component {
 		let userIsLoggedIn = null;
 		if(this.state.userID.localeCompare("") == 0){
 			//If call to server is not yet complete.
-			//Show user loading
+			//Show user is loading
 			userIsLoggedIn = <div>Loading User</div>;
 		} else {
 			//If username has been set from the server
@@ -39,7 +39,7 @@ export default class MainPage extends React.Component {
 			userIsLoggedIn = <UserInfo username={this.state}/>
 		}
 		return (
-	    <div className="container-fluid">
+	    <div className="container">
 		    	<MainTopNav />
 				<div className="row">
 					<div className="col-sm-4">
