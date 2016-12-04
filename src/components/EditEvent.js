@@ -50,7 +50,7 @@ export default class EditEvent extends React.Component {
 							<option>arts</option>
 							<option>science</option>
 							<option>social</option>
-							<option>others</option>
+							<option>other</option>
 						</select>
 					</div>
 
