@@ -80,8 +80,12 @@ app.get('/events', checkAuth, accessDB.getEvents); // make req.query.type in the
 app.post('/events', checkAuth, accessDB.addEvent);
 app.delete('/events', checkAuth, accessDB.deleteEvent);
 
+// this section is for submitting reviews
 app.post('/reviews', checkAuth, accessDB.addReview);
 
+// this section is for eventattendees
+app.get('/eventattendees', checkAuth, accessDB.getSignedUp);
+app.post('/eventattendees', checkAuth, accessDB.signupEvent);
 
 /*
 * These are RESTful calls for the front-end pages
@@ -114,7 +118,7 @@ app.get('/mainpage/:id', checkAuth, function(req, res) {
 		});
  });
 
-app.get('/eventpage/:id/:eventid',  checkAuth, function(req, res) {
+app.get('/eventpage/:eventid',  checkAuth, function(req, res) {
  	match({routes, location: req.url},
 		function (err, renderProps) {
 			if (err) {
