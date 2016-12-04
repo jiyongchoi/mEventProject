@@ -389,6 +389,14 @@ exports.addReview = function(req, res, next) {
       });
 }
 
+exports.getReview = function(req, res, next) {
+    var eventid = parseInt(req.query.eventid);
+    db.any('SELECT * FROM appData.review WHERE eventid=$1;', [eventid])
+      .then(function(data) {
+          res.status(200).send(data);
+      });
+}
+
 /*
 * Sign the current logged in user for an event that has not started yet,
 * providing there is still space left
@@ -497,8 +505,6 @@ exports.getSignedUp = function(req, res, next) {
         console.log("list");
         db.any('SELECT username FROM appData.EventAttendees WHERE eventid=$1;', [eventid])
           .then(function(data) {
-              console.log("attendlist");
-              console.log(data);
               return res.status(200).send(data);
           })
           .catch(function(error) {
