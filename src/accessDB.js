@@ -129,7 +129,6 @@ exports.editUser = function(req, res, next) {
 */
 exports.deleteUser = function(req, res, next) {
     var username = req.query.username;
-
     db.one('SELECT * FROM appData.deleteUser($1);', [username])
     .then(function (data) {
         res.status(200).send(data);
