@@ -239,7 +239,7 @@ exports.addEvent = function(req, res, next) {
     var rating = parseInt(post.rating);
 
     db.one('SELECT * FROM appData.createEvent($1, $2, NULL, $3, $4, $5, $6, $7, $8, $9, $10, $11);', 
-      [eventid, title, description, isCertified, location, host, starttime, genre, rating, max_participants, min_participants])
+      [eventid, title, description, isCertified, location, host, starttime, genre, rating, min_participants, max_participants])
     .then(function (data) {
         console.log('ADD EVENT RESULT:', JSON.stringify(data));
         res.status(200).send({redirect: "/eventpage/"+host+"/"+eventid});
