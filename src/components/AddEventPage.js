@@ -14,7 +14,7 @@ export default class AddEventPage extends React.Component {
 					isCertified: false,
 					location: '', 
 					starttime: '', 
-					genre:'', 
+					genre:'sports', 
 					max_participants:'', 
 					min_participants:'',
 					rating: '0'
@@ -26,6 +26,7 @@ export default class AddEventPage extends React.Component {
     	this.handleChangeMinParticipants = this.handleChangeMinParticipants.bind(this);
     	this.handleChangeTitle = this.handleChangeTitle.bind(this);
     	this.handleChangeDescription = this.handleChangeDescription.bind(this);
+    	this.createEvent = this.createEvent.bind(this);
     	this.submit = this.submit.bind(this);    	
 	}
 
@@ -79,15 +80,22 @@ export default class AddEventPage extends React.Component {
  		this.setState({description: event.target.value});
  	}
 
- 	//On submit add event to database
+ 	//On submit show modal popup
  	submit(event){
   		event.preventDefault();
-		axios.post('/addevent', this.state)
+ 	}
+
+ 	// Create event in database
+ 	createEvent(){
+ 		axios.post('/addevent', this.state)
 	      	.then(function (response) {
 	      		if (typeof response.data.redirect == 'string') {
+	      			//If create was sucessful redirect to eventpage
+	      			alert("Event Created Successful! Redirecting to eventpage...");
 					browserHistory.push(response.data.redirect);
 				}
 			}).catch(function (error) {
+				//If an error occured show error hint
 				alert("Error creating event. "+error.response.data.hint);
 				console.log(error.message);
 			});
@@ -146,8 +154,43 @@ export default class AddEventPage extends React.Component {
 									</div>
 								</div>
 							</div>  
-							<input className="btn btn-default" id="statusButton" type="submit" value="Add Event"></input>
+							<input className="btn btn-primary" id="statusButton" type="submit" value="Add Event"
+							data-toggle = "modal" data-target = "#myModal"></input>
 						</form>
+
+						<div className = "modal fade" id = "myModal" tabindex = "-1" role = "dialog" 
+						   aria-labelledby = "myModalLabel" aria-hidden = "true">					
+						  	<div className = "modal-dialog">
+						    	<div className = "modal-content">						         
+									<div className = "modal-header">
+										<button type = "button" className = "close" data-dismiss = "modal" aria-hidden = "true">
+										      &times;
+										</button>
+										<h4 className = "modal-title" id = "myModalLabel">
+										   Confirm Event Details
+										</h4>
+									</div>
+									<div className = "modal-body">
+										<p>title: {this.state.title}</p>
+										<p>description: {this.state.description}</p>
+										<p>location: {this.state.location}</p>
+										<p>Time: {this.state.starttime}</p>
+										<p>Genre: {this.state.genre}</p>
+										<p>Max Participants: {this.state.max_participants}</p>
+										<p>Min Participants: {this.state.min_participants}</p>
+									</div>
+									<div className = "modal-footer">
+										<button type = "button" className = "btn btn-default" data-dismiss = "modal">
+										   Cancel
+										</button>
+										<button type = "button" className = "btn btn-primary" data-dismiss = "modal" onClick={this.createEvent}>
+										   Add Event
+										</button>
+									</div>
+
+						      	</div>
+						   	</div>
+						</div>
 				    </div>
 			  	</div>
 			</div>
