@@ -467,3 +467,13 @@ exports.getSignedUp = function(req, res, next) {
           });
     }
 }
+
+exports.clearDatabase  = function(req, res, next) {
+  db.one('SELECT * FROM appData.clearDatabase();')
+      .then(function(data) {
+          res.status(200).send("Cleared.")
+      })
+      .catch(function(error) {
+          res.status(400).send("error");
+      });
+  }

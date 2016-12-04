@@ -298,3 +298,12 @@ AS 'SELECT eventid, count(username) as enrolmentnum
 	WHERE eventid = $1
 	GROUP BY eventid;'
 LANGUAGE SQL;
+
+CREATE FUNCTION clearDatabase()
+RETURNS int
+AS 'TRUNCATE TABLE appData.EVENT;
+	TRUNCATE TABLE appData.EventAttendees;
+	TRUNCATE TABLE appData.UserInfo;
+	TRUNCATE TABLE appData.Review;
+	SELECT 0;'
+LANGUAGE SQL;
