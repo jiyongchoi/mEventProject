@@ -336,6 +336,7 @@ exports.addEvent = function(req, res, next) {
         res.status(200).send({redirect: "/eventpage/"+eventid});
     })
     .catch(function (error) {
+      res.status(400).send(error);
       console.log('ERROR:', error)
     });
 }; 
