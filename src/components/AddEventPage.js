@@ -6,6 +6,7 @@ import {browserHistory} from 'react-router';
 export default class AddEventPage extends React.Component {
 	constructor(props) {
 		super(props);
+		//Set blank event 
 		this.state = {
 					eventid: 1,
 					title: '',
@@ -16,7 +17,6 @@ export default class AddEventPage extends React.Component {
 					genre:'', 
 					max_participants:'', 
 					min_participants:'',
-					host: '',
 					rating: '0'
 				};
     	this.handleChangeLocation = this.handleChangeLocation.bind(this);
@@ -30,10 +30,13 @@ export default class AddEventPage extends React.Component {
 	}
 
 	componentDidMount() {
+		//Get the highest eventID + 1 from the database
+		//Use that value as the unique eventID
 		axios.get('/events?type=max')
   			.then(
   				res => {
   					const eventid = res.data.getmaxeventid;
+  					//Set eventID
 			        this.setState({ eventid });
 			    }
 			).catch(function (error) {
@@ -41,59 +44,59 @@ export default class AddEventPage extends React.Component {
 			});
 	}
 
+	//Update state.location to form value
 	handleChangeLocation(event) {
     	this.setState({location: event.target.value});
  	}
 
+	//Update state.starttime to form value
  	handleChangeStartTime(event) {
     	this.setState({starttime: event.target.value});
  	}
 
+ 	//Update state.genre to form value
  	handleChangeGenre(event){
  		this.setState({genre: event.target.value});
  	}
 
+ 	//Update state.max_participants to form value
  	handleChangeMaxParticipants(event){
  		this.setState({max_participants: event.target.value});
  	}
 
+ 	//Update state.min_participants to form value
  	handleChangeMinParticipants(event){
  		this.setState({min_participants: event.target.value});
  	}
 
+ 	//Update state.title to form value
  	handleChangeTitle(event){
  		this.setState({title: event.target.value});
  	}
 
+ 	//Update state.description to form value
  	handleChangeDescription(event){
  		this.setState({description: event.target.value});
  	}
 
+ 	//On submit add event to database
  	submit(event){
- 		//Submit form
   		event.preventDefault();
-  		//Get the max eventid from the database
-  		
-		alert(JSON.stringify(this.state));
 		axios.post('/addevent', this.state)
 	      	.then(function (response) {
 	      		if (typeof response.data.redirect == 'string') {
 					browserHistory.push(response.data.redirect);
 				}
 			}).catch(function (error) {
-				alert(this.state);
+				alert("Error creating event. "+error.response.data.hint);
 				console.log(error.message);
 			});
  	}
 
 	render(){
-		const id = this.props.params.id;
-		var username={userID: id};
-		var curdate = this.curdate;
 		return( 
-			<div className="container">
-				<MainTopNav
-					username={username}/>
+			<div className="container-fluid">
+				<MainTopNav/>
 				<div className="panel panel-default">
 				    <div className="panel-heading">Add Event</div>
 				    <div className="panel-body">
@@ -116,7 +119,8 @@ export default class AddEventPage extends React.Component {
 							</div> 
 	                        <div className="form-group">
 								<label for="starttime">Time:</label>
-								<input type="datetime-local" className="form-control" id="addTime" name="starttime" required  onChange={this.handleChangeStartTime}/>
+								<input type="datetime-local" className="form-control" id="addTime" name="starttime" placeholder="YYYY-MM-DD HH:MM PM"
+								 required  onChange={this.handleChangeStartTime}/>
 							</div> 
 	                        <div className="form-group">
 								<label for="genre">Genre:</label>
