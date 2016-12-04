@@ -82,6 +82,7 @@ app.delete('/events', checkAuth, accessDB.deleteEvent);
 
 // this section is for submitting reviews
 app.post('/reviews', checkAuth, accessDB.addReview);
+app.get('/reviews', checkAuth, accessDB.getReview);
 
 // this section is for eventattendees
 app.get('/eventattendees', checkAuth, accessDB.getSignedUp);
