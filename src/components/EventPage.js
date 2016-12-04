@@ -39,10 +39,10 @@ export default class EventPage extends React.Component {
 	getEventInfo() {
 		axios.get('/events?type=eventinfo&eventid='+this.props.params.eventid)
 				.then(function(response) {
-					this.setState({eventinfo: response.data})
+					this.setState({eventinfo: response.data});
 				}.bind(this))
 				.catch(function(error) {
-					console.log(error);
+					this.setState({eventinfo: {}});
 				}.bind(this));
 	}
 
@@ -52,20 +52,15 @@ export default class EventPage extends React.Component {
 	attendeeList() {
 		axios.get('/eventattendees?type=attendlist&eventid='+this.props.params.eventid)
 		.then(function(response) {
-			console.log(response.data);
 			var attendeearray = [];
 			var index = 0;
 			for (index in response.data) {
-				console.log(response.data[index].username);
 				attendeearray.push(response.data[index].username);
 			}
 			this.setState({attendees: attendeearray});
-			console.log(this.state.attendees);
-
 		}.bind(this))
 		.catch(function(error) {
-			console.log("attned!!!!!");
-			console.log(error);
+			this.setState({attendees: []});
 		}.bind(this));
 	}
 
@@ -104,6 +99,7 @@ export default class EventPage extends React.Component {
 					<h3>EventID: {this.state.eventinfo.eventid}</h3>
 					<h3>Host: {this.state.eventinfo.host}</h3>
 					<h3>Location: {this.state.eventinfo.location}</h3>
+					<h3>Certified: {this.state.eventinfo.iscertified? "True" : "False"}</h3>
 					<h3>Start Time: {this.state.eventinfo.starttime}</h3>
 					<h3>Genre: {this.state.eventinfo.genre}</h3>
 					<h3>Max Participants: {this.state.eventinfo.max_participants}</h3>
