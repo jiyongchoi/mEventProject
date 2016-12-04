@@ -40,11 +40,11 @@ export default class LoginForm extends React.Component{
 		      			browserHistory.push(response.data.redirect);
 					}
 					else {
-						this.refs.errormessage.innerText = "invalid input";
+						this.refs.errormessage.innerText = "invalid username and password";
 					}
 		      	}.bind(this))
 		      	.catch(function (error) {
-		      		this.refs.errormessage.innerText = "invalid username and password";
+		      		this.refs.errormessage.innerText = "invalid input";
     				console.log(error.message);
   				}.bind(this));
   		event.preventDefault();

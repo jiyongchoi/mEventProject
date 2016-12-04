@@ -28,7 +28,7 @@ export default class EventPreview extends React.Component {
 				</div>
 				<div className="panel-body">
 					<h4>Event Name: {eventPreview.title}</h4>
-					<p>Host: {eventPreview.host}</p>
+					<Link to={`/userPage/${eventPreview.host}`}><p>Host: {eventPreview.host}</p></Link>
 					<p>Location: {eventPreview.location}</p>
 					<p>Time: {eventPreview.starttime}</p>
 					<p>Genre: {eventPreview.genre}</p>
