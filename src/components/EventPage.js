@@ -129,7 +129,7 @@ export default class EventPage extends React.Component {
 					(<WriteReview eventid={this.props.params.eventid}/>) : 
 					(<p>You may not leave a review</p>)}
 			</div>
-			<div className="panel panel-default> 
+			<div className="panel panel-default"> 
 				{(!this.state.hasHappened && !this.state.signedUp && !this.state.atCapacity) ? 
 					(<EventSignUp eventid={this.props.params.eventid}/>):
 					(<p>You May Not Sign Up For This Event</p>) }
