@@ -82,6 +82,7 @@ app.delete('/events', checkAuth, accessDB.deleteEvent);
 
 // this section is for submitting reviews
 app.post('/reviews', checkAuth, accessDB.addReview);
+app.get('/reviews', checkAuth, accessDB.getReview);
 
 // this section is for eventattendees
 app.get('/eventattendees', checkAuth, accessDB.getSignedUp);
@@ -118,7 +119,7 @@ app.get('/mainpage/:id', checkAuth, function(req, res) {
 		});
  });
 
-app.get('/eventpage/:id/:eventid',  checkAuth, function(req, res) {
+app.get('/eventpage/:eventid',  checkAuth, function(req, res) {
  	match({routes, location: req.url},
 		function (err, renderProps) {
 			if (err) {
