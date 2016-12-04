@@ -120,15 +120,19 @@ export default class EventPage extends React.Component {
 			          })
 			        }
 	        </div>
-	        <div className="panel panel-default">
+	        <div className="panel panel-group">
 	        	<h3>List of Reviews</h3>
 	        	{
 			          this.state.reviews.map((review, i) => {
 			            return (
-			            	<div>
-			            	<p>Review {i+1}</p>
-			            	<p>Comment: {review.reviewtext}</p> 
-			            	<p>Rating: {review.reviewrating}</p>
+			            	<div className="panel panel-default">
+			            		<div className="panel-heading">	            		
+				            		<p>Review {i+1}</p>
+				            	</div>
+				            	<div className="panel-body">
+				            		<p>Comment: {review.reviewtext}</p> 
+				            		<p>Rating: {review.reviewrating}</p>
+				            	</div>
 			            	</div>
 			            );
 			          })
