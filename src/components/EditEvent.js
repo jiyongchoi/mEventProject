@@ -21,14 +21,15 @@ export default class EditEvent extends React.Component {
 
 					<div className="form-group">
 						<label for="description">Description:</label>
-						<input type="text" className="form-control" id="editDescription" name="description"
-						pattern="[A-Za-z]+"/>
+						<textarea className="form-control" rows="3" id="editDescription" name="description"/>
 					</div>
 					
 					<div className="form-group">
 						<label for="isCertified">Certification:</label>
-						<input type="text" className="form-control" id="editCertification" name="isCertified"
-						pattern="[A-Za-z]+"/>
+						<select className="form-control" id="editCertification" name="isCertified">
+							<option>true</option>
+							<option>false</option>
+						</select>
 					</div>
 
 					<div className="form-group">
@@ -44,8 +45,13 @@ export default class EditEvent extends React.Component {
 
 					<div className="form-group">
 						<label for="genre">Genre:</label>
-						<input type="text" className="form-control" id="editGenre" name="genre"
-						pattern="[A-Za-z]+"/>
+						<select className="form-control" id="editGenre" name="genre">
+							<option>sports</option>
+							<option>arts</option>
+							<option>science</option>
+							<option>social</option>
+							<option>others</option>
+						</select>
 					</div>
 
 					<div className="form-group">
