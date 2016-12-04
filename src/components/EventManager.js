@@ -8,7 +8,7 @@ export default class EventManager extends React.Component{
 		//Set blank event list
 		this.state = { events: [] };
 		this.getEvents = this.getEvents.bind(this);
-		//Call function to get user for given username
+		//Get all usernames from server
 		this.getEvents('all');
 		this.sortByName = this.sortByName.bind(this);
 		this.sortByGenre = this.sortByGenre.bind(this);
@@ -20,11 +20,13 @@ export default class EventManager extends React.Component{
 		this.searchOther = this.searchOther.bind(this);
 		this.searchAll = this.searchAll.bind(this);
 	}
-	//genre&genre=sports
+
 	getEvents(type) {
+		//Get Events from the server based on type query string
 		axios.get('/events?type=' + type)
 			.then(function(response) {
 				console.log("GET EVENTLIST: "+JSON.stringify(response.data));
+				//Set events array to array from database
 				this.setState({events: response.data});
 			}.bind(this))
 			.catch(function(error){
@@ -33,6 +35,7 @@ export default class EventManager extends React.Component{
 	}
 
 	sortByGenre() {
+		//Get genre sorted version of events
 		let sorted = this.state.events.sort(function(a, b) {
 		  var nameA = a.genre.toUpperCase(); // ignore upper and lowercase
 		  var nameB = b.genre.toUpperCase(); // ignore upper and lowercase
@@ -50,6 +53,7 @@ export default class EventManager extends React.Component{
 	}
 
 	sortByName() {
+		//Get title sorted version of events
 		let sorted = this.state.events.sort(function(a, b) {
 		  var nameA = a.title.toUpperCase(); // ignore upper and lowercase
 		  var nameB = b.title.toUpperCase(); // ignore upper and lowercase
@@ -67,6 +71,7 @@ export default class EventManager extends React.Component{
 	}
 
 	sortByEventID(){
+		//Get eventid sorted version of events		
 		let sorted = this.state.events.sort(function(a, b) {
 		  return a.eventid - b.eventid;
 		});
@@ -97,39 +102,36 @@ export default class EventManager extends React.Component{
 		this.getEvents('all');
 	}
 
-	componentDidMount () {
-		//alert("componentDidMount");
-	}
 
 	render(){
-
-		//const {events} = this.props;
-		//alert("Events: "+JSON.stringify(this.state.events));
 		return (
 		<div className="container">
 			<div className="row">
-				<div className="dropdown">
-				    <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By
-				    <span className="caret"></span></button>
-				    <ul className="dropdown-menu">					
-						<li><a onClick={this.sortByEventID}>EventID</a></li>
-						<li><a onClick={this.sortByGenre}>Genre</a></li>
-						<li><a onClick={this.sortByName}>Name</a></li>
-				    </ul>
-				</div>	
-				<div className="dropdown">
-				    <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Search For
-				    <span className="caret"></span></button>
-				    <ul className="dropdown-menu">	
-						<li><a onClick={this.searchAll}>All</a></li>				
-						<li><a onClick={this.searchSports}>Sports</a></li>
-						<li><a onClick={this.searchArts}>Arts</a></li>
-						<li><a onClick={this.searchScience}>Science</a></li>
-						<li><a onClick={this.searchSocial}>Social</a></li>
-						<li><a onClick={this.searchOther}>Other</a></li>
-				    </ul>
-				</div>			
+				<div className="btn-group">
+					<div className="btn-group">
+					    <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By
+					    <span className="caret"></span></button>
+					    <ul className="dropdown-menu">					
+							<li><a onClick={this.sortByEventID}>EventID</a></li>
+							<li><a onClick={this.sortByGenre}>Genre</a></li>
+							<li><a onClick={this.sortByName}>Name</a></li>
+					    </ul>
+					</div>	
+					<div className="btn-group">
+					    <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Search For
+					    <span className="caret"></span></button>
+					    <ul className="dropdown-menu">	
+							<li><a onClick={this.searchAll}>All</a></li>				
+							<li><a onClick={this.searchSports}>Sports</a></li>
+							<li><a onClick={this.searchArts}>Arts</a></li>
+							<li><a onClick={this.searchScience}>Science</a></li>
+							<li><a onClick={this.searchSocial}>Social</a></li>
+							<li><a onClick={this.searchOther}>Other</a></li>
+					    </ul>
+					</div>	
+				</div>		
 			</div>
+			<hr/>
 			<div className="row">
 				<div className="panel-group">
 					{
