@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 
 export default class EventPreview extends React.Component {
 	render() {
-
+		//Sets blank event info
 		var { eventPreview } = {location: '', 
 								starttime: '', 
 								genre:'', 
@@ -15,12 +15,10 @@ export default class EventPreview extends React.Component {
 								rating: '',
 								title:''
 							};
-		var username = '';
 
+		//Gets data from props
 		if (this.props != undefined){
-			var { eventPreview, username } = this.props;
-			
-
+			var { eventPreview } = this.props;
 		}
 		
 		return (

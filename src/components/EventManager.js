@@ -8,7 +8,7 @@ export default class EventManager extends React.Component{
 		//Set blank event list
 		this.state = { events: [] };
 		this.getEvents = this.getEvents.bind(this);
-		//Get all usernames from server
+		//Get all events from server
 		this.getEvents('all');
 		this.sortByName = this.sortByName.bind(this);
 		this.sortByGenre = this.sortByGenre.bind(this);
@@ -25,7 +25,6 @@ export default class EventManager extends React.Component{
 		//Get Events from the server based on type query string
 		axios.get('/events?type=' + type)
 			.then(function(response) {
-				console.log("GET EVENTLIST: "+JSON.stringify(response.data));
 				//Set events array to array from database
 				this.setState({events: response.data});
 			}.bind(this))
@@ -34,6 +33,7 @@ export default class EventManager extends React.Component{
 			}.bind(this)); 
 	}
 
+	//Sort events by genre
 	sortByGenre() {
 		//Get genre sorted version of events
 		let sorted = this.state.events.sort(function(a, b) {
@@ -78,26 +78,32 @@ export default class EventManager extends React.Component{
 		this.setState({events: sorted});
 	}
 
+	//Get events based on sports genre
 	searchSports(){
 		this.getEvents('genre&genre=sports');
 	}
 
+	//Get events based on arts genre
 	searchArts(){
 		this.getEvents('genre&genre=arts');
 	}
 
+	//Get events based on science genre
 	searchScience(){
 		this.getEvents('genre&genre=science');
 	}
 
+	//Get events based on social genre
 	searchSocial(){
 		this.getEvents('genre&genre=social');
 	}
 
+	//Get events based on other genre
 	searchOther(){
 		this.getEvents('genre&genre=other');
 	}
 
+	//Get all events in the database
 	searchAll(){
 		this.getEvents('all');
 	}
@@ -105,7 +111,7 @@ export default class EventManager extends React.Component{
 
 	render(){
 		return (
-		<div className="container">
+		<div className="container-fluid">
 			<div className="row">
 				<div className="btn-group">
 					<div className="btn-group">

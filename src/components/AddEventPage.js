@@ -6,6 +6,7 @@ import {browserHistory} from 'react-router';
 export default class AddEventPage extends React.Component {
 	constructor(props) {
 		super(props);
+		//Set blank event 
 		this.state = {
 					eventid: 1,
 					title: '',
@@ -13,10 +14,9 @@ export default class AddEventPage extends React.Component {
 					isCertified: false,
 					location: '', 
 					starttime: '', 
-					genre:'', 
+					genre:'sports', 
 					max_participants:'', 
 					min_participants:'',
-					host: '',
 					rating: '0'
 				};
     	this.handleChangeLocation = this.handleChangeLocation.bind(this);
@@ -26,14 +26,18 @@ export default class AddEventPage extends React.Component {
     	this.handleChangeMinParticipants = this.handleChangeMinParticipants.bind(this);
     	this.handleChangeTitle = this.handleChangeTitle.bind(this);
     	this.handleChangeDescription = this.handleChangeDescription.bind(this);
+    	this.createEvent = this.createEvent.bind(this);
     	this.submit = this.submit.bind(this);    	
 	}
 
 	componentDidMount() {
+		//Get the highest eventID + 1 from the database
+		//Use that value as the unique eventID
 		axios.get('/events?type=max')
   			.then(
   				res => {
   					const eventid = res.data.getmaxeventid;
+  					//Set eventID
 			        this.setState({ eventid });
 			    }
 			).catch(function (error) {
@@ -41,59 +45,66 @@ export default class AddEventPage extends React.Component {
 			});
 	}
 
+	//Update state.location to form value
 	handleChangeLocation(event) {
     	this.setState({location: event.target.value});
  	}
 
+	//Update state.starttime to form value
  	handleChangeStartTime(event) {
     	this.setState({starttime: event.target.value});
  	}
 
+ 	//Update state.genre to form value
  	handleChangeGenre(event){
  		this.setState({genre: event.target.value});
  	}
 
+ 	//Update state.max_participants to form value
  	handleChangeMaxParticipants(event){
  		this.setState({max_participants: event.target.value});
  	}
 
+ 	//Update state.min_participants to form value
  	handleChangeMinParticipants(event){
  		this.setState({min_participants: event.target.value});
  	}
 
+ 	//Update state.title to form value
  	handleChangeTitle(event){
  		this.setState({title: event.target.value});
  	}
 
+ 	//Update state.description to form value
  	handleChangeDescription(event){
  		this.setState({description: event.target.value});
  	}
 
+ 	//On submit show modal popup
  	submit(event){
- 		//Submit form
   		event.preventDefault();
-  		//Get the max eventid from the database
-  		
-		alert(JSON.stringify(this.state));
-		axios.post('/addevent', this.state)
+ 	}
+
+ 	// Create event in database
+ 	createEvent(){
+ 		axios.post('/addevent', this.state)
 	      	.then(function (response) {
 	      		if (typeof response.data.redirect == 'string') {
+	      			//If create was sucessful redirect to eventpage
+	      			alert("Event Created Successful! Redirecting to eventpage...");
 					browserHistory.push(response.data.redirect);
 				}
 			}).catch(function (error) {
-				alert(this.state);
+				//If an error occured show error hint
+				alert("Error creating event. "+error.response.data.hint);
 				console.log(error.message);
 			});
  	}
 
 	render(){
-		const id = this.props.params.id;
-		var username={userID: id};
-		var curdate = this.curdate;
 		return( 
-			<div className="container">
-				<MainTopNav
-					username={username}/>
+			<div className="container-fluid">
+				<MainTopNav/>
 				<div className="panel panel-default">
 				    <div className="panel-heading">Add Event</div>
 				    <div className="panel-body">
@@ -116,7 +127,8 @@ export default class AddEventPage extends React.Component {
 							</div> 
 	                        <div className="form-group">
 								<label for="starttime">Time:</label>
-								<input type="datetime-local" className="form-control" id="addTime" name="starttime" required  onChange={this.handleChangeStartTime}/>
+								<input type="datetime-local" className="form-control" id="addTime" name="starttime" placeholder="YYYY-MM-DD HH:MM PM"
+								 required  onChange={this.handleChangeStartTime}/>
 							</div> 
 	                        <div className="form-group">
 								<label for="genre">Genre:</label>
@@ -142,8 +154,43 @@ export default class AddEventPage extends React.Component {
 									</div>
 								</div>
 							</div>  
-							<input className="btn btn-default" id="statusButton" type="submit" value="Add Event"></input>
+							<input className="btn btn-primary" id="statusButton" type="submit" value="Add Event"
+							data-toggle = "modal" data-target = "#myModal"></input>
 						</form>
+
+						<div className = "modal fade" id = "myModal" tabindex = "-1" role = "dialog" 
+						   aria-labelledby = "myModalLabel" aria-hidden = "true">					
+						  	<div className = "modal-dialog">
+						    	<div className = "modal-content">						         
+									<div className = "modal-header">
+										<button type = "button" className = "close" data-dismiss = "modal" aria-hidden = "true">
+										      &times;
+										</button>
+										<h4 className = "modal-title" id = "myModalLabel">
+										   Confirm Event Details
+										</h4>
+									</div>
+									<div className = "modal-body">
+										<p>title: {this.state.title}</p>
+										<p>description: {this.state.description}</p>
+										<p>location: {this.state.location}</p>
+										<p>Time: {this.state.starttime}</p>
+										<p>Genre: {this.state.genre}</p>
+										<p>Max Participants: {this.state.max_participants}</p>
+										<p>Min Participants: {this.state.min_participants}</p>
+									</div>
+									<div className = "modal-footer">
+										<button type = "button" className = "btn btn-default" data-dismiss = "modal">
+										   Cancel
+										</button>
+										<button type = "button" className = "btn btn-primary" data-dismiss = "modal" onClick={this.createEvent}>
+										   Add Event
+										</button>
+									</div>
+
+						      	</div>
+						   	</div>
+						</div>
 				    </div>
 			  	</div>
 			</div>

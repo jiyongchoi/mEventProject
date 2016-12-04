@@ -22,7 +22,6 @@ export default class UserInfo extends React.Component{
 	getUserInfo(id){
 		axios.post('/getuserinfo', {username: id})
 		      	.then(function(response) {
-		      		console.log("GET USERINFO:"+JSON.stringify(response.data));
 		      		//Sets user to the info gotten from the server
 		      		this.setState({user: response.data});
 		      	}.bind(this))
