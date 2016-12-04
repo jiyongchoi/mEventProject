@@ -60,7 +60,6 @@ export default class TopNav extends React.Component{
 	}
 
 	render(){
-		JSON.stringify(this.state);
 		//Show a Link to admin page if user admin
 		let adminlink = <div></div>;
 		if(this.state.user.accounttype.localeCompare("admin") == 0){
