@@ -16,34 +16,22 @@ export default class LoginForm extends React.Component{
     	this.submit = this.submit.bind(this);
 	}
 
-<<<<<<< HEAD
 	// Set state.username as the client types and changes the username text
-=======
-	//On change to username form, update state.username
->>>>>>> ebac7b3fd1e5977f6fb77ed5c405472e84d449ac
 	handleChangeUsername(event) {
 	   this.setState({username: event.target.value});
 	}
 
-<<<<<<< HEAD
 	// Set state.password as the client types and changes the password text
-=======
-	//On change to password form, update state.username
->>>>>>> ebac7b3fd1e5977f6fb77ed5c405472e84d449ac
 	handleChangePassword(event) {
 	  this.setState({password: event.target.value});
 	}
 
-<<<<<<< HEAD
 	/*
 	* Submit the form with the username and password. 
 	* If a redirect string is returned, it means authentication was sucessful
 	* and the page will redirect to the path specified by the string
 	* Else, print a statement on the DOM that says "bad input"
 	*/
-=======
-	//On submit, check if user and password exists in the database
->>>>>>> ebac7b3fd1e5977f6fb77ed5c405472e84d449ac
 	submit(event) {
 		axios.post('/userlogin', {username: this.state.username, password: this.state.password})
 		      	.then(function(response) {
@@ -62,12 +50,9 @@ export default class LoginForm extends React.Component{
   		event.preventDefault();
 	}
 
-<<<<<<< HEAD
 	/*
 	* Express the DOM with login form
 	*/
-=======
->>>>>>> ebac7b3fd1e5977f6fb77ed5c405472e84d449ac
 	render(){
 		//Render login form 
 		return (
