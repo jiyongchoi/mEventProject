@@ -19,6 +19,7 @@ export default class EditEvent extends React.Component {
     	this.handleChangeMaxPart = this.handleChangeMaxPart.bind(this);
     	this.handleChangeMinPart = this.handleChangeMinPart.bind(this);
     	this.handleChangeHost = this.handleChangeHost.bind(this);
+    	this.editEvent = this.editEvent.bind(this);
     	this.submit = this.submit.bind(this);
 	}
 
@@ -63,6 +64,11 @@ export default class EditEvent extends React.Component {
 	}
 
 	submit(event) {
+		$('#editEventModal').modal('show');
+  		event.preventDefault();
+	}
+
+	editEvent(){
 		axios.post('/adminEditEvent', {eventID: this.state.eventID, 
 									  title: this.state.title,
 									  description: this.state.description, 
@@ -90,7 +96,6 @@ export default class EditEvent extends React.Component {
 		      		this.refs.message.innerText = "bad input";
     				console.log(error.message);
   				}.bind(this));
-  		event.preventDefault();
 	}
 
 	render(){
@@ -140,7 +145,7 @@ export default class EditEvent extends React.Component {
 
 					<div className="form-group">
 						<label for="genre">Genre:</label>
-						<select className="form-control" id="editGenre" name="genre" onChange={this.handleChangeGenre}>
+						<select className="form-control" id="editGenre" name="genre" required onChange={this.handleChangeGenre}>
 							<option>sports</option>
 							<option>arts</option>
 							<option>science</option>
@@ -151,14 +156,14 @@ export default class EditEvent extends React.Component {
 
 					<div className="form-group">
 						<label for="max_participants">Max Participants:</label>
-						<input type="number" className="form-control" id="editMaxParticipants" 
-						name="max_participants" required onChange={this.handleChangeMaxPart}/>
+						<input type="number" className="form-control" id="editMaxParticipants" min={this.state.min_participants}
+						name="max_participants"  required onChange={this.handleChangeMaxPart}/>
 					</div>
 
 					<div className="form-group">
 						<label for="min_participants">Min Participants:</label>
 						<input type="number" className="form-control" id="editMinParticipants" 
-						name="min_participants" required onChange={this.handleChangeMinPart}/>
+						name="min_participants" min="1" required onChange={this.handleChangeMinPart}/>
 					</div>
 
 					<div className="form-group">
@@ -170,6 +175,41 @@ export default class EditEvent extends React.Component {
 					<input className="btn btn-default" id="editButton" type="submit" value="Edit Event Info"></input>
 					</form>
 					<div id="message" ref="message"></div>
+				</div>
+				<div className = "modal fade" id = "editEventModal" tabindex = "-1" role = "dialog" 
+			   aria-labelledby = "myModalLabel" aria-hidden = "true">					
+			  	<div className = "modal-dialog">
+			    	<div className = "modal-content">						         
+						<div className = "modal-header">
+							<button type = "button" className = "close" data-dismiss = "modal" aria-hidden = "true">
+							      &times;
+							</button>
+							<h4 className = "modal-title" id = "myModalLabel">
+							   Confirm Edit User
+							</h4>
+						</div>
+						<div className = "modal-body">
+							<p>EventID: {this.state.eventID}</p>
+							<p>Title: {this.state.title}</p>
+							<p>Description: {this.state.description}</p>
+							<p>isCertified: {this.state.isCertified}</p>
+							<p>Location: {this.state.location}</p>
+							<p>Time: {this.state.starttime}</p>
+							<p>Genre: {this.state.genre}</p>
+							<p>Max Participants: {this.state.maxPart}</p>
+							<p>minPart: {this.state.minPart}</p>
+							<p>host: {this.state.host}</p>
+						</div>
+						<div className = "modal-footer">
+							<button type = "button" className = "btn btn-default" data-dismiss = "modal">
+							   Cancel
+							</button>
+							<button type = "button" className = "btn btn-primary" data-dismiss = "modal" onClick={this.editEvent}>
+							   Confirm
+							</button>
+						</div>
+			      	</div>
+			   	</div>
 				</div>
 			</div>
 		);

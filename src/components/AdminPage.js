@@ -9,11 +9,10 @@ import MainTopNav from "./MainTopNav";
 export default class AdminPage extends React.Component {
 	render() {
 		console.log(document.cookie);
-		const id = this.props.params.id;
-		var username={userID: id};
+		//Load admin page
 		return (
 		<div className="container-fluid">
-			<MainTopNav username={username}/>	
+			<MainTopNav/>	
 			<div className="panel-group">
 				<div className="panel panel-default">
 					<div className="panel-heading">

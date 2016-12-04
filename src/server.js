@@ -91,6 +91,7 @@ app.post('/eventattendees', checkAuth, accessDB.signupEvent);
 // this section is for admin use
 app.post('/adminEditUser', accessDB.editUser);
 app.post('/adminEditEvent', accessDB.editEvent);
+app.delete('/adminClearDatabase', checkAuth, checkAdmin, accessDB.clearDatabase);
 /*
 * These are RESTful calls for the front-end pages
 */
