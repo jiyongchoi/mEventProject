@@ -25,8 +25,7 @@ export default class AddEventPage extends React.Component {
     	this.handleChangeMinParticipants = this.handleChangeMinParticipants.bind(this);
     	this.handleChangeTitle = this.handleChangeTitle.bind(this);
     	this.handleChangeDescription = this.handleChangeDescription.bind(this);
-    	this.submit = this.submit.bind(this);
-    	
+    	this.submit = this.submit.bind(this);    	
 	}
 
 	componentDidMount() {
@@ -89,12 +88,11 @@ export default class AddEventPage extends React.Component {
 	render(){
 		const id = this.props.params.id;
 		var username={userID: id};
-
+		var curdate = this.curdate;
 		return( 
 			<div className="container">
 				<MainTopNav
-					username={username}
-				/>
+					username={username}/>
 				<div className="panel panel-default">
 				    <div className="panel-heading">Add Event</div>
 				    <div className="panel-body">
@@ -126,7 +124,7 @@ export default class AddEventPage extends React.Component {
 									<option>arts</option>
 									<option>science</option>
 									<option>social</option>
-									<option>others</option>
+									<option>other</option>
 								</select>
 							</div>
 	                         <div className="form-group">
