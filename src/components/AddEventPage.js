@@ -82,6 +82,7 @@ export default class AddEventPage extends React.Component {
 
  	//On submit show modal popup
  	submit(event){
+ 		$('#myModal').modal('show');
   		event.preventDefault();
  	}
 
@@ -154,8 +155,7 @@ export default class AddEventPage extends React.Component {
 									</div>
 								</div>
 							</div>  
-							<input className="btn btn-primary" id="statusButton" type="submit" value="Add Event"
-							data-toggle = "modal" data-target = "#myModal"></input>
+							<input className="btn btn-primary" id="statusButton" type="submit" value="Add Event"></input>
 						</form>
 
 						<div className = "modal fade" id = "myModal" tabindex = "-1" role = "dialog" 
