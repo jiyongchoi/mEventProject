@@ -139,6 +139,7 @@ exports.getAllEvents = function(req, res, next) {
 
 exports.getEvents = function (req, res, next) {
     var type = req.query.type;
+    // for all future events
     if (type.localeCompare("all") == 0) {
         db.any('SELECT * FROM appData.getEvents();')
         .then(function (data) {
@@ -202,23 +203,59 @@ exports.getEvents = function (req, res, next) {
                 })
                 .catch(function(error) {
                   res.status(400).send("error found in backend");
-                })
+                });
         }
         else {
             res.status(400).send("username undefined");
         }
         
     }
+    else if(type.localeCompare("hasattended") == 0) {
+        var username = req.session.username;
+        var eventid = req.query.eventid;
+        if (typeof eventid != "undefined") {
+            db.one('SELECT * FROM appData.verifyAttendance($1, $2);' [username, eventid])
+              .then(function(data) {
+                  if (data.eventid != null) {
+                      res.send(true);
+                  }
+                  else {
+                      res.send(false);
+                  }
+              })
+              .catch(function(error) {
+                  res.status(400).send("error found in backend");
+              });
+        }
+        else {
+            res.status(400).send("eventid undefined");
+        }
+
+    }
+    else if (type.localeCompare("eventinfo") == 0) {
+        var eventid = req.query.eventid;
+        if (typeof eventid != "undefined") {
+            db.one('SELECT * FROM appData.getEventInfo($1);' [eventid])
+              .then(function(data) {
+                  if (data.eventid != null) {
+                      res.send(data);
+                  }
+                  else {
+                      res.send("no event with such eventid found");
+                  }
+              })
+              .catch(function(error) {
+                  res.status(400).send("error found in backend");
+              });
+        }
+        else {
+            res.status(400).send("eventid undefined");
+        }
+    }
     // no type on url
     else {
         res.status(400).send("please specify type of events-retrieving procedure");
     }
-
-    // for EventPage
-    // else if (type.localeCompare("eventid") == 0) {
-    //     var eventid = req.query.eventid;
-    //     db.one('SELECT * FROM ', [])
-    // }
 }
 
 exports.addEvent = function(req, res, next) {
@@ -272,4 +309,18 @@ exports.deleteEvent = function(req, res, next) {
     .catch(function(error) {
       res.status(400).send("error");
     });
+}
+
+exports.addReview = function(req, res, next) {
+    var username = req.session.username;
+    var reviewText = req.body.reviewText;
+    var eventid = req.body.eventid;
+    var rating = req.body.rating;
+    db.one('SELECT * FROM appData.addReview($1, $2, $3, $4);', [username, eventid, reviewText, rating])
+      .then(function(data) {
+          res.status(200).send("added review successfully")
+      })
+      .catch(function(error) {
+          res.status(400).send("error");
+      });
 }

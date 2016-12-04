@@ -48,18 +48,27 @@ export default class UserEventManager extends React.Component {
   */
 	render() {
     return (
-    <div className="panel-group">
-      {
-            this.state.events.map((eventPreview, i) => {
-              return (
-                <EventPreview
-                  eventPreview={eventPreview}
-                  username={this.props.params.id}
-                  key={`event-${i}`}
-                />
-              );
-            })
-          }
+        <div className="panel-group">
+        {
+              this.state.events.map((eventPreview, i) => {
+                return (
+                  <EventPreview
+                    eventPreview={eventPreview}
+                    key={`event-${i}`}
+                  />
+                );
+              })
+        }             
+        </div>
+        <div className="panel-group">
+            {
+                this.state.hostevents.map((eventPreview, i) => {
+                    return (
+                        <EventPreview eventPreview={eventPreview}
+                          key={`event-${i}`}
+                    );
+                })
+            }
         </div>
     );
 	}

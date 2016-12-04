@@ -36,3 +36,9 @@ CREATE TABLE EventAttendees (
 	username varchar(25) REFERENCES UserInfo(username)
 );
 
+CREATE TABLE Review(
+	username varchar(25) REFERENCES UserInfo,
+	eventid INTEGER REFERENCES Event,
+	reviewtext varchar(1000),
+	reviewrating INTEGER
+);

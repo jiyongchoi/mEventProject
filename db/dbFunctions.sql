@@ -133,21 +133,44 @@ AS 'SELECT
 		max_participants,
 		username
 	FROM appData.Event event JOIN appData.EventAttendees eventattendees
-	ON event.eventid = eventattendees.eventid;'
+	ON event.eventid = eventattendees.eventid
+	WHERE username=$1;'
+LANGUAGE SQL;
+
+CREATE FUNCTION verifyAttendance(username varchar(25), eventid INTEGER)
+RETURNS int
+AS 'SELECT event.eventid
+	FROM appData.Event event JOIN appData.EventAttendees eventattendees
+	ON event.eventid = eventattendees.eventid
+	WHERE starttime < clock_timestamp() AND event.eventid = $2 AND username = $1;'
+LANGUAGE SQL;
+
+CREATE FUNCTION eventHappened(eventid INTEGER) 
+RETURNS int
+AS 'SELECT eventid
+	FROM appData.Event
+	WHERE starttime < clock_timestamp() AND eventid = $1;'
 LANGUAGE SQL;
 
 CREATE FUNCTION getEventsByGenre (genre varchar(25))
 RETURNS SETOF eventType
 AS 'SELECT *
 	FROM appData.Event e
-	WHERE e.genre = $1;'
+	WHERE e.genre = $1 AND e.starttime > clock_timestamp();'
+LANGUAGE SQL;
+
+CREATE FUNCTION getEventInfo (eventid INTEGER) 
+RETURNS eventType
+AS 'SELECT *
+	FROM appData.Event e
+	WHERE e.eventid = $1;'
 LANGUAGE SQL;
 
 CREATE FUNCTION getEventsByLocation (location varchar(1000))
 RETURNS SETOF eventType
 AS 'SELECT *
 	FROM appData.Event e
-	WHERE e.location = $1;'
+	WHERE e.location = $1 AND e.starttime > clock_timestamp();'
 LANGUAGE SQL;
 
 CREATE FUNCTION getEventsByHost(username varchar(25)) 
@@ -187,4 +210,33 @@ CREATE FUNCTION getMaxEventID ()
 RETURNS int
 AS 'SELECT max(eventid)+1
 	FROM appData.Event;'
+LANGUAGE SQL;
+
+CREATE FUNCTION addReview(
+	username varchar(25),
+	eventid INTEGER,
+	reviewText varchar(1000),
+	rating INTEGER)
+RETURNS int
+AS 'INSERT INTO appData.Review
+	VALUES ($1, $2, $3, $4);
+	SELECT 0;'
+LANGUAGE SQL;
+
+CREATE FUNCTION alreadyAttendee(
+				eventid INTEGER,
+				username varchar(25))
+RETURNS int
+AS 'SELECT eventid
+	FROM appData.EventAttendees
+	WHERE eventid=$1 AND username=$2;'
+LANGUAGE SQL;
+
+CREATE FUNCTION signupEventUser(
+				eventid INTEGER,
+				username varchar(25))
+RETURNS int
+AS 'INSERT INTO appData.EventAttendees
+	VALUES ($1, $2);
+	SELECT 0;'
 LANGUAGE SQL;
