@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import MainTopNav from './MainTopNav';
+import {browserHistory} from 'react-router'; 
 
 export default class AddEventPage extends React.Component {
 	constructor(props) {
@@ -77,7 +78,7 @@ export default class AddEventPage extends React.Component {
 		axios.post('/addevent', this.state)
 	      	.then(function (response) {
 	      		if (typeof response.data.redirect == 'string') {
-					window.location = response.data.redirect;
+					browserHistory.push(response.data.redirect);
 				}
 			}).catch(function (error) {
 				alert(this.state);
