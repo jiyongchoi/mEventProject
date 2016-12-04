@@ -33,12 +33,14 @@ CREATE TABLE Event (
 
 CREATE TABLE EventAttendees (
 	eventid INTEGER REFERENCES Event(eventid),
-	username varchar(25) REFERENCES UserInfo(username)
+	username varchar(25) REFERENCES UserInfo(username),
+	PRIMARY KEY (eventid, username)
 );
 
 CREATE TABLE Review(
 	username varchar(25) REFERENCES UserInfo,
 	eventid INTEGER REFERENCES Event,
 	reviewtext varchar(1000),
-	reviewrating INTEGER
+	reviewrating INTEGER,
+	PRIMARY KEY (eventid, username)
 );

@@ -1,3 +1,5 @@
+// src/components/EventSignUp.js
+
 import React from 'react';
 import axios from 'axios';
 
@@ -10,8 +12,9 @@ export default class EventSignUp extends React.Component {
 	signupevent(event) {
 		axios.post('/eventattendees', {eventid: this.props.eventid})
 			.then(function(response){
+				console.log(response.data);
 				alert(response.data);
-				this.forceUpdate();
+				location.reload();
 			}.bind(this))
 			.catch(function(error) {
 				alert(error);

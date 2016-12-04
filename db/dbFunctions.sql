@@ -226,6 +226,7 @@ AS 'INSERT INTO appData.Review
 	SELECT 0;'
 LANGUAGE SQL;
 
+CREATE TYPE 
 CREATE FUNCTION alreadyAttendee(
 				eventid INTEGER,
 				username varchar(25))
