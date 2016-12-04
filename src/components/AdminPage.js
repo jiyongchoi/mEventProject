@@ -2,49 +2,51 @@ import React from 'react';
 import Collapsible from 'react-collapsible';
 import EditUser from "./EditUser";
 import DeleteUser from "./DeleteUser";
+import EditEvent from "./EditEvent";
+import ClearDatabase from "./ClearDatabase";
+import MainTopNav from "./MainTopNav";
+
 export default class AdminPage extends React.Component {
 	render() {
 		console.log(document.cookie);
+		const id = this.props.params.id;
+		var username={userID: id};
 		return (
-		<div className="panel-group">
-			<div className="panel panel-default">
-				<div className="panel-heading">
-					<Collapsible trigger="Edit User">
-						<EditUser/>
-					</Collapsible>
+		<div className="container-fluid">
+			<MainTopNav username={username}/>	
+			<div className="panel-group">
+				<div className="panel panel-default">
+					<div className="panel-heading">
+						<Collapsible trigger="Edit User">
+							<EditUser/>
+						</Collapsible>
+					</div>
 				</div>
-			</div>
 
-			<div className="panel panel-default">
-				<div className="panel-heading">
-					<Collapsible trigger="Delete User">
-						<DeleteUser/>
-					</Collapsible>
+				<div className="panel panel-default">
+					<div className="panel-heading">
+						<Collapsible trigger="Delete User">
+							<DeleteUser/>
+						</Collapsible>
+					</div>
 				</div>
-			</div>
-		
 			
-			<div className="panel panel-default">
-				<div className="panel-heading">
-					<Collapsible trigger="Edit Event">
-						Edit Event
-					</Collapsible>
+				
+				<div className="panel panel-default">
+					<div className="panel-heading">
+						<Collapsible trigger="Edit Event">
+							<EditEvent/>
+						</Collapsible>
+					</div>
 				</div>
-			</div>
 
-			<div className="panel panel-default">
-				<div className="panel-heading">
-					<Collapsible trigger="Certify Event">
-						Certify Event
-					</Collapsible>
-				</div>
-			</div>
-			
-			<div className="panel panel-default">
-				<div className="panel-heading">
-					<Collapsible trigger="Clear Database">
-						Clear Database
-					</Collapsible>
+				
+				<div className="panel panel-default">
+					<div className="panel-heading">
+						<Collapsible trigger="Clear Database">
+							<ClearDatabase/>
+						</Collapsible>
+					</div>
 				</div>
 			</div>
 		</div>

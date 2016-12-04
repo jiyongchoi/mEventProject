@@ -120,18 +120,26 @@ export default class EventPage extends React.Component {
 			</div>
 			<div className="panel panel-default">
 				{this.state.signedUp ?
-					(<p>You are on the attendee list<p>):
-					(<p>You are not on the attendee list<p>)}
+					(<p>You are on the attendee list</p>):
+					(<p>You are not on the attendee list</p>)}
 			</div>
 			<div className="panel panel-default">
 				{this.state.hasAttended ? 
 					(<WriteReview eventid={this.props.params.eventid}/>) : 
 					(<p>You may not leave a review</p>)}
+<<<<<<< HEAD
 			<div>
 			<div className="panel panel-default> 
 				{(!this.state.hasHappened && !this.state.signedUp && !this.state.atCapacity) ? 
 					(<EventSignUp eventid={this.props.params.eventid}/>):
 					(<p>You May Not Sign Up For This Event</p>) }
+=======
+			</div>
+			<div className="panel panel-default"> 
+				{(this.state.hasHappened && this.state.signedUp) ? 
+					(<p>You may not sign up for this event</p>) :
+					(<EventSignUp eventid={this.props.params.eventid}/>) }
+>>>>>>> e4e1ceaff573043f92af9e545adb84d7e50d79df
 			</div>
 		</div>
 

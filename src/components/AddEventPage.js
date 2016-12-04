@@ -25,8 +25,7 @@ export default class AddEventPage extends React.Component {
     	this.handleChangeMinParticipants = this.handleChangeMinParticipants.bind(this);
     	this.handleChangeTitle = this.handleChangeTitle.bind(this);
     	this.handleChangeDescription = this.handleChangeDescription.bind(this);
-    	this.submit = this.submit.bind(this);
-    	
+    	this.submit = this.submit.bind(this);    	
 	}
 
 	componentDidMount() {
@@ -89,12 +88,11 @@ export default class AddEventPage extends React.Component {
 	render(){
 		const id = this.props.params.id;
 		var username={userID: id};
-
+		var curdate = this.curdate;
 		return( 
 			<div className="container">
 				<MainTopNav
-					username={username}
-				/>
+					username={username}/>
 				<div className="panel panel-default">
 				    <div className="panel-heading">Add Event</div>
 				    <div className="panel-body">
@@ -121,20 +119,25 @@ export default class AddEventPage extends React.Component {
 							</div> 
 	                        <div className="form-group">
 								<label for="genre">Genre:</label>
-								<input type="text" className="form-control" id="addGenre" name="genre" placeholder="genre"
-								pattern="[A-Za-z]+" required  onChange={this.handleChangeGenre}/>
+								<select className="form-control" id="addGenre" name="genre" required onChange={this.handleChangeGenre}>
+									<option>sports</option>
+									<option>arts</option>
+									<option>science</option>
+									<option>social</option>
+									<option>other</option>
+								</select>
 							</div>
 	                         <div className="form-group">
 	                         	<div className="row">
 									<div className="col-sm-4">
 										<label for="min_participants">Min Participants:</label>
 										<input type="number" name="min_participants" min="1" placeholder="1"
-										className="form-control" onChange={this.handleChangeMinParticipants}/>
+										className="form-control" required onChange={this.handleChangeMinParticipants}/>
 									</div>
 									<div className="col-sm-4">
 										<label for="max_participants">Max Participants:</label>
 										<input type="number" name="max_participants" min={this.state.min_participants} placeholder="2"
-										className="form-control" onChange={this.handleChangeMaxParticipants}/>
+										className="form-control" required onChange={this.handleChangeMaxParticipants}/>
 									</div>
 								</div>
 							</div>  

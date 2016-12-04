@@ -42,6 +42,34 @@ AS 'INSERT INTO appData.UserInfo
 	SELECT 0;'
 LANGUAGE SQL;
 
+CREATE FUNCTION editUser (username varchar(25),
+						  password varchar(16),
+						  firstname varchar(25),
+						  surname varchar(25),
+						  accountType varchar(10))
+RETURNS userType
+AS 'WITH myUser AS (
+        SELECT *
+        FROM appData.UserInfo
+        WHERE username = $1
+     )
+	UPDATE appData.UserInfo SET 
+		password = CASE WHEN $2 = '''' 
+		THEN (SELECT password From myUser) 
+		ELSE $2 END, 
+		firstname = CASE WHEN $3 = '''' 
+		THEN (SELECT firstname From myUser) 
+		ELSE $3 END,
+		surname = CASE WHEN $4 = '''' 
+		THEN (SELECT surname From myUser) 
+		ELSE $4 END, 
+		accountType = CASE WHEN $5 = '''' 
+		THEN (SELECT accountType From myUser) 
+		ELSE $5 END 
+		WHERE username = $1;
+	SELECT * FROM appData.UserInfo WHERE username = $1;'
+LANGUAGE SQL;
+
 CREATE FUNCTION deleteUser (username varchar(25))
 RETURNS int
 AS 'DELETE 

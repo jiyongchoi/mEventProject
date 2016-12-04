@@ -165,7 +165,7 @@ app.get('/admin/:id', accessDB.verifyAdmin, function(req, res) {
 		});
 })
 
-//app.get('/adminEditUser', accessDB.editUser);
+app.post('/adminEditUser', accessDB.editUser);
 
 app.listen(process.env.PORT || 3000);
 console.log('Listening on port 3000...');
