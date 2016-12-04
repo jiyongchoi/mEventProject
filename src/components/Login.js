@@ -1,53 +1,49 @@
-// src/components/Login.js
-
 import React from 'react';
 import axios from 'axios';
-
 import {browserHistory} from 'react-router';
 
 
 export default class LoginForm extends React.Component{
 	constructor(props) {
 		super(props);
+		//Sets blank username, and password
 		this.state = {username: '', password: '', errormessage: ''};
     	this.handleChangeUsername = this.handleChangeUsername.bind(this);
     	this.handleChangePassword = this.handleChangePassword.bind(this);
     	this.submit = this.submit.bind(this);
 	}
 
+	//On change to username form, update state.username
 	handleChangeUsername(event) {
 	   this.setState({username: event.target.value});
 	}
 
+	//On change to password form, update state.username
 	handleChangePassword(event) {
 	  this.setState({password: event.target.value});
 	}
 
-
-
+	//On submit, check if user and password exists in the database
 	submit(event) {
 		axios.post('/userlogin', {username: this.state.username, password: this.state.password})
 		      	.then(function(response) {
 		      		if (typeof response.data.redirect == 'string') {
-
-		      			//alert(response.data.redirect);
+		      			//Redirects to mainpage if username and password are correct
 		      			browserHistory.push(response.data.redirect);
-						//window.location = response.data.redirect;
 					}
 					else {
-						this.refs.errormessage.innerText = "bad input";
+						this.refs.errormessage.innerText = "invalid input";
 					}
 		      	}.bind(this))
 		      	.catch(function (error) {
-		      		this.refs.errormessage.innerText = "bad input";
+		      		this.refs.errormessage.innerText = "invalid username and password";
     				console.log(error.message);
   				}.bind(this));
   		event.preventDefault();
 	}
 
-
-
 	render(){
+		//Render login form 
 		return (
 		<div className="panel panel-primary">
 			<div className="panel-heading">Login</div>

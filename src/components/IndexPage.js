@@ -1,16 +1,13 @@
-// src/components/IndexPage.js
-
 import React from 'react';
 import LoginForm from './Login';
 import SignupForm from './Signup';
-import UserInfo from './UserInfo';
-import EventManager from './EventManager';
-import EventPreview from './EventPreview';
 import LoginTopNav from './LoginTopNav';
 
 export default class IndexPage extends React.Component {
 
 	render() {
+		//Login page. Contains login and sign up components
+		//Loads special login navbar with little functionality
 		return (
 		<div className="container-fluid">
 		    <div className="container">
