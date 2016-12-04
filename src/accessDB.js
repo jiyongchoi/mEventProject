@@ -65,7 +65,6 @@ exports.getUserInfo = function(req, res, next) {
   db.one('SELECT * FROM appData.getUserInfo($1);', [username])
   .then(function (data) {
     if (data.username != null) {
-      req.session.username = data.username;
       res.status(200).send(data);
     }
     else {
