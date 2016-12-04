@@ -9,7 +9,6 @@ var db = pgp('postgres://vsxebhuzjkklry:-zfG7Ek8uDVo1Rh7VEcyYSy0AR@ec2-23-23-224
 /*
 * User and password validation, POST function
 */
-
 exports.verifyAdmin = function (req, res, next) {
   var potential_admin = req.params.id;
   db.one('SELECT * from appData.getUserInfo($1);', [potential_admin])
@@ -29,6 +28,12 @@ exports.verifyAdmin = function (req, res, next) {
     );
 };
 
+/*
+* Logs in the user by checking if username and password together exist, and
+* if so, declare username to be the req.session. Also provides redirect link
+* to mainpage once user is authenticated
+* Used in Login.js
+*/
 exports.verifyUser = function(req, res, next) {
   var post = req.body;
   var username = post.username
@@ -37,7 +42,6 @@ exports.verifyUser = function(req, res, next) {
   .then(function (data) {
     if (data.username != null) {
       req.session.username = data.username;
-      //res.send("User verified");
       res.status(200).send({redirect: "/mainpage/" + data.username});
     }
     else {
@@ -53,7 +57,10 @@ exports.verifyUser = function(req, res, next) {
   });
 };
 
-
+/*
+* Gets information of user with username.
+* Used in UserInfo.js
+*/
 exports.getUserInfo = function(req, res, next) {
   var username = req.body.username;
   db.one('SELECT * FROM appData.getUserInfo($1);', [username])
@@ -75,6 +82,10 @@ exports.getUserInfo = function(req, res, next) {
   });
 };
 
+/*
+* Adds a new user, with default status as client
+* Used in Signup.js
+*/
 exports.postUser = function(req, res, next) {
     var post = req.body;
     var username = post.username;
@@ -92,6 +103,10 @@ exports.postUser = function(req, res, next) {
     });
 }; 
 
+/*
+* Amends the information of a user with custom fields
+* Used in EditUser.js
+*/
 exports.editUser = function(req, res, next) {
     var post = req.body;
     var username = post.username;
@@ -110,6 +125,10 @@ exports.editUser = function(req, res, next) {
     });
 };
 
+/*
+* Deletes a user by username
+* Used in DeleteUser.js
+*/
 exports.deleteUser = function(req, res, next) {
     var post = req.body;
     var username = post.username;
@@ -126,6 +145,11 @@ exports.deleteUser = function(req, res, next) {
 /*
 * FUNCTIONS FOR EVENTS
 */
+
+/*
+* Retrives all events, past and future
+* Used in EventManager.js
+*/
 exports.getAllEvents = function(req, res, next) {
     db.any('SELECT * FROM appData.getEvents();')
         .then(function (data) {
@@ -137,19 +161,22 @@ exports.getAllEvents = function(req, res, next) {
         })
 }
 
+/*
+* Retrieves events by certain condition, denoted by req.query.type
+*/
 exports.getEvents = function (req, res, next) {
     var type = req.query.type;
     // for all future events
     if (type.localeCompare("all") == 0) {
         db.any('SELECT * FROM appData.getEvents();')
         .then(function (data) {
-           console.log("EVENT LIST FROM SERVER:"+JSON.stringify(data));
            res.status(200).send(data);
         })
         .catch(function(error) {
            res.status(400).send(data);
         })
     }
+    // for all future events, based on genre
     else if (type.localeCompare("genre") == 0) {
         var genre = req.query.genre;
         if (typeof genre != "undefined") {
@@ -181,11 +208,10 @@ exports.getEvents = function (req, res, next) {
           res.status(400).send("Please Enter Location");
         }
     }
-
+    // finds the maximum eventid
     else if (type.localeCompare("max") == 0) {
-        db.one('SELECT * FROM appData.getMaxEventID();')
+        db.one('SELECT coalesce(getmaxeventid, 0) AS getmaxeventid FROM appData.getMaxEventID();')
           .then(function (data) {
-             console.log("MAX EVENT ID: "+ JSON.stringify(data));
              res.status(200).send(data);
           })
           .catch(function(error) {
@@ -193,11 +219,11 @@ exports.getEvents = function (req, res, next) {
              res.status(400).send(data);
           });
     }
-
+    // finds all events hosted by username
     else if(type.localeCompare("hosted") == 0) {
         var username = req.query.username;
         if (typeof username != "undefined") {
-            db.any('SELECT * FROM appData.getEventsByHost($1);' [username])
+            db.any('SELECT * FROM appData.getEventsByHost($1);', [username])
                 .then(function(data) {
                   res.status(200).send(data);
                 })
@@ -210,21 +236,22 @@ exports.getEvents = function (req, res, next) {
         }
         
     }
+    // finds out if current logged in user has attended the particular event
     else if(type.localeCompare("hasattended") == 0) {
         var username = req.session.username;
-        var eventid = req.query.eventid;
+        var eventid = parseInt(req.query.eventid);
         if (typeof eventid != "undefined") {
-            db.one('SELECT * FROM appData.verifyAttendance($1, $2);' [username, eventid])
+            db.one('SELECT coalesce(eventid, 0) AS eventid FROM appData.verifyAttendance($1, $2);', [username, eventid])
               .then(function(data) {
-                  if (data.eventid != null) {
-                      res.send(true);
-                  }
-                  else {
-                      res.send(false);
-                  }
+                    if (data.eventid == 0) {
+                        res.send(false);
+                    }
+                    else {
+                        res.send(true);
+                    }
               })
               .catch(function(error) {
-                  res.status(400).send("error found in backend");
+                  res.status(400).send(error.message);
               });
         }
         else {
@@ -232,10 +259,11 @@ exports.getEvents = function (req, res, next) {
         }
 
     }
+    // retrive information about a particular event
     else if (type.localeCompare("eventinfo") == 0) {
-        var eventid = req.query.eventid;
+        var eventid = parseInt(req.query.eventid);
         if (typeof eventid != "undefined") {
-            db.one('SELECT * FROM appData.getEventInfo($1);' [eventid])
+            db.one('SELECT * FROM appData.getEventInfo($1);', [eventid])
               .then(function(data) {
                   if (data.eventid != null) {
                       res.send(data);
@@ -252,16 +280,17 @@ exports.getEvents = function (req, res, next) {
             res.status(400).send("eventid undefined");
         }
     }
+    //check if event happened
     else if (type.localeCompare("eventhappened") == 0) {
-        var eventid = req.query.eventid;
+        var eventid = parseInt(req.query.eventid);
         if (typeof eventid != "undefined") {
-            db.one('SELECT * FROM appData.eventHappened($1);' [eventid])
+            db.one('SELECT coalesce(eventhappened, 0) AS eventid FROM appData.eventHappened($1);', [eventid])
               .then(function(data) {
-                    if (data.eventid != null) {
-                        res.send(true);
+                    if (data.eventid == 0) {
+                        res.send(false);
                     }
                     else {
-                        res.send(false);
+                        res.send(true);
                     }
               })
               .catch(function(error) {
@@ -278,6 +307,10 @@ exports.getEvents = function (req, res, next) {
     }
 }
 
+/*
+* Add an event
+* Used in AddEventPage.js
+*/
 exports.addEvent = function(req, res, next) {
     var post = req.body;
     console.log('POST: ', post);
@@ -299,14 +332,17 @@ exports.addEvent = function(req, res, next) {
       [eventid, title, description, isCertified, location, host, starttime, genre, rating, min_participants, max_participants])
     .then(function (data) {
         console.log('ADD EVENT RESULT:', JSON.stringify(data));
-        res.status(200).send({redirect: "/eventpage/"+host+"/"+eventid});
+        res.status(200).send({redirect: "/eventpage/"+eventid});
     })
     .catch(function (error) {
       console.log('ERROR:', error)
     });
 }; 
 
-// get all the events, past and future
+/*
+* Retrieve all events of a user, past and future
+* Used in UserEventManager.js
+*/
 exports.getEventsOfUser = function(req, res, next) {
   //TODO
   var user = req.params.id;
@@ -319,6 +355,10 @@ exports.getEventsOfUser = function(req, res, next) {
     });
 }
 
+/*
+* Delete an event
+* Used in EditEvent.js
+*/
 exports.deleteEvent = function(req, res, next) {
   //TODO
   var deleventid = req.params.id;
@@ -331,6 +371,10 @@ exports.deleteEvent = function(req, res, next) {
     });
 }
 
+/*
+* Add review for a past event by a user who is on the attendee list
+* Used in WriteReview.js
+*/
 exports.addReview = function(req, res, next) {
     var username = req.session.username;
     var reviewText = req.body.reviewText;
@@ -345,6 +389,11 @@ exports.addReview = function(req, res, next) {
       });
 }
 
+/*
+* Sign the current logged in user for an event that has not started yet,
+* providing there is still space left
+* Used by EventSignUp.js
+*/
 exports.signupEvent = function(req, res, next) {
     var username = req.session.username;
     var eventid = req.body.eventid;
@@ -361,12 +410,18 @@ exports.signupEvent = function(req, res, next) {
     //see if event is at capacity
     db.one('SELECT max_participants FROM appData.event WHERE eventid=$1;', [eventid])
       .then(function(data){
-          eventmaxcapacity = data;
+          if (data.max_participants == null) {
+              eventmaxcapacity = 0;
+          }
+          else {
+              eventmaxcapacity = data.max_participants;
+          }
       })
       .catch(function(error) {
           return res.status(400).send("error in db");
       });
-    db.one('SELECT * FROM appData.findCurrentEnrolNum($1);' [eventid])
+    db.one('SELECT coalesce(eventid, 0) as eventid, coalesce(enrolmentnum, 0) as enrolment FROM appData.findCurrentEnrolNum($1);', 
+          [eventid])
         .then(function(data) {
             if (data.enrolmentnum >= eventmaxcapacity) {
                 return res.status(200).send("Event is at max capacity");
@@ -385,12 +440,17 @@ exports.signupEvent = function(req, res, next) {
       })
 }
 
+/*
+* Perform a variety of tasks associated with the EventAttendees table in the backend
+*/
 exports.getSignedUp = function(req, res, next) {
-    var eventid = req.query.eventid;
+    var eventid = parseInt(req.query.eventid);
     var username = req.session.username;
     var type = req.query.type;
+    var eventmaxcapacity = 0;
+    // check if current logged in user is already an attendee of the event
     if (type.localeCompare("already") == 0) {
-       db.one('SELECT * FROM appData.alreadyAttendee($1, $2);', [eventid, username])
+       db.one('SELECT coalesce(alreadyattendee, 0) AS eventid FROM appData.alreadyAttendee($1, $2);', [eventid, username])
         .then(function(data) {
             if (data.eventid != null) {
                 return res.status(200).send(true);
@@ -403,16 +463,23 @@ exports.getSignedUp = function(req, res, next) {
             return res.status(400).send("error in db");
         });
     }
+    // check if the event is at capacity
     if (type.localeCompare("capacity") == 0) {
             //see if event is at capacity
         db.one('SELECT max_participants FROM appData.event WHERE eventid=$1;', [eventid])
           .then(function(data){
-              eventmaxcapacity = data;
+              if (data.max_participants == null) {
+                  eventmaxcapacity = 0;
+              }
+              else {
+                  eventmaxcapacity = data.max_participants;
+              }
+              
           })
           .catch(function(error) {
               return res.status(400).send("error in db");
           });
-        db.one('SELECT * FROM appData.findCurrentEnrolNum($1);' [eventid])
+        db.one('SELECT coalesce(eventid, 0) as eventid, coalesce(enrolmentnum, 0) as enrolment FROM appData.findCurrentEnrolNum($1);', [eventid])
             .then(function(data) {
                 if (data.enrolmentnum >= eventmaxcapacity) {
                     return res.status(200).send(true);
@@ -425,13 +492,19 @@ exports.getSignedUp = function(req, res, next) {
                 return res.status(400).send("error in db");
             });
     }
+    // retrieves list of attendees for an event
     if (type.localeCompare("attendlist") == 0) {
+        console.log("list");
         db.any('SELECT username FROM appData.EventAttendees WHERE eventid=$1;', [eventid])
           .then(function(data) {
-              return res.status(400).send(data);
+              console.log("attendlist");
+              console.log(data);
+              return res.status(200).send(data);
           })
           .catch(function(error) {
-              return res.status(400).send("error in db");
+              console.log(error);
+              
+              // return res.status(400).send("error in db");
           });
     }
 }

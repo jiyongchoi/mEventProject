@@ -2,11 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import WriteReview from './WriteReview';
 import EventSignUp from './EventSignUp';
+import MainTopNav from './MainTopNav';
+import UserInfo from './UserInfo';
 
 export default class EventPage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {eventinfo:{}, attendees:{}, 
+		this.state = {eventinfo:{}, attendees:[], 
 					hasAttended: false, hasHappened: false, 
 					signedUp: false, atCapacity: false};
 		this.hasAttended = this.hasAttended.bind(this);
@@ -19,7 +21,10 @@ export default class EventPage extends React.Component {
 		this.signedUp();
 		this.atCapacity = this.atCapacity.bind(this);
 		this.atCapacity();
-		// render capaticy status
+		this.attendeeList = this.attendeeList.bind(this);
+		this.attendeeList();
+		this.signedUp = this.signedUp.bind(this);
+		this.signedUp();
 	}
 
 	hasAttended() {
@@ -28,7 +33,7 @@ export default class EventPage extends React.Component {
 				this.setState({hasAttended: response.data});
 			}.bind(this))
 			.catch(function(error) {
-				alert(error);
+				console.log(error);
 			}.bind(this));
 	}
 
@@ -38,7 +43,7 @@ export default class EventPage extends React.Component {
 					this.setState({eventinfo: response.data})
 				}.bind(this))
 				.catch(function(error) {
-					alert(error);
+					console.log(error);
 				}.bind(this));
 	}
 
@@ -48,7 +53,7 @@ export default class EventPage extends React.Component {
 				this.setState({hasHappened: response.data});
 			}.bind(this))
 			.catch(function(error) {
-				alert(error);
+				console.log(error);
 			}.bind(this));
 	}
 
@@ -58,7 +63,7 @@ export default class EventPage extends React.Component {
 					this.setState({atCapacity: response.data});
 				}.bind(this))
 				.catch(function(error) {
-					alert(error);
+					console.log(error);
 				}.bind(this));
 
 	}
@@ -66,10 +71,20 @@ export default class EventPage extends React.Component {
 	attendeeList() {
 		axios.get('/eventattendees?type=attendlist&eventid='+this.props.params.eventid)
 		.then(function(response) {
-			this.setState({attendees: response.data});
+			console.log(response.data);
+			var attendeearray = [];
+			var index = 0;
+			for (index in response.data) {
+				console.log(response.data[index].username);
+				attendeearray.push(response.data[index].username);
+			}
+			this.setState({attendees: attendeearray});
+			console.log(this.state.attendees);
+
 		}.bind(this))
 		.catch(function(error) {
-			alert(error);
+			console.log("attned!!!!!");
+			console.log(error);
 		}.bind(this));
 	}
 
@@ -79,7 +94,7 @@ export default class EventPage extends React.Component {
 				this.setState({signedUp: response.data});
 			}.bind(this))
 			.catch(function(error) {
-				alert(error);
+				console.log(error);
 			}.bind(this));
 	}
 
@@ -90,25 +105,27 @@ export default class EventPage extends React.Component {
 
 		return (
 		<div className="container">
+			<MainTopNav />
 			<div className="panel panel-default">
 				<div className="panel-body">
 					<div className="jumbotron">
-						<h1>Event Name:</h1> 
+						<h1>Event Name: {this.state.eventinfo.title}</h1> 
 					</div>
-					<h1>EventID: {this.state.eventinfo.eventid}</h1>
-					<h1>Host: {this.state.eventinfo.host}</h1>
-					<h1>Location: {this.state.eventinfo.location}</h1>
-					<h1>Start Time: {this.state.eventinfo.starttime}</h1>
-					<h1>Genre: {this.state.eventinfo.genre}</h1>
-					<h1>Max Participants: {this.state.eventinfo.max_participants}</h1>
-					<h1>Min Participants: {this.state.eventinfo.min_participants}</h1>
+					<h3>EventID: {this.state.eventinfo.eventid}</h3>
+					<h3>Host: {this.state.eventinfo.host}</h3>
+					<h3>Location: {this.state.eventinfo.location}</h3>
+					<h3>Start Time: {this.state.eventinfo.starttime}</h3>
+					<h3>Genre: {this.state.eventinfo.genre}</h3>
+					<h3>Max Participants: {this.state.eventinfo.max_participants}</h3>
+					<h3>Min Participants: {this.state.eventinfo.min_participants}</h3>
 				</div>
 			</div>
 			<div className="panel-group">
+					<h3>List of Attendees</h3>
 					{
 			          this.state.attendees.map((attendee, i) => {
 			            return (
-			            	<h4>{attendee}</h4>
+			            	<UserInfo username={{userID: attendee}} />
 			            );
 			          })
 			        }

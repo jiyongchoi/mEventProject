@@ -50,6 +50,7 @@ export default class UserEventManager extends React.Component {
     return (
       <div className="container">
         <div className="panel-group">
+        <h3>Events as Attendee</h3>
         {
               this.state.events.map((eventPreview, i) => {
                 return (
@@ -62,6 +63,7 @@ export default class UserEventManager extends React.Component {
         }             
         </div>
         <div className="panel-group">
+            <h3>Events as Host</h3>
             {
                 this.state.hostevents.map((eventPreview, i) => {
                     return (

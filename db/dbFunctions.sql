@@ -137,8 +137,11 @@ AS 'SELECT
 	WHERE username=$1;'
 LANGUAGE SQL;
 
+CREATE TYPE verifyType AS (
+	eventid INTEGER
+);
 CREATE FUNCTION verifyAttendance(username varchar(25), eventid INTEGER)
-RETURNS int
+RETURNS verifyType
 AS 'SELECT event.eventid
 	FROM appData.Event event JOIN appData.EventAttendees eventattendees
 	ON event.eventid = eventattendees.eventid
