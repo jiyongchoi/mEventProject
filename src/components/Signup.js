@@ -2,8 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import {browserHistory} from 'react-router';
 
-
-export default class LoginForm extends React.Component{
+/*
+* Sign Up Form
+*/
+export default class Signup extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {username: '', password: '', fname: '', surname: ''};
@@ -14,28 +16,33 @@ export default class LoginForm extends React.Component{
     	this.submit = this.submit.bind(this);
 	}
 
+	// Set state.username as the client types and changes the username text
 	handleChangeUsername(event) {
     	this.setState({username: event.target.value});
  	}
 
+ 	// Set state.password as the client types and changes the password text
   	handleChangePassword(event) {
   		this.setState({password: event.target.value});
   	}
 
+  	// Set state.fname as the client types and changes the password text
   	handleChangeFname(event) {
   		this.setState({fname: event.target.value});
   	}
 
+	// Set state.surname as the client types and changes the password text
   	handleChangeSurname(event) {
   		this.setState({surname: event.target.value});
   	}
 
+  	// Ajax call is made to server once signup form in the DOM is submitted
   	submit(event){
   		// Submit form via AJAX
-		axios.post('/user', {username: this.state.username, password: this.state.password, fname: this.state.fname, surname: this.state.surname})
+		axios.post('/user', {username: this.state.username, password: this.state.password, 
+						fname: this.state.fname, surname: this.state.surname})
 		      	.then(function (response) {
 		      		if (typeof response.data.redirect == 'string') {
-						//window.location = response.data.redirect;
 						browserHistory.push(response.data.redirect);
 					}
 				}).catch(function (error) {
@@ -44,6 +51,7 @@ export default class LoginForm extends React.Component{
   		event.preventDefault();
   	}
 
+  	// express signup form in the DOM
 	render(){
 		return (
 		<div id="signup" >
