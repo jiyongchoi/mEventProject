@@ -48,6 +48,7 @@ export default class UserEventManager extends React.Component {
   */
 	render() {
     return (
+      <div className="container">
         <div className="panel-group">
         {
               this.state.events.map((eventPreview, i) => {
@@ -66,10 +67,12 @@ export default class UserEventManager extends React.Component {
                     return (
                         <EventPreview eventPreview={eventPreview}
                           key={`event-${i}`}
+                        />
                     );
                 })
             }
         </div>
+      </div>
     );
 	}
 }

@@ -18,7 +18,7 @@ const routes = (
     <IndexRoute component={IndexPage} />
     <Route path="mainpage/:id" component={MainPage}/>
     <Route path="userpage/:id" component={UserPage}/>
-    <Route path="eventpage/:id/:eventid" component={EventPage}/>
+    <Route path="eventpage/:eventid" component={EventPage}/>
     <Route path="addeventpage/:id" component={AddEventPage}/>
     <Route path="admin/:id" component={AdminPage}/>
   </Route>

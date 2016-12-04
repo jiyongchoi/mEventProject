@@ -26,7 +26,7 @@ export default class EventPreview extends React.Component {
 		return (
 			<div className="panel panel-default">
 				<div className="panel-heading">
-					<Link to={`/eventPage/${username}/${eventPreview.eventid}`}>Event {eventPreview.eventid}</Link>
+					<Link to={`/eventPage/${eventPreview.eventid}`}>Event {eventPreview.eventid}</Link>
 				</div>
 				<div className="panel-body">
 					<h4>Event Name: {eventPreview.title}</h4>

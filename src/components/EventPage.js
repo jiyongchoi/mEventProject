@@ -38,7 +38,7 @@ export default class EventPage extends React.Component {
 	}
 
 	hasHappened() {
-		axios.get('/events?type=eventhappened&eventid='this.props.params.eventid)
+		axios.get('/events?type=eventhappened&eventid='+this.props.params.eventid)
 			.then(function(response) {
 				this.setState({hasHappened: response.data});
 			}.bind(this))
@@ -80,15 +80,15 @@ export default class EventPage extends React.Component {
 			</div>
 			<div className="panel panel-default">
 				{this.state.signedUp ?
-					(<p>You are on the attendee list<p>):
-					(<p>You are not on the attendee list<p>)}
+					(<p>You are on the attendee list</p>):
+					(<p>You are not on the attendee list</p>)}
 			</div>
 			<div className="panel panel-default">
 				{this.state.hasAttended ? 
 					(<WriteReview eventid={this.props.params.eventid}/>) : 
 					(<p>You may not leave a review</p>)}
-			<div>
-			<div className="panel panel-default> 
+			</div>
+			<div className="panel panel-default"> 
 				{(this.state.hasHappened && this.state.signedUp) ? 
 					(<p>You may not sign up for this event</p>) :
 					(<EventSignUp eventid={this.props.params.eventid}/>) }
