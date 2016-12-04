@@ -2,8 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import {browserHistory} from 'react-router';
 
-
+/*
+* Express the form to authenticate and log in a client
+*/
 export default class LoginForm extends React.Component{
+	// the constructor for the loginform class
 	constructor(props) {
 		super(props);
 		//Sets blank username, and password
@@ -13,17 +16,22 @@ export default class LoginForm extends React.Component{
     	this.submit = this.submit.bind(this);
 	}
 
-	//On change to username form, update state.username
+	// Set state.username as the client types and changes the username text
 	handleChangeUsername(event) {
 	   this.setState({username: event.target.value});
 	}
 
-	//On change to password form, update state.username
+	// Set state.password as the client types and changes the password text
 	handleChangePassword(event) {
 	  this.setState({password: event.target.value});
 	}
 
-	//On submit, check if user and password exists in the database
+	/*
+	* Submit the form with the username and password. 
+	* If a redirect string is returned, it means authentication was sucessful
+	* and the page will redirect to the path specified by the string
+	* Else, print a statement on the DOM that says "bad input"
+	*/
 	submit(event) {
 		axios.post('/userlogin', {username: this.state.username, password: this.state.password})
 		      	.then(function(response) {
@@ -42,6 +50,9 @@ export default class LoginForm extends React.Component{
   		event.preventDefault();
 	}
 
+	/*
+	* Express the DOM with login form
+	*/
 	render(){
 		//Render login form 
 		return (

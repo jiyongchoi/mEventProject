@@ -1,7 +1,7 @@
 var pgp = require('pg-promise')(/*options*/)
 pgp.pg.defaults.ssl = true;
 var db = pgp('postgres://vsxebhuzjkklry:-zfG7Ek8uDVo1Rh7VEcyYSy0AR@ec2-23-23-224-174.compute-1.amazonaws.com:5432/d6utk5i40rffqd');
-
+var async = require('async');
 /*
 * FUNCTIONS FOR USERS
 */
@@ -50,7 +50,6 @@ exports.verifyUser = function(req, res, next) {
     }
   })
   .catch(function (error) {
-    console.log('ERROR:', error)
     res.status(400).json({
       status: 'failure',
       message: 'could not retrive user'
@@ -194,21 +193,6 @@ exports.getEvents = function (req, res, next) {
         }
         
     }
-    else if (type.localeCompare("location") == 0) {
-        var location = req.query.location;
-        if (typeof location != "undefined") { 
-            db.any('SELECT * FROM appData.getEventsByLocation($1);', [location])
-              .then(function (data) {
-                 res.status(200).send(data);
-              })
-              .catch(function(error) {
-                 res.status(400).send(data);
-              })
-        }
-        else {
-          res.status(400).send("Please Enter Location");
-        }
-    }
     // finds the maximum eventid
     else if (type.localeCompare("max") == 0) {
         db.one('SELECT coalesce(getmaxeventid, 0) AS getmaxeventid FROM appData.getMaxEventID();')
@@ -237,29 +221,6 @@ exports.getEvents = function (req, res, next) {
         }
         
     }
-    // finds out if current logged in user has attended the particular event
-    else if(type.localeCompare("hasattended") == 0) {
-        var username = req.session.username;
-        var eventid = parseInt(req.query.eventid);
-        if (typeof eventid != "undefined") {
-            db.one('SELECT coalesce(eventid, 0) AS eventid FROM appData.verifyAttendance($1, $2);', [username, eventid])
-              .then(function(data) {
-                    if (data.eventid == 0) {
-                        res.send(false);
-                    }
-                    else {
-                        res.send(true);
-                    }
-              })
-              .catch(function(error) {
-                  res.status(400).send(error.message);
-              });
-        }
-        else {
-            res.status(400).send("eventid undefined");
-        }
-
-    }
     // retrive information about a particular event
     else if (type.localeCompare("eventinfo") == 0) {
         var eventid = parseInt(req.query.eventid);
@@ -281,27 +242,6 @@ exports.getEvents = function (req, res, next) {
             res.status(400).send("eventid undefined");
         }
     }
-    //check if event happened
-    else if (type.localeCompare("eventhappened") == 0) {
-        var eventid = parseInt(req.query.eventid);
-        if (typeof eventid != "undefined") {
-            db.one('SELECT coalesce(eventhappened, 0) AS eventid FROM appData.eventHappened($1);', [eventid])
-              .then(function(data) {
-                    if (data.eventid == 0) {
-                        res.send(false);
-                    }
-                    else {
-                        res.send(true);
-                    }
-              })
-              .catch(function(error) {
-                  res.status(400).send("error found in backend");
-              });
-        }
-        else {
-            res.status(400).send("eventid undefined");
-        }
-    }
     // no type on url
     else {
         res.status(400).send("please specify type of events-retrieving procedure");
@@ -314,7 +254,6 @@ exports.getEvents = function (req, res, next) {
 */
 exports.addEvent = function(req, res, next) {
     var post = req.body;
-    console.log('POST: ', post);
     var title = post.title;
     //var picture = post.picture;
     var description = post.description;
@@ -332,7 +271,6 @@ exports.addEvent = function(req, res, next) {
     db.one('SELECT * FROM appData.createEvent($1, $2, NULL, $3, $4, $5, $6, $7, $8, $9, $10, $11);', 
       [eventid, title, description, isCertified, location, host, starttime, genre, rating, min_participants, max_participants])
     .then(function (data) {
-        console.log('ADD EVENT RESULT:', JSON.stringify(data));
         res.status(200).send({redirect: "/eventpage/"+eventid});
     })
     .catch(function (error) {
@@ -410,13 +348,35 @@ exports.addReview = function(req, res, next) {
     var reviewText = req.body.reviewText;
     var eventid = req.body.eventid;
     var rating = req.body.rating;
-    db.one('SELECT * FROM appData.addReview($1, $2, $3, $4);', [username, eventid, reviewText, rating])
-      .then(function(data) {
-          res.status(200).send("added review successfully")
-      })
-      .catch(function(error) {
-          res.status(400).send("error");
-      });
+    if (verifyAttendance(username, eventid)) {
+        db.one('SELECT * FROM appData.addReview($1, $2, $3, $4);', [username, eventid, reviewText, rating])
+            .then(function(data) {
+                return  res.status(200).send("added review successfully");
+            })
+            .catch(function(error) {
+                return res.status(200).send("You " + username+ " have are already added review");
+            });
+    }
+    else {
+      return res.status(200).send("You are not on the attendee list");
+    }
+    
+}
+
+/*
+* Return true if the username user is in the attendance list of eventid event
+* and the event's starttime is in the past
+*/
+function verifyAttendance(username, eventid) {
+    db.one('SELECT coalesce(eventid, 0) AS eventid FROM appData.verifyAttendance($1, $2);', [username, eventid])
+        .then(function(data) {
+              if (data.eventid != 0) {
+                  return true;
+                }
+              else {
+                  return false;
+              }
+          });
 }
 
 exports.getReview = function(req, res, next) {
@@ -435,49 +395,57 @@ exports.getReview = function(req, res, next) {
 exports.signupEvent = function(req, res, next) {
     var username = req.session.username;
     var eventid = req.body.eventid;
-    var eventmaxcapacity = 0;
-    db.one('SELECT * FROM appData.alreadyAttendee($1, $2);', [eventid, username])
-      .then(function(data) {
-          if (data.eventid != null) {
-              return res.status(200).send("You are already attending");
-          }
-      })
-      .catch(function(error) {
-          return res.status(400).send("error in db");
-      });
-    //see if event is at capacity
-    db.one('SELECT max_participants FROM appData.event WHERE eventid=$1;', [eventid])
-      .then(function(data){
-          if (data.max_participants == null) {
-              eventmaxcapacity = 0;
-          }
-          else {
-              eventmaxcapacity = data.max_participants;
-          }
-      })
-      .catch(function(error) {
-          return res.status(400).send("error in db");
-      });
-    db.one('SELECT coalesce(eventid, 0) as eventid, coalesce(enrolmentnum, 0) as enrolment FROM appData.findCurrentEnrolNum($1);', 
-          [eventid])
-        .then(function(data) {
-            if (data.enrolmentnum >= eventmaxcapacity) {
-                return res.status(200).send("Event is at max capacity");
+    var eventmaxcapacity = find_max(eventid);
+    var enrolment = enrolmentnum(eventid)
+    if (eventmaxcapacity == 0 || eventmaxcapacity > enrolment) {
+      db.one('SELECT * FROM appData.signupEventUser($1, $2);', [eventid, username])
+          .then(function(data) {
+                return res.status(200).send("You " + username+ " have been successfully added");
+          })
+          .catch(function(error) {
+              res.status(200).send("You " + username+ " have are already been added");
+          });      
+    }
+    else {
+      return res.status(200).send("The event is at capacity");
+    }
+}
+
+/*
+* Return the maximum capacity of eventid event
+*/
+function find_max(eventid) {
+  var max = 0;
+  db.one('SELECT coalesce(max_participants, 0) AS max_participants FROM appData.event WHERE eventid=$1;', [eventid])
+        .then(function(data){
+            if (typeof data.max_participants == null) {
+                max = 0;
+            }
+            else {
+                max = data.max_participants;
             }
         })
         .catch(function(error) {
-            return res.status(400).send("error in db");
+            return 0;
         });
-    // actually sign the person in
-    db.one('SELECT * FROM appData.signupEventUser($1, $2);', [eventid, username])
-      .then(function(data) {
-          return res.status(200).send("You " + username+ " have been successfully added");
-      })
-      .catch(function(error) {
-          return res.status(400).send("error in db");
-      })
+    return max;
 }
 
+/*
+* Return the enrolment number of eventid event
+*/
+function enrolmentnum(eventid) {
+  var enrol = 0;
+    db.one('SELECT coalesce(eventid, 0) as eventid, coalesce(enrolmentnum, 0) as enrolmentnum FROM appData.findCurrentEnrolNum($1);', 
+          [eventid])
+        .then(function(data) {
+            enrol = parseInt(data.enrolmentnum);
+        })
+        .catch(function(error) {
+            enrol = 0;
+        });
+    return enrol;
+};
 /*
 * Perform a variety of tasks associated with the EventAttendees table in the backend
 */
@@ -486,53 +454,8 @@ exports.getSignedUp = function(req, res, next) {
     var username = req.session.username;
     var type = req.query.type;
     var eventmaxcapacity = 0;
-    // check if current logged in user is already an attendee of the event
-    if (type.localeCompare("already") == 0) {
-       db.one('SELECT coalesce(alreadyattendee, 0) AS eventid FROM appData.alreadyAttendee($1, $2);', [eventid, username])
-        .then(function(data) {
-            if (data.eventid != null) {
-                return res.status(200).send(true);
-            }
-            else {
-                return res.status(200).send(false);
-            }
-        })
-        .catch(function(error) {
-            return res.status(400).send("error in db");
-        });
-    }
-    // check if the event is at capacity
-    if (type.localeCompare("capacity") == 0) {
-            //see if event is at capacity
-        db.one('SELECT max_participants FROM appData.event WHERE eventid=$1;', [eventid])
-          .then(function(data){
-              if (data.max_participants == null) {
-                  eventmaxcapacity = 0;
-              }
-              else {
-                  eventmaxcapacity = data.max_participants;
-              }
-              
-          })
-          .catch(function(error) {
-              return res.status(400).send("error in db");
-          });
-        db.one('SELECT coalesce(eventid, 0) as eventid, coalesce(enrolmentnum, 0) as enrolment FROM appData.findCurrentEnrolNum($1);', [eventid])
-            .then(function(data) {
-                if (data.enrolmentnum >= eventmaxcapacity) {
-                    return res.status(200).send(true);
-                }
-                else {
-                    return res.status(200).send(false);
-                }
-            })
-            .catch(function(error) {
-                return res.status(400).send("error in db");
-            });
-    }
     // retrieves list of attendees for an event
     if (type.localeCompare("attendlist") == 0) {
-        console.log("list");
         db.any('SELECT username FROM appData.EventAttendees WHERE eventid=$1;', [eventid])
           .then(function(data) {
               return res.status(200).send(data);
