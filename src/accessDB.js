@@ -130,12 +130,12 @@ exports.editUser = function(req, res, next) {
 * Used in DeleteUser.js
 */
 exports.deleteUser = function(req, res, next) {
-    var post = req.body;
-    var username = post.username;
+    var username = req.query.username;
+    console.log(username);
 
     db.one('SELECT * FROM appData.deleteUser($1);', [username])
     .then(function (data) {
-        res.status(200).send('Success');
+        res.status(200).send(data);
     })
     .catch(function (error) {
       console.log('ERROR:', error)

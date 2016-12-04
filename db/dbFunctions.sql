@@ -73,8 +73,8 @@ LANGUAGE SQL;
 CREATE FUNCTION deleteUser (username varchar(25))
 RETURNS int
 AS 'DELETE 
-	FROM appData.UserInfo u
-	WHERE u.username = $1;
+	FROM appData.UserInfo
+	WHERE username = $1;
 	SELECT 0;'
 LANGUAGE SQL;
 
