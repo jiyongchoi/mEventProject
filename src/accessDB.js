@@ -129,7 +129,6 @@ exports.editUser = function(req, res, next) {
 */
 exports.deleteUser = function(req, res, next) {
     var username = req.query.username;
-    console.log(username);
 
     db.one('SELECT * FROM appData.deleteUser($1);', [username])
     .then(function (data) {
@@ -151,7 +150,6 @@ exports.deleteUser = function(req, res, next) {
 exports.getAllEvents = function(req, res, next) {
     db.any('SELECT * FROM appData.getEvents();')
         .then(function (data) {
-          console.log('EVENTDATA: ' + data);
            res.status(200).send(data);
         })
         .catch(function(error) {
@@ -309,7 +307,6 @@ exports.editEvent = function(req, res, next) {
     var maxPart = post.maxPart;
     var minPart = post.minPart;
     var host = post.host;
-    console.log(post);
 
     db.one('SELECT * FROM appData.editEvent($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);', 
             [eventID, title, description, isCertified, location, host, starttime, genre, minPart, maxPart])
@@ -346,37 +343,25 @@ exports.addReview = function(req, res, next) {
     var reviewText = req.body.reviewText;
     var eventid = req.body.eventid;
     var rating = req.body.rating;
-    if (verifyAttendance(username, eventid)) {
-        db.one('SELECT * FROM appData.addReview($1, $2, $3, $4);', [username, eventid, reviewText, rating])
-            .then(function(data) {
-                return  res.status(200).send("added review successfully");
-            })
-            .catch(function(error) {
-                return res.status(200).send("You " + username+ " have are already added review");
-            });
-    }
-    else {
-      return res.status(200).send("You are not on the attendee list or event has not happened yet");
-    }
-    
+    db.one('SELECT coalesce(eventid, 0) AS eventid FROM appData.verifyAttendance($1, $2);', [username, eventid])
+        .then(function(data) {
+          if (data.eventid != 0) {
+            db.one('SELECT * FROM appData.addReview($1, $2, $3, $4);', [username, eventid, reviewText, rating])
+                .then(function(data) {
+                    return  res.status(200).send("added review successfully");
+                })
+                .catch(function(error) {
+                    return res.status(200).send("You " + username+ " have are already added review");
+                });
+          } else {
+            return res.status(200).send("You " + username+ " have not attended this event");
+          }
+        });
 }
 
 /*
-* Return true if the username user is in the attendance list of eventid event
-* and the event's starttime is in the past
+* Get Review data
 */
-function verifyAttendance(username, eventid) {
-    db.one('SELECT coalesce(eventid, 0) AS eventid FROM appData.verifyAttendance($1, $2);', [username, eventid])
-        .then(function(data) {
-              if (data.eventid != 0) {
-                  return true;
-                }
-              else {
-                  return false;
-              }
-          });
-}
-
 exports.getReview = function(req, res, next) {
     var eventid = parseInt(req.query.eventid);
     db.any('SELECT * FROM appData.review WHERE eventid=$1;', [eventid])
@@ -459,7 +444,7 @@ exports.getSignedUp = function(req, res, next) {
               return res.status(200).send(data);
           })
           .catch(function(error) {
-              console.log(error);
+              console.log("ERROR:" +error);
               
               // return res.status(400).send("error in db");
           });

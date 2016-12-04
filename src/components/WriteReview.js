@@ -35,9 +35,9 @@ export default class WriteReview extends React.Component{
 		axios.post('/reviews', {reviewText: this.state.reviewText, 
 								eventid: this.props.eventid,
 								rating: parseInt(this.state.reviewRating)})
-			.then(function(response){
-				this.setState({reviewText: "", reviewRating: ""});
+			.then(function(response){		
 				alert(response.data);
+				this.setState({reviewText: "", reviewRating: ""});
 				location.reload();
 				this.refs.submitoutcome.innerText = response.data;
 			}.bind(this))
@@ -56,24 +56,22 @@ export default class WriteReview extends React.Component{
 		<div className="panel panel-default">
 			<div className="panel-heading">Review</div>
 			<div className="panel-body">
-			  	<form onSubmit={this.submitReview}>
+			  	<form  onSubmit={this.submitReview}>
 				    <div className="form-group">
 				    	<label for="comment">Leave a Review:</label>
-				    	<textarea maxLength="1000" placeholder="Great Review!" class="form-control" rows="3" id="comment" value={this.state.reviewText}
+				    	<textarea maxLength="1000" placeholder="Write Review!" className="form-control" rows="3" id="comment" 
 				    		required onChange={this.changeText}>
 				    	</textarea>
 				    	<label>Leave a rating (out of 5, higher being better):</label>
-				    	<input type="number" placeholder="0-5"
-						min="0" max="5" required value={this.state.reviewRating} onChange={this.changeRating}/>
-						 <input className="btn btn-default" type="submit"></input>
+				    	<input type="number" placeholder="0-5" className="form-control"
+						min="0" max="5" required onChange={this.changeRating}/>
+						 <input className="btn btn-default"value="Submit Review" type="submit"></input>
 				    </div>
 			  </form>
 			</div>
 			<div ref="submitoutcome"></div>
 		</div>
 
-
-			
 		);
 	}
 }
