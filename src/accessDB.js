@@ -357,7 +357,7 @@ exports.addReview = function(req, res, next) {
             });
     }
     else {
-      return res.status(200).send("You are not on the attendee list");
+      return res.status(200).send("You are not on the attendee list or event has not happened yet");
     }
     
 }
