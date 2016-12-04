@@ -35,7 +35,7 @@ export default class EventPreview extends React.Component {
 					<p>Time: {eventPreview.starttime}</p>
 					<p>Genre: {eventPreview.genre}</p>
 					<p>Max: {eventPreview.max_participants}</p>
-					<p>Min: {eventPreview.max_participants}</p>
+					<p>Min: {eventPreview.min_participants}</p>
 					<p>Rating: {eventPreview.rating}</p>
 				</div>
 			</div>
