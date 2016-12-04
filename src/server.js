@@ -80,8 +80,12 @@ app.get('/events', checkAuth, accessDB.getEvents); // make req.query.type in the
 app.post('/events', checkAuth, accessDB.addEvent);
 app.delete('/events', checkAuth, accessDB.deleteEvent);
 
+// this section is for submitting reviews
 app.post('/reviews', checkAuth, accessDB.addReview);
 
+// this section is for eventattendees
+app.get('/eventattendees', checkAuth, accessDB.getSignedUp);
+app.post('/eventattendees', checkAuth, accessDB.signupEvent);
 
 /*
 * These are RESTful calls for the front-end pages

@@ -8,7 +8,6 @@ export default class WriteReview extends React.Component{
 		this.changeText = this.changeText.bind(this);
 		this.changeRating = this.changeRating.bind(this);
 		this.submitReview = this.submitReview.bind(this);
-		
 	}
 
 	changeText(event) {
@@ -23,14 +22,14 @@ export default class WriteReview extends React.Component{
 		//AJAX CALL to post /reviews, send reviewtext and the eventid
 		axios.post('/reviews', {reviewText: this.state.reviewText, 
 								eventid: this.props.eventid,
-								rating: parseInt(this.state.reviewRating})
+								rating: parseInt(this.state.reviewRating)})
 			.then(function(response){
 				this.setState({reviewText: "", reviewRating: ""});
 				this.refs.submitoutcome.innerText = response.data;
 			}.bind(this))
 			.catch(function(error) {
 				alert(error);
-			}.bind(this))
+			}.bind(this));
 	}
 
 	render(){

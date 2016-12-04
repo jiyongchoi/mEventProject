@@ -262,6 +262,26 @@ exports.getEvents = function (req, res, next) {
             res.status(400).send("eventid undefined");
         }
     }
+    else if (type.localeCompare("eventhappened") == 0) {
+        var eventid = req.query.eventid;
+        if (typeof eventid != "undefined") {
+            db.one('SELECT * FROM appData.eventHappened($1);' [eventid])
+              .then(function(data) {
+                    if (data.eventid != null) {
+                        res.send(true);
+                    }
+                    else {
+                        res.send(false);
+                    }
+              })
+              .catch(function(error) {
+                  res.status(400).send("error found in backend");
+              });
+        }
+        else {
+            res.status(400).send("eventid undefined");
+        }
+    }
     // no type on url
     else {
         res.status(400).send("please specify type of events-retrieving procedure");
@@ -333,4 +353,95 @@ exports.addReview = function(req, res, next) {
       .catch(function(error) {
           res.status(400).send("error");
       });
+}
+
+exports.signupEvent = function(req, res, next) {
+    var username = req.session.username;
+    var eventid = req.body.eventid;
+    var eventmaxcapacity = 0;
+    db.one('SELECT * FROM appData.alreadyAttendee($1, $2);', [eventid, username])
+      .then(function(data) {
+          if (data.eventid != null) {
+              return res.status(200).send("You are already attending");
+          }
+      })
+      .catch(function(error) {
+          return res.status(400).send("error in db");
+      });
+    //see if event is at capacity
+    db.one('SELECT max_participants FROM appData.event WHERE eventid=$1;', [eventid])
+      .then(function(data){
+          eventmaxcapacity = data;
+      })
+      .catch(function(error) {
+          return res.status(400).send("error in db");
+      });
+    db.one('SELECT * FROM appData.findCurrentEnrolNum($1);' [eventid])
+        .then(function(data) {
+            if (data.enrolmentnum >= eventmaxcapacity) {
+                return res.status(200).send("Event is at max capacity");
+            }
+        })
+        .catch(function(error) {
+            return res.status(400).send("error in db");
+        });
+    // actually sign the person in
+    db.one('SELECT * FROM appData.signupEventUser($1, $2);', [eventid, username])
+      .then(function(data) {
+          return res.status(200).send("You " + username+ " have been successfully added");
+      })
+      .catch(function(error) {
+          return res.status(400).send("error in db");
+      })
+}
+
+exports.getSignedUp = function(req, res, next) {
+    var eventid = req.query.eventid;
+    var username = req.session.username;
+    var type = req.query.type;
+    if (type.localeCompare("already") == 0) {
+       db.one('SELECT * FROM appData.alreadyAttendee($1, $2);', [eventid, username])
+        .then(function(data) {
+            if (data.eventid != null) {
+                return res.status(200).send(true);
+            }
+            else {
+                return res.status(200).send(false);
+            }
+        })
+        .catch(function(error) {
+            return res.status(400).send("error in db");
+        });
+    }
+    if (type.localeCompare("capacity") == 0) {
+            //see if event is at capacity
+        db.one('SELECT max_participants FROM appData.event WHERE eventid=$1;', [eventid])
+          .then(function(data){
+              eventmaxcapacity = data;
+          })
+          .catch(function(error) {
+              return res.status(400).send("error in db");
+          });
+        db.one('SELECT * FROM appData.findCurrentEnrolNum($1);' [eventid])
+            .then(function(data) {
+                if (data.enrolmentnum >= eventmaxcapacity) {
+                    return res.status(200).send(true);
+                }
+                else {
+                    return res.status(200).send(false);
+                }
+            })
+            .catch(function(error) {
+                return res.status(400).send("error in db");
+            });
+    }
+    if (type.localeCompare("attendlist") == 0) {
+        db.any('SELECT username FROM appData.EventAttendees WHERE eventid=$1;', [eventid])
+          .then(function(data) {
+              return res.status(400).send(data);
+          })
+          .catch(function(error) {
+              return res.status(400).send("error in db");
+          });
+    }
 }

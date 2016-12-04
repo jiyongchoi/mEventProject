@@ -212,3 +212,17 @@ AS 'INSERT INTO appData.EventAttendees
 	VALUES ($1, $2);
 	SELECT 0;'
 LANGUAGE SQL;
+
+CREATE TYPE EnrolNumType AS (
+	eventid INTEGER,
+	enrolmentnum bigint
+);
+
+
+CREATE FUNCTION findCurrentEnrolNum(eventid INTEGER)
+RETURNS EnrolNumType
+AS 'SELECT eventid, count(username) as enrolmentnum
+	FROM appData.EventAttendees
+	WHERE eventid = $1
+	GROUP BY eventid;'
+LANGUAGE SQL;

@@ -6,7 +6,9 @@ import EventSignUp from './EventSignUp';
 export default class EventPage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {eventinfo:{}, attendees:{}, hasAttended: false, hasHappened: false, signedUp: false};
+		this.state = {eventinfo:{}, attendees:{}, 
+					hasAttended: false, hasHappened: false, 
+					signedUp: false, atCapacity: false};
 		this.hasAttended = this.hasAttended.bind(this);
 		this.hasAttended();
 		this.getEventInfo = this.getEventInfo.bind(this);
@@ -15,6 +17,9 @@ export default class EventPage extends React.Component {
 		this.hasHappened();
 		this.signedUp = this.signedUp.bind(this);
 		this.signedUp();
+		this.atCapacity = this.atCapacity.bind(this);
+		this.atCapacity();
+		// render capaticy status
 	}
 
 	hasAttended() {
@@ -38,7 +43,7 @@ export default class EventPage extends React.Component {
 	}
 
 	hasHappened() {
-		axios.get('/events?type=eventhappened&eventid='this.props.params.eventid)
+		axios.get('/events?type=eventhappened&eventid='+this.props.params.eventid)
 			.then(function(response) {
 				this.setState({hasHappened: response.data});
 			}.bind(this))
@@ -47,10 +52,31 @@ export default class EventPage extends React.Component {
 			}.bind(this));
 	}
 
+	atCapacity() {
+		axios.get('/eventattendees?type=capacity&eventid='+this.props.params.eventid)
+				.then(function(response) {
+					this.setState({atCapacity: response.data});
+				}.bind(this))
+				.catch(function(error) {
+					alert(error);
+				}.bind(this));
+
+	}
+
+	attendeeList() {
+		axios.get('/eventattendees?type=attendlist&eventid='+this.props.params.eventid)
+		.then(function(response) {
+			this.setState({attendees: response.data});
+		}.bind(this))
+		.catch(function(error) {
+			alert(error);
+		}.bind(this));
+	}
+
 	signedUp() {
-		axios.get('/eventattendees?eventid='+this.props.params.eventid)
+		axios.get('/eventattendees?type=already&eventid='+this.props.params.eventid)
 			.then(function(response) {
-				this.setState({signedUp: response.data})
+				this.setState({signedUp: response.data});
 			}.bind(this))
 			.catch(function(error) {
 				alert(error);
@@ -78,6 +104,20 @@ export default class EventPage extends React.Component {
 				<h1>Min Participants: {this.state.eventinfo.min_participants}</h1>
 				</div>
 			</div>
+			<div className="panel-group">
+					{
+			          this.state.attendees.map((attendee, i) => {
+			            return (
+			            	<h4>{attendee}</h4>
+			            );
+			          })
+			        }
+	        	</div>
+			<div className="panel panel-default">
+				{this.state.atCapacity ?
+					(<p>This Event is Full<p>):
+					(<p>This Event is Not Full<p>)}
+			</div>
 			<div className="panel panel-default">
 				{this.state.signedUp ?
 					(<p>You are on the attendee list<p>):
@@ -89,9 +129,9 @@ export default class EventPage extends React.Component {
 					(<p>You may not leave a review</p>)}
 			<div>
 			<div className="panel panel-default> 
-				{(this.state.hasHappened && this.state.signedUp) ? 
-					(<p>You may not sign up for this event</p>) :
-					(<EventSignUp eventid={this.props.params.eventid}/>) }
+				{(!this.state.hasHappened && !this.state.signedUp && !this.state.atCapacity) ? 
+					(<EventSignUp eventid={this.props.params.eventid}/>):
+					(<p>You May Not Sign Up For This Event</p>) }
 			</div>
 		</div>
 
