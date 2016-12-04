@@ -177,7 +177,7 @@ app.get('/addeventpage/:id',  checkAuth, function(req, res) {
  });
 
 // Return admin page, id is the username of the user
-app.get('/admin/:id', accessDB.checkAdmin, function(req, res) {
+app.get('/admin/:id', checkAdmin, function(req, res) {
 	match({routes, location: req.url},
 		function (err, renderProps) {
 			if (err) {

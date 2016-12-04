@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import {browserHistory} from 'react-router';
-// import localStorage from 'react-localstorage';
 
 export default class Logout extends React.Component {
 
@@ -15,7 +14,6 @@ export default class Logout extends React.Component {
 		axios.get("/logout")
 				.then(function(response) {
 					browserHistory.push(response.data.redirect);
-					//window.location = response.data.redirect;
 				})
 				.catch(function(error) {
 					console.log(error);
