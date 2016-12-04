@@ -1,7 +1,6 @@
 var pgp = require('pg-promise')(/*options*/)
 pgp.pg.defaults.ssl = true;
 var db = pgp('postgres://vsxebhuzjkklry:-zfG7Ek8uDVo1Rh7VEcyYSy0AR@ec2-23-23-224-174.compute-1.amazonaws.com:5432/d6utk5i40rffqd');
-var async = require('async');
 /*
 * FUNCTIONS FOR USERS
 */
@@ -467,3 +466,13 @@ exports.getSignedUp = function(req, res, next) {
           });
     }
 }
+
+exports.clearDatabase  = function(req, res, next) {
+  db.one('SELECT * FROM appData.clearDatabase();')
+      .then(function(data) {
+          res.status(200).send("Cleared.")
+      })
+      .catch(function(error) {
+          res.status(400).send("error");
+      });
+  }
