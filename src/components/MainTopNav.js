@@ -24,7 +24,6 @@ export default class TopNav extends React.Component{
 	loggedInUser(){
 		axios.get('/current_session')
 		      	.then(function(response) {
-		      		console.log("CURRENT SESSION USER:"+JSON.stringify(response.data));
 		      		//Sets the user info to the logged in user
 		      		this.getUserInfo(response.data);
 		      	}.bind(this))
