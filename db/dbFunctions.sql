@@ -117,6 +117,12 @@ AS 'SELECT event.eventid
 	WHERE starttime < clock_timestamp() AND event.eventid = $2 AND username = $1;'
 LANGUAGE SQL;
 
+CREATE FUNCTION eventHappened(eventid INTEGER) 
+RETURNS int
+AS 'SELECT eventid
+	FROM appData.Event
+	WHERE starttime < clock_timestamp() AND eventid = $1;'
+LANGUAGE SQL;
 
 CREATE FUNCTION getEventsByGenre (genre varchar(25))
 RETURNS SETOF eventType
@@ -189,3 +195,20 @@ AS 'INSERT INTO appData.Review
 	SELECT 0;'
 LANGUAGE SQL;
 
+CREATE FUNCTION alreadyAttendee(
+				eventid INTEGER,
+				username varchar(25))
+RETURNS int
+AS 'SELECT eventid
+	FROM appData.EventAttendees
+	WHERE eventid=$1 AND username=$2;'
+LANGUAGE SQL;
+
+CREATE FUNCTION signupEventUser(
+				eventid INTEGER,
+				username varchar(25))
+RETURNS int
+AS 'INSERT INTO appData.EventAttendees
+	VALUES ($1, $2);
+	SELECT 0;'
+LANGUAGE SQL;

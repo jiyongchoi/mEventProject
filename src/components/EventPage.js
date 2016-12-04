@@ -1,15 +1,20 @@
 import React from 'react';
 import axios from 'axios';
+import WriteReview from './WriteReview';
+import EventSignUp from './EventSignUp';
 
 export default class EventPage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {eventinfo:{}, attendees:{}, hasAttended: false};
+		this.state = {eventinfo:{}, attendees:{}, hasAttended: false, hasHappened: false, signedUp: false};
 		this.hasAttended = this.hasAttended.bind(this);
 		this.hasAttended();
 		this.getEventInfo = this.getEventInfo.bind(this);
 		this.getEventInfo();
-		//this.getAttendees will be next
+		this.hasHappened = this.hasHappened.bind(this);
+		this.hasHappened();
+		this.signedUp = this.signedUp.bind(this);
+		this.signedUp();
 	}
 
 	hasAttended() {
@@ -19,7 +24,7 @@ export default class EventPage extends React.Component {
 			}.bind(this))
 			.catch(function(error) {
 				alert(error);
-			}.bind(this))
+			}.bind(this));
 	}
 
 	getEventInfo() {
@@ -29,10 +34,30 @@ export default class EventPage extends React.Component {
 				}.bind(this))
 				.catch(function(error) {
 					alert(error);
-				}.bind(this))
+				}.bind(this));
 	}
 
-	//AJAX CALL call get('/events?type=event')
+	hasHappened() {
+		axios.get('/events?type=eventhappened&eventid='this.props.params.eventid)
+			.then(function(response) {
+				this.setState({hasHappened: response.data});
+			}.bind(this))
+			.catch(function(error) {
+				alert(error);
+			}.bind(this));
+	}
+
+	signedUp() {
+		axios.get('/eventattendees?eventid='+this.props.params.eventid)
+			.then(function(response) {
+				this.setState({signedUp: response.data})
+			}.bind(this))
+			.catch(function(error) {
+				alert(error);
+			}.bind(this));
+	}
+
+	// render 
 	render(){
 		const eventid = this.props.params.eventid;
 		//Search for this id eventId from database
@@ -53,8 +78,21 @@ export default class EventPage extends React.Component {
 				<h1>Min Participants: {this.state.eventinfo.min_participants}</h1>
 				</div>
 			</div>
-			{this.state.hasAttended ? <WriteReview eventid={this.props.params.eventid}/>:
-					<p>You may not leave a review</p>}
+			<div className="panel panel-default">
+				{this.state.signedUp ?
+					(<p>You are on the attendee list<p>):
+					(<p>You are not on the attendee list<p>)}
+			</div>
+			<div className="panel panel-default">
+				{this.state.hasAttended ? 
+					(<WriteReview eventid={this.props.params.eventid}/>) : 
+					(<p>You may not leave a review</p>)}
+			<div>
+			<div className="panel panel-default> 
+				{(this.state.hasHappened && this.state.signedUp) ? 
+					(<p>You may not sign up for this event</p>) :
+					(<EventSignUp eventid={this.props.params.eventid}/>) }
+			</div>
 		</div>
 
 		);

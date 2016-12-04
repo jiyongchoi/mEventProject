@@ -8,6 +8,7 @@ export default class WriteReview extends React.Component{
 		this.changeText = this.changeText.bind(this);
 		this.changeRating = this.changeRating.bind(this);
 		this.submitReview = this.submitReview.bind(this);
+		
 	}
 
 	changeText(event) {
