@@ -118,7 +118,7 @@ app.get('/mainpage/:id', checkAuth, function(req, res) {
 		});
  });
 
-app.get('/eventpage/:id/:eventid',  checkAuth, function(req, res) {
+app.get('/eventpage/:eventid',  checkAuth, function(req, res) {
  	match({routes, location: req.url},
 		function (err, renderProps) {
 			if (err) {

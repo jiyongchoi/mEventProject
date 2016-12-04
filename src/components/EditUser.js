@@ -60,7 +60,7 @@ export default class EditUser extends React.Component{
 		return(
 		<div id='edituser'>
 			<div className="panel-body">
-			<form id="userloginform" method="post" onSubmit={this.submit}>
+			<form id="usereditform" method="post" onSubmit={this.submit}>
 				<div className="form-group">
 					<label for="username">Username:</label>
 					<input type="text" className="form-control" id="editUsername" name="username" placeholder="Enter the username of the user you wish to edit"
