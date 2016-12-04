@@ -95,13 +95,13 @@ export default class EventPage extends React.Component {
 					<div className="jumbotron">
 						<h1>Event Name:</h1> 
 					</div>
-				<h1>EventID: {this.state.eventinfo.eventid}</h1>
-				<h1>Host: {this.state.eventinfo.host}</h1>
-				<h1>Location: {this.state.eventinfo.location}</h1>
-				<h1>Start Time: {this.state.eventinfo.starttime}</h1>
-				<h1>Genre: {this.state.eventinfo.genre}</h1>
-				<h1>Max Participants: {this.state.eventinfo.max_participants}</h1>
-				<h1>Min Participants: {this.state.eventinfo.min_participants}</h1>
+					<h1>EventID: {this.state.eventinfo.eventid}</h1>
+					<h1>Host: {this.state.eventinfo.host}</h1>
+					<h1>Location: {this.state.eventinfo.location}</h1>
+					<h1>Start Time: {this.state.eventinfo.starttime}</h1>
+					<h1>Genre: {this.state.eventinfo.genre}</h1>
+					<h1>Max Participants: {this.state.eventinfo.max_participants}</h1>
+					<h1>Min Participants: {this.state.eventinfo.min_participants}</h1>
 				</div>
 			</div>
 			<div className="panel-group">
@@ -114,9 +114,10 @@ export default class EventPage extends React.Component {
 			        }
 	        	</div>
 			<div className="panel panel-default">
-				{this.state.atCapacity ?
-					(<p>This Event is Full<p>):
-					(<p>This Event is Not Full<p>)}
+				{this.state.atCapacity ? (
+					<p>This Event is Full</p>) : (
+					<p>This Event is Not Full</p>
+				)}
 			</div>
 			<div className="panel panel-default">
 				{this.state.signedUp ?
@@ -127,20 +128,13 @@ export default class EventPage extends React.Component {
 				{this.state.hasAttended ? 
 					(<WriteReview eventid={this.props.params.eventid}/>) : 
 					(<p>You may not leave a review</p>)}
-<<<<<<< HEAD
-			<div>
+			</div>
 			<div className="panel panel-default> 
 				{(!this.state.hasHappened && !this.state.signedUp && !this.state.atCapacity) ? 
 					(<EventSignUp eventid={this.props.params.eventid}/>):
 					(<p>You May Not Sign Up For This Event</p>) }
-=======
 			</div>
-			<div className="panel panel-default"> 
-				{(this.state.hasHappened && this.state.signedUp) ? 
-					(<p>You may not sign up for this event</p>) :
-					(<EventSignUp eventid={this.props.params.eventid}/>) }
->>>>>>> e4e1ceaff573043f92af9e545adb84d7e50d79df
-			</div>
+
 		</div>
 
 		);
