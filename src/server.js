@@ -32,6 +32,14 @@ function checkAuth(req, res, next) {
   }
 }
 
+function checkAdmin(req, res, next) {
+  if (!req.session.accountType == 'admin') {
+    return res.redirect("/");
+  } else {
+    next();
+  }
+}
+
 app.get('/', function(req, res) {
 	match({routes, location: req.url},
 		function (err, renderProps) {
@@ -64,7 +72,7 @@ app.post('/userlogin', accessDB.verifyUser); // back-end DB route, for login.js
 
 app.post('/user', accessDB.postUser); // for signup.js
 
-app.delete('/user', checkAuth, accessDB.deleteUser); 
+app.delete('/user', checkAuth, checkAdmin, accessDB.deleteUser); 
 
 app.post('/getuserinfo', checkAuth, accessDB.getUserInfo);
 
@@ -167,6 +175,7 @@ app.get('/admin/:id', accessDB.verifyAdmin, function(req, res) {
 })
 
 app.post('/adminEditUser', accessDB.editUser);
+app.post('/adminEditEvent', accessDB.editEvent);
 
 app.listen(process.env.PORT || 3000);
 console.log('Listening on port 3000...');

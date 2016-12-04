@@ -42,6 +42,7 @@ exports.verifyUser = function(req, res, next) {
   .then(function (data) {
     if (data.username != null) {
       req.session.username = data.username;
+      req.session.accountType = data.accountType;
       res.status(200).send({redirect: "/mainpage/" + data.username});
     }
     else {
@@ -354,6 +355,34 @@ exports.getEventsOfUser = function(req, res, next) {
       res.status(400).send(error);
     });
 }
+
+/*
+* Amends the information of a user with custom fields
+* Used in EditUser.js
+*/
+exports.editEvent = function(req, res, next) {
+    var post = req.body;
+    var eventID = post.eventID;
+    var title = post.title;
+    var description = post.description;
+    var isCertified = post.isCertified;
+    var location = post.location;
+    var starttime = post.starttime;
+    var genre = post.genre;
+    var maxPart = post.maxPart;
+    var minPart = post.minPart;
+    var host = post.host;
+    console.log(post);
+
+    db.one('SELECT * FROM appData.editEvent($1, $2, $3, $4, $5, $6, $7, $8, $9, $10);', 
+            [eventID, title, description, isCertified, location, host, starttime, genre, minPart, maxPart])
+    .then(function (data) {
+        res.status(200).send(data);
+    })
+    .catch(function (error) {
+      console.log('ERROR:', error)
+    });
+};
 
 /*
 * Delete an event

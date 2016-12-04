@@ -202,6 +202,46 @@ AS 'INSERT INTO appData.Event
 	SELECT 0;'
 LANGUAGE SQL;
 
+CREATE FUNCTION editEvent (eventid INTEGER,
+						   title varchar(100),
+						   description varchar(1000),
+						   isCertified boolean,
+						   location varchar(1000),
+						   host varchar(25),
+						   starttime TIMESTAMP,
+						   genre genreType,
+						   min_participants INTEGER,
+						   max_participants INTEGER)
+RETURNS eventType
+AS 'WITH myEvent AS (
+        SELECT *
+        FROM appData.Event
+        WHERE eventid = $1
+     )
+	UPDATE appData.Event SET 
+		title = CASE WHEN $2 = '''' 
+		THEN (SELECT title From myEvent) 
+		ELSE $2 END,
+		description = CASE WHEN $3 = '''' 
+		THEN (SELECT description From myEvent) 
+		ELSE $3 END, 
+		isCertified = $4,
+		location = CASE WHEN $5 = '''' 
+		THEN (SELECT location From myEvent) 
+		ELSE $5 END,  
+		host = CASE WHEN $6 = '''' 
+		THEN (SELECT host From myEvent) 
+		ELSE $6 END,
+		starttime = $7,  
+		genre = CASE WHEN $8 = '''' 
+		THEN (SELECT genre From myEvent) 
+		ELSE $8 END,
+		min_participants = $9,
+		max_participants = $10
+		WHERE eventid = $1;
+	SELECT * FROM appData.Event WHERE eventid = $1;'
+LANGUAGE SQL;
+
 CREATE FUNCTION deleteEvent(eventid INTEGER)
 RETURNS int
 AS 'DELETE FROM appData.Event
