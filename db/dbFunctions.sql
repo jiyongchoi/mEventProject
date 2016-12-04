@@ -137,8 +137,11 @@ AS 'SELECT
 	WHERE username=$1;'
 LANGUAGE SQL;
 
+CREATE TYPE verifyType AS (
+	eventid INTEGER
+);
 CREATE FUNCTION verifyAttendance(username varchar(25), eventid INTEGER)
-RETURNS int
+RETURNS verifyType
 AS 'SELECT event.eventid
 	FROM appData.Event event JOIN appData.EventAttendees eventattendees
 	ON event.eventid = eventattendees.eventid
@@ -239,4 +242,18 @@ RETURNS int
 AS 'INSERT INTO appData.EventAttendees
 	VALUES ($1, $2);
 	SELECT 0;'
+LANGUAGE SQL;
+
+CREATE TYPE EnrolNumType AS (
+	eventid INTEGER,
+	enrolmentnum bigint
+);
+
+
+CREATE FUNCTION findCurrentEnrolNum(eventid INTEGER)
+RETURNS EnrolNumType
+AS 'SELECT eventid, count(username) as enrolmentnum
+	FROM appData.EventAttendees
+	WHERE eventid = $1
+	GROUP BY eventid;'
 LANGUAGE SQL;

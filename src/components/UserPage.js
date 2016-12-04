@@ -13,7 +13,7 @@ export default class UserPage extends React.Component {
     return (
 
       <div className="container-fluid">
-        <MainTopNav username={username} />
+        <MainTopNav />
         <div className="row">
           <div className="col-sm-4">
           	<UserInfo username={username}/>
