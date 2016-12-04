@@ -9,16 +9,28 @@ export default class TopNav extends React.Component{
 		super(props);
 		//Set blank user
 		this.state = {
-			user: { username : "", 
+					user: { username : "", 
 					firstname:"", 
 					surname:"",
 					accounttype: ""}
 		};
 		this.lgout = this.lgout.bind(this);
-		this.getUserInfo = this.getUserInfo.bind(this);
-		//Get Info on logged in user from the server
-		this.getUserInfo(this.props.username.userID);
-		
+		//gets currently logged in user
+		this.loggedInUser = this.loggedInUser.bind(this);
+		this.getUserInfo = this.getUserInfo.bind(this);	
+		this.loggedInUser();
+	}
+
+	loggedInUser(){
+		axios.get('/current_session')
+		      	.then(function(response) {
+		      		console.log("CURRENT SESSION USER:"+JSON.stringify(response.data));
+		      		//Sets the user info to the logged in user
+		      		this.getUserInfo(response.data);
+		      	}.bind(this))
+		      	.catch(function (error) {
+    				console.log(error.message);
+  				}.bind(this));
 	}
 
 	//Makes Call to the server to get the users information
@@ -48,6 +60,7 @@ export default class TopNav extends React.Component{
 	}
 
 	render(){
+		JSON.stringify(this.state);
 		//Show a Link to admin page if user admin
 		let adminlink = <div></div>;
 		if(this.state.user.accounttype.localeCompare("admin") == 0){
