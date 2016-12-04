@@ -111,7 +111,7 @@ export default class EventManager extends React.Component{
 
 	render(){
 		return (
-		<div className="container">
+		<div className="container-fluid">
 			<div className="row">
 				<div className="btn-group">
 					<div className="btn-group">

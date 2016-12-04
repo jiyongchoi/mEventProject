@@ -39,7 +39,7 @@ export default class MainPage extends React.Component {
 			userIsLoggedIn = <UserInfo username={this.state}/>
 		}
 		return (
-	    <div className="container">
+	    <div className="container-fluid">
 		    	<MainTopNav />
 				<div className="row">
 					<div className="col-sm-4">
