@@ -1,5 +1,6 @@
 SET search_path TO appData, public;
 
+--SQL type that denotes user
 CREATE TYPE userType AS (username varchar(25),
 	password varchar(16),
 	firstname varchar(25),
@@ -7,6 +8,7 @@ CREATE TYPE userType AS (username varchar(25),
 	accountType appData.accountDomain
 );
 
+--Retrieves a particular user from user table
 CREATE FUNCTION getUser (username varchar(25), 
 						 password varchar(16))
 RETURNS userType
@@ -16,13 +18,14 @@ AS 'SELECT *
 	AND u.password = $2;'
 LANGUAGE SQL;
 
-
+--SQL type that denotes user info
 CREATE TYPE userInfoType AS (username varchar(25),
 	firstname varchar(25),
 	surname varchar(25),
 	accountType appData.accountDomain
 );
 
+--Retrieves user information from user table
 CREATE FUNCTION getUserInfo(username varchar(25))
 RETURNS userInfoType
 AS 'SELECT username, firstname, surname, accountType 
@@ -30,7 +33,7 @@ AS 'SELECT username, firstname, surname, accountType
 	WHERE u.username = $1;'
 LANGUAGE SQL;
 
-
+--Inserts user into user table
 CREATE FUNCTION postUser (username varchar(25), 
 						  password varchar(16),
 						  firstname varchar(25),
@@ -42,6 +45,7 @@ AS 'INSERT INTO appData.UserInfo
 	SELECT 0;'
 LANGUAGE SQL;
 
+--Modifies a user in user table
 CREATE FUNCTION editUser (username varchar(25),
 						  password varchar(16),
 						  firstname varchar(25),
@@ -70,6 +74,7 @@ AS 'WITH myUser AS (
 	SELECT * FROM appData.UserInfo WHERE username = $1;'
 LANGUAGE SQL;
 
+--Removes a user from user table
 CREATE FUNCTION deleteUser (username varchar(25))
 RETURNS int
 AS 'DELETE 
@@ -78,6 +83,7 @@ AS 'DELETE
 	SELECT 0;'
 LANGUAGE SQL;
 
+--SQL type that denotes event
 CREATE TYPE eventType AS (
 	eventid INTEGER,
 	title varchar(100),
@@ -93,6 +99,7 @@ CREATE TYPE eventType AS (
 	max_participants INTEGER	
 );
 
+--SQL type that denotes user event (same as event, except with username parameter included)
 CREATE TYPE userEventType AS (
 	eventid INTEGER,
 	title varchar(100),
@@ -109,6 +116,8 @@ CREATE TYPE userEventType AS (
 	username varchar(25)
 );
 
+--Retrieves a set of events depending on the parameter required, such as genre
+--Only retrieves events occuring after the present time
 CREATE FUNCTION getEvents ()
 RETURNS SETOF eventType
 AS 'SELECT *
@@ -116,6 +125,7 @@ AS 'SELECT *
 	WHERE e.starttime > clock_timestamp();'
 LANGUAGE SQL;
 
+--
 CREATE FUNCTION getEventsAll(username varchar(25))
 RETURNS SETOF userEventType
 AS 'SELECT 
@@ -137,9 +147,12 @@ AS 'SELECT
 	WHERE username=$1;'
 LANGUAGE SQL;
 
+--Checks that the eventid in event is an integer
 CREATE TYPE verifyType AS (
 	eventid INTEGER
 );
+
+--Verifies that the user username attended the event eventid
 CREATE FUNCTION verifyAttendance(username varchar(25), eventid INTEGER)
 RETURNS verifyType
 AS 'SELECT event.eventid
@@ -148,6 +161,7 @@ AS 'SELECT event.eventid
 	WHERE starttime < clock_timestamp() AND event.eventid = $2 AND username = $1;'
 LANGUAGE SQL;
 
+--Checks whether the event has occured or not
 CREATE FUNCTION eventHappened(eventid INTEGER) 
 RETURNS int
 AS 'SELECT eventid
@@ -155,6 +169,7 @@ AS 'SELECT eventid
 	WHERE starttime < clock_timestamp() AND eventid = $1;'
 LANGUAGE SQL;
 
+--Retrieves events of a particular genre
 CREATE FUNCTION getEventsByGenre (genre varchar(25))
 RETURNS SETOF eventType
 AS 'SELECT *
@@ -162,6 +177,7 @@ AS 'SELECT *
 	WHERE e.genre = $1 AND e.starttime > clock_timestamp();'
 LANGUAGE SQL;
 
+--Retrieves data describing a particular event
 CREATE FUNCTION getEventInfo (eventid INTEGER) 
 RETURNS eventType
 AS 'SELECT *
@@ -169,6 +185,7 @@ AS 'SELECT *
 	WHERE e.eventid = $1;'
 LANGUAGE SQL;
 
+--Retrieves events at a particular (geographic) location
 CREATE FUNCTION getEventsByLocation (location varchar(1000))
 RETURNS SETOF eventType
 AS 'SELECT *
@@ -176,6 +193,7 @@ AS 'SELECT *
 	WHERE e.location = $1 AND e.starttime > clock_timestamp();'
 LANGUAGE SQL;
 
+--Retrieves events hosted by a particular user
 CREATE FUNCTION getEventsByHost(username varchar(25)) 
 RETURNS SETOF eventType
 AS 'SELECT *
@@ -183,6 +201,7 @@ AS 'SELECT *
 	WHERE e.host = $1;'
 LANGUAGE SQL;
 
+--Creates an event and stores it in the event table
 CREATE FUNCTION createEvent(
 	eventid INTEGER,
 	title varchar(100),
@@ -202,6 +221,7 @@ AS 'INSERT INTO appData.Event
 	SELECT 0;'
 LANGUAGE SQL;
 
+--Modifies an an event and changes the event table to reflect the modifications
 CREATE FUNCTION editEvent (eventid INTEGER,
 						   title varchar(100),
 						   description varchar(1000),
@@ -242,6 +262,7 @@ AS 'WITH myEvent AS (
 	SELECT * FROM appData.Event WHERE eventid = $1;'
 LANGUAGE SQL;
 
+--Removes an event from the event table
 CREATE FUNCTION deleteEvent(eventid INTEGER)
 RETURNS int
 AS 'DELETE FROM appData.Event
@@ -249,12 +270,14 @@ AS 'DELETE FROM appData.Event
 	SELECT 0;'
 LANGUAGE SQL;
 
+--Returns the highest EventID number + 1
 CREATE FUNCTION getMaxEventID ()
 RETURNS int
 AS 'SELECT max(eventid)+1
 	FROM appData.Event;'
 LANGUAGE SQL;
 
+--Adds a review to the review table
 CREATE FUNCTION addReview(
 	username varchar(25),
 	eventid INTEGER,
@@ -266,7 +289,7 @@ AS 'INSERT INTO appData.Review
 	SELECT 0;'
 LANGUAGE SQL;
 
-CREATE TYPE 
+--Checks to see if the user is currently an attendee for a particular event 
 CREATE FUNCTION alreadyAttendee(
 				eventid INTEGER,
 				username varchar(25))
@@ -276,6 +299,7 @@ AS 'SELECT eventid
 	WHERE eventid=$1 AND username=$2;'
 LANGUAGE SQL;
 
+--Adds a user to the attendee table for a particular event
 CREATE FUNCTION signupEventUser(
 				eventid INTEGER,
 				username varchar(25))
@@ -285,12 +309,13 @@ AS 'INSERT INTO appData.EventAttendees
 	SELECT 0;'
 LANGUAGE SQL;
 
+--Creates a type denoting the number of users that are attending a particular event
 CREATE TYPE EnrolNumType AS (
 	eventid INTEGER,
 	enrolmentnum bigint
 );
 
-
+--Returns the number of users that are currently attending the event eventid
 CREATE FUNCTION findCurrentEnrolNum(eventid INTEGER)
 RETURNS EnrolNumType
 AS 'SELECT eventid, count(username) as enrolmentnum
@@ -299,6 +324,7 @@ AS 'SELECT eventid, count(username) as enrolmentnum
 	GROUP BY eventid;'
 LANGUAGE SQL;
 
+--Truncates all tables, thereby destroying all data in the database
 CREATE FUNCTION clearDatabase()
 RETURNS int
 AS 'TRUNCATE TABLE appData.EVENT;
