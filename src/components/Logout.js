@@ -9,7 +9,7 @@ export default class Logout extends React.Component {
 		this.lgout = this.lgout.bind(this);
 
 	}
-
+	// Logs the user out and redirects them to the login page
 	lgout(event) {
 		axios.get("/logout")
 				.then(function(response) {

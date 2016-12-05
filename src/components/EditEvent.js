@@ -23,51 +23,63 @@ export default class EditEvent extends React.Component {
     	this.submit = this.submit.bind(this);
 	}
 
+	// Sets state.eventID to be the form field
 	handleChangeEventID(event) {
 	   this.setState({eventID: event.target.value});
 	}
 
+	// Sets state.title to the form field
 	handleChangeTitle(event) {
 	  this.setState({title: event.target.value});
 	}
 
+	// Sets state.description to the form field
 	handleChangeDescription(event) {
 	  this.setState({description: event.target.value});
 	}
 
+	// Sets state.isCertified to the form field
 	handleChangeIsCertified(event) {
 	  this.setState({isCertified: event.target.value});
 	}
 
+	// Sets state.location to the form field
 	handleChangeLocation(event) {
 	  this.setState({location: event.target.value});
 	}
 
+	// Sets state.starttime to the form field
 	handleChangeStartTime(event) {
 	  this.setState({starttime: event.target.value});
 	}
 
+	// Sets state.genre to the form field
 	handleChangeGenre(event) {
 	  this.setState({genre: event.target.value});
 	}
 
+	// Sets state.maxPart to the form field
 	handleChangeMaxPart(event) {
 	  this.setState({maxPart: event.target.value});
 	}
 
+	// Sets state.minPart to the form field
 	handleChangeMinPart(event) {
 	  this.setState({minPart: event.target.value});
 	}
 
+	// Sets state.host to the form field
 	handleChangeHost(event) {
 	  this.setState({host: event.target.value});
 	}
 
+	// Displays Modal popup. Event is only modified if Confirm is clicked in popup
 	submit(event) {
 		$('#editEventModal').modal('show');
   		event.preventDefault();
 	}
 
+	// Edits the attributes of the event in the database
 	editEvent(){
 		axios.post('/adminEditEvent', {eventID: this.state.eventID, 
 									  title: this.state.title,
@@ -80,7 +92,7 @@ export default class EditEvent extends React.Component {
 									  minPart: this.state.minPart,
 									  host: this.state.host})
 		      	.then(function(response) {
-		      		console.log(response.data);
+		      		// If edit is succesful, render a message with the modified attributes
 		      		this.refs.message.innerText = 'Event ID = ' + response.data.eventid
 		      									   + ' Title = ' + response.data.title
 		      									   + ' Description = ' + response.data.description
