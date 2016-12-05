@@ -8,12 +8,13 @@ export default class ClearDatabase extends React.Component {
 		this.clearDatabase = this.clearDatabase.bind(this);
     	this.submit = this.submit.bind(this);
 	}
-
+	// Function to make Modal popup appear. 
+	// Only upon clicking Confirm in the popup will the database be cleared.
 	submit(event) {
 		$('#deleteDatabaseModal').modal('show');
   		event.preventDefault();
 	}
-
+	// Truncates the tables in the database
 	clearDatabase(){
 		axios.delete('/adminClearDatabase')
 		      	.then(function(response) {

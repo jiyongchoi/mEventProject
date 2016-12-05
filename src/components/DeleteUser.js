@@ -9,17 +9,19 @@ export default class DeleteUser extends React.Component {
     	this.deleteUser = this.deleteUser.bind(this);
     	this.submit = this.submit.bind(this);
 	}
-
+	// Changes the username to be targetted for deletion in the database
 	handleChangeUsername(event) {
 	   this.setState({username: event.target.value});
 	}
 	
+	// Modal popup. Deletion only occurs upon clicking confirm in the popup
 	submit(event) {
 		$('#deleteUserModal').modal('show');
 		console.log(this.state.username);		
   		event.preventDefault();
 	}
 
+	// Deletes the target username from the database
 	deleteUser() {
 		axios.delete('/user?username=' + this.state.username, {username: this.state.username})
 		      	.then(function(response) {
