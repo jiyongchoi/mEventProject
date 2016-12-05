@@ -43,16 +43,16 @@ When the user clicks Edit Event in Admin Page, a form drops down with the input 
 When the user clicks Clear Database in Admin page, a Clear Database button drops down. If it is clicked, a Modal popup appears asking if you are sure you want to clear the database. If you click Confirm, all of the tables in the database are truncated, thereby deleting all of the data on the server.
 
 #### Cool Features
-Some cool features we implemented were:
-Paramatrizing all inputs to SQL functions to prevent SQL injection
-Used Bootstrap to create a fully Responsive website
-Rating users and events
-Restriciting admin functionality to admins by verifying account type
-Added Event Certification as an admin feature to legitimize certain events
-Data persistence through Sessions
+Some cool features we implemented were:  
+Paramatrizing all inputs to SQL functions to prevent SQL injection  
+Used Bootstrap to create a fully Responsive website  
+Rating users and events  
+Restriciting admin functionality to admins by verifying account type  
+Added Event Certification as an admin feature to legitimize certain events  
+Data persistence through Sessions  
 
 #### Things We Couldn't Do
-Some things we wanted to implement but couldn't due to time constraints were:
-Implementing 3rd party authentication
-Adding profile pictures, event pictures to users and events
-Implementing confirmation of attendendance
+Some things we wanted to implement but couldn't due to time constraints were:  
+Implementing 3rd party authentication  
+Adding profile pictures, event pictures to users and events  
+Implementing confirmation of attendendance  
