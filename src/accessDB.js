@@ -350,10 +350,10 @@ exports.addReview = function(req, res, next) {
                     return  res.status(200).send("added review successfully");
                 })
                 .catch(function(error) {
-                    return res.status(200).send("You " + username+ " have are already added review");
+                    return res.status(400).send("You " + username+ " have are already added review");
                 });
           } else {
-            return res.status(200).send("You " + username+ " have not attended this event");
+            return res.status(400).send("You " + username+ " have not attended this event");
           }
         });
 }

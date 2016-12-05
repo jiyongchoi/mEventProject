@@ -37,13 +37,11 @@ export default class WriteReview extends React.Component{
 								rating: parseInt(this.state.reviewRating)})
 			.then(function(response){		
 				alert(response.data);
-				this.setState({reviewText: "", reviewRating: ""});
-				location.reload();
-				this.refs.submitoutcome.innerText = response.data;
 			}.bind(this))
 			.catch(function(error) {
 				alert(error);
 			}.bind(this));
+		event.preventDefault();
 	}
 
 	/*

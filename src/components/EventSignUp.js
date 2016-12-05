@@ -18,11 +18,11 @@ export default class EventSignUp extends React.Component {
 			.then(function(response){
 				console.log(response.data);
 				alert(response.data);
-				location.reload();
 			}.bind(this))
 			.catch(function(error) {
 				alert(error);
 			}.bind(this));
+		event.preventDefault();
 	}
 
 	// Express the button that, on click, will trigger the ajax call to submit user
